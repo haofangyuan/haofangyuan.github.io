@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="郝方圆" />
+
+
+
+<meta name="description" content="做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot中的过滤器">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/06/02/springboot-filter/index.html">
+<meta property="og:site_name" content="hfy Blog">
+<meta property="og:description" content="做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。">
+<meta property="og:updated_time" content="2017-06-09T03:19:31.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springboot中的过滤器">
+<meta name="twitter:description" content="做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="hfy Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>springboot中的过滤器 | hfy Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?a512ffeaad766b6a1e38e8f4fc16a733";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">郝方圆</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">javaweb</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">郝方圆</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">郝方圆</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-springboot-filter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/02/springboot-filter/" class="article-date">
+      <time datetime="2017-06-02T09:52:59.000Z" itemprop="datePublished">2017-06-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      springboot中的过滤器
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/filter/">filter</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。<br><a id="more"></a></p>
+<h2 id="springboot中使用filter"><a href="#springboot中使用filter" class="headerlink" title="springboot中使用filter  "></a>springboot中使用filter  </h2><p>　　在springboot项目中使用filter，需要注入bean：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan</div><div class="line">public class SpringbootFilterDemoApp &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SpringApplication.run(SpringbootFilterDemoApp.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public FilterRegistrationBean filterRegistrationBean() &#123;</div><div class="line">        FilterRegistrationBean registrationBean = new FilterRegistrationBean();</div><div class="line">        registrationBean.setFilter(new AuthorizationFilter()); // 自己的filter</div><div class="line"></div><div class="line">        List&lt;String&gt; urlPatterns = new ArrayList&lt;&gt;();</div><div class="line">        urlPatterns.add(&quot;/openapi/*&quot;);</div><div class="line">        registrationBean.setUrlPatterns(urlPatterns);</div><div class="line">        return registrationBean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="过滤器filter"><a href="#过滤器filter" class="headerlink" title="过滤器filter  "></a>过滤器filter  </h2><p>　　以下是自己的filter类。继承Filter接口，对于满足条件的请求，使用filterChain.doFilter(request, response);将连接转发到目的地，不满足，则直接通过response写入错误信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 过滤器：校验接口访问权限</div><div class="line"> */</div><div class="line">public class AuthorizationFilter implements Filter&#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class);</div><div class="line"></div><div class="line">    private CheckAuth checkAuth;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</div><div class="line">        // 将请求转换成HttpServletRequest 请求</div><div class="line">        HttpServletRequest req = (HttpServletRequest) servletRequest;</div><div class="line">        HttpServletResponse rsp = (HttpServletResponse) servletResponse;</div><div class="line">        // 取得接口URI</div><div class="line">        String currentURI = req.getRequestURI();</div><div class="line">        // 注入checkAuth对象</div><div class="line">        ServletContext sc = req.getSession().getServletContext();</div><div class="line">        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);</div><div class="line">        if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123;</div><div class="line">            checkAuth = context.getBean(CheckAuth.class);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 读取请求参数</div><div class="line">        // stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。</div><div class="line">        // 防止流读取一次后就没有了, 所以需要将流继续写出去</div><div class="line">        String strError;</div><div class="line">        ServletRequest requestWrapper = null;</div><div class="line">        String accessToken = &quot;&quot;;</div><div class="line">        // get、post获取请求参数的方式是不一样的。</div><div class="line">        if (req.getMethod().equals(&quot;POST&quot;)) &#123;</div><div class="line">            requestWrapper = new HttpServletRequestWrapper(req);</div><div class="line">            String reqParamsStr = HttpHelper.getBodyString(requestWrapper);</div><div class="line">            logger.info(&quot;请求uri：(&#123;&#125;), 参数：&#123;&#125;&quot;, currentURI, reqParamsStr);</div><div class="line">            if(reqParamsStr.length() &gt;0) &#123;</div><div class="line">                // 从json字符串获取参数</div><div class="line">                accessToken = &quot;&quot;;</div><div class="line">            &#125;</div><div class="line">        &#125; else if (req.getMethod().equals(&quot;GET&quot;)) &#123;</div><div class="line">            requestWrapper = req;</div><div class="line">            logger.info(&quot;请求uri：(&#123;&#125;), 参数：&#123;&#125;&quot;, currentURI, ObjectMapperUtils.getObjectMapper().writeValueAsString(req.getParameterMap()));</div><div class="line">            String[] tokens = req.getParameterValues(&quot;accessToken&quot;);</div><div class="line">            if (tokens != null &amp;&amp; tokens.length &gt; 0) &#123;</div><div class="line">                accessToken = tokens[0];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (requestWrapper == null) &#123;</div><div class="line">            strError = &quot;请求方式错误！&quot;;</div><div class="line">        &#125; else &#123;</div><div class="line">            if (checkAuth != null) &#123;</div><div class="line">                if (&quot;&quot;.equals(accessToken)) &#123;</div><div class="line">                    strError = &quot;缺少必要的参数&quot;;</div><div class="line">                &#125; else &#123;</div><div class="line">                    // 校验接口权限</div><div class="line">                    if (checkAuth != null &amp;&amp; checkAuth.checkAuth(accessToken, currentURI)) &#123; </div><div class="line">                        // Filter 只是链式处理，请求依然转发到目的地址。</div><div class="line">                        filterChain.doFilter(requestWrapper, rsp);</div><div class="line">                        return;</div><div class="line">                    &#125; else &#123;</div><div class="line">                        strError = &quot;权限不足&quot;;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; else &#123;</div><div class="line">                strError = &quot;服务器异常&quot;;</div><div class="line">                logger.error(&quot;过滤器中未能获取到checkAuth对象！&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        rsp.setCharacterEncoding(&quot;UTF-8&quot;);</div><div class="line">        rsp.setContentType(&quot;application/json; charset=utf-8&quot;);</div><div class="line">        String rspValue = &quot;&quot;;   // 返回错误json信息</div><div class="line">        logger.info(&quot;返回：&#123;&#125;&quot;, rspValue);</div><div class="line">        rsp.getWriter().write(rspValue);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void destroy() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项  "></a>注意事项  </h2><h3 id="filter中注入对象"><a href="#filter中注入对象" class="headerlink" title="filter中注入对象"></a>filter中注入对象</h3><p>　　filter的加载在servlet之前。所以在Filter中使用@Autowired注入对象CheckAuth肯定会失败。我们可以使用WebApplicationContextUtils来获取对象。(可参考：<a href="http://www.cnblogs.com/JesseV/archive/2009/11/17/1605015.html" target="_blank" rel="external">web.xml 中的listener、 filter、servlet 加载顺序及其详解</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 注入checkAuth对象</div><div class="line">ServletContext sc = req.getSession().getServletContext();</div><div class="line">WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);</div><div class="line">if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123;</div><div class="line">    checkAuth = context.getBean(CheckAuth.class);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="流的读取"><a href="#流的读取" class="headerlink" title="流的读取"></a>流的读取</h3><p>　　读取请求参数：对于post请求，我们通过stream流进行读取，但是会发现，直接读取response流中的数据后，使用filterChain.doFilter(requestWrapper, rsp);请求，会报错：没有请求内容。<br>　　因为：<br>　　stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。<br>　　为了防止流读取一次后就没有了, 所以需要将流继续写出去。<br>　　下面是对Request的封装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;  </div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line">import java.util.Enumeration;  </div><div class="line"></div><div class="line">import javax.servlet.ReadListener;</div><div class="line">import javax.servlet.ServletInputStream;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">/**</div><div class="line"> * httpServletRequst封装类</div><div class="line"> */</div><div class="line">public class HttpServletRequestWrapper extends</div><div class="line">        javax.servlet.http.HttpServletRequestWrapper &#123;</div><div class="line">      </div><div class="line">    private final byte[] body;  </div><div class="line">  </div><div class="line">    public HttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123;</div><div class="line">        super(request);</div><div class="line">        body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;));  </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public BufferedReader getReader() throws IOException &#123;</div><div class="line">        return new BufferedReader(new InputStreamReader(getInputStream()));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public ServletInputStream getInputStream() throws IOException &#123;</div><div class="line"></div><div class="line">        final ByteArrayInputStream bais = new ByteArrayInputStream(body);</div><div class="line"></div><div class="line">        return new ServletInputStream() &#123;</div><div class="line">            @Override</div><div class="line">            public boolean isFinished() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public boolean isReady() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void setReadListener(ReadListener listener) &#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public int read() throws IOException &#123;</div><div class="line">                return bais.read();</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String getHeader(String name) &#123;</div><div class="line">        return super.getHeader(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaderNames() &#123;</div><div class="line">        return super.getHeaderNames();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;</div><div class="line">        return super.getHeaders(name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="request读取数据工具类"><a href="#request读取数据工具类" class="headerlink" title="request读取数据工具类"></a>request读取数据工具类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStream;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line">  </div><div class="line">import javax.servlet.ServletRequest;  </div><div class="line">  </div><div class="line">public class HttpHelper &#123;  </div><div class="line">    /** </div><div class="line">     * 获取请求Body </div><div class="line">     * </div><div class="line">     * @param request </div><div class="line">     * @return </div><div class="line">     */  </div><div class="line">    public static String getBodyString(ServletRequest request) &#123;  </div><div class="line">        StringBuilder sb = new StringBuilder();  </div><div class="line">        InputStream inputStream = null;  </div><div class="line">        BufferedReader reader = null;  </div><div class="line">        try &#123;  </div><div class="line">            inputStream = request.getInputStream();  </div><div class="line">            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));  </div><div class="line">            String line;</div><div class="line">            while ((line = reader.readLine()) != null) &#123;  </div><div class="line">                sb.append(line);  </div><div class="line">            &#125;  </div><div class="line">        &#125; catch (IOException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125; finally &#123;  </div><div class="line">            if (inputStream != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    inputStream.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">            if (reader != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    reader.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return sb.toString();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
+        <p><span>发布时间:</span>2017-06-02, 17:52:59</p>
+        <p><span>最后更新:</span>2017-06-09, 11:19:31</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/06/02/springboot-filter/" title="springboot中的过滤器">https://haofangyuan.github.io/2017/06/02/springboot-filter/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/06/02/springboot-filter/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/06/02/java-auth-interface/">
+                    java_auth_interface
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot中使用filter"><span class="toc-number">1.</span> <span class="toc-text">springboot中使用filter  </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#过滤器filter"><span class="toc-number">2.</span> <span class="toc-text">过滤器filter  </span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-number">3.</span> <span class="toc-text">注意事项  </span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#filter中注入对象"><span class="toc-number">3.1.</span> <span class="toc-text">filter中注入对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#流的读取"><span class="toc-number">3.2.</span> <span class="toc-text">流的读取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#request读取数据工具类"><span class="toc-number">3.3.</span> <span class="toc-text">request读取数据工具类</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"springboot中的过滤器　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/06/02/java-auth-interface/" title="下一篇: java_auth_interface">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-auth-interface/">java_auth_interface</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-util/">常用的工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 郝方圆
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 4;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

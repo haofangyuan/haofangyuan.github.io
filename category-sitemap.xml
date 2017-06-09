@@ -7,15 +7,64 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
-        <lastmod>2017-05-09T06:07:22.553Z</lastmod>
+        <loc>https://haofangyuan.github.io/categories/idea/</loc>
+        <lastmod>2017-05-25T05:45:38.748Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/java/</loc>
+        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/linux/</loc>
+        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/mybatis/</loc>
+        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/php/</loc>
+        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/springmvc/</loc>
+        <lastmod>2017-05-25T05:45:38.755Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/html/</loc>
+        <lastmod>2017-06-09T01:30:02.293Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/categories/springboot/</loc>
-        <lastmod>2017-05-12T11:02:24.850Z</lastmod>
+        <lastmod>2017-06-09T03:19:31.439Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
+        <lastmod>2017-06-09T06:24:34.511Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

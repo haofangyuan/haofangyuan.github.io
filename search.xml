@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[springboot中的过滤器]]></title>
+    <url>%2F2017%2F06%2F02%2Fspringboot-filter%2F</url>
+    <content type="text"><![CDATA[做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。 springboot中使用filter 在springboot项目中使用filter，需要注入bean：123456789101112131415161718@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScanpublic class SpringbootFilterDemoApp &#123; public static void main(String[] args) &#123; SpringApplication.run(SpringbootFilterDemoApp.class, args); &#125; @Bean public FilterRegistrationBean filterRegistrationBean() &#123; FilterRegistrationBean registrationBean = new FilterRegistrationBean(); registrationBean.setFilter(new AuthorizationFilter()); // 自己的filter List&lt;String&gt; urlPatterns = new ArrayList&lt;&gt;(); urlPatterns.add(&quot;/openapi/*&quot;); registrationBean.setUrlPatterns(urlPatterns); return registrationBean; &#125;&#125; 过滤器filter 以下是自己的filter类。继承Filter接口，对于满足条件的请求，使用filterChain.doFilter(request, response);将连接转发到目的地，不满足，则直接通过response写入错误信息。1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586/** * 过滤器：校验接口访问权限 */public class AuthorizationFilter implements Filter&#123; private static final Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class); private CheckAuth checkAuth; @Override public void init(FilterConfig filterConfig) throws ServletException &#123; &#125; @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123; // 将请求转换成HttpServletRequest 请求 HttpServletRequest req = (HttpServletRequest) servletRequest; HttpServletResponse rsp = (HttpServletResponse) servletResponse; // 取得接口URI String currentURI = req.getRequestURI(); // 注入checkAuth对象 ServletContext sc = req.getSession().getServletContext(); WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc); if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123; checkAuth = context.getBean(CheckAuth.class); &#125; // 读取请求参数 // stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。 // 防止流读取一次后就没有了, 所以需要将流继续写出去 String strError; ServletRequest requestWrapper = null; String accessToken = &quot;&quot;; // get、post获取请求参数的方式是不一样的。 if (req.getMethod().equals(&quot;POST&quot;)) &#123; requestWrapper = new HttpServletRequestWrapper(req); String reqParamsStr = HttpHelper.getBodyString(requestWrapper); logger.info(&quot;请求uri：(&#123;&#125;), 参数：&#123;&#125;&quot;, currentURI, reqParamsStr); if(reqParamsStr.length() &gt;0) &#123; // 从json字符串获取参数 accessToken = &quot;&quot;; &#125; &#125; else if (req.getMethod().equals(&quot;GET&quot;)) &#123; requestWrapper = req; logger.info(&quot;请求uri：(&#123;&#125;), 参数：&#123;&#125;&quot;, currentURI, ObjectMapperUtils.getObjectMapper().writeValueAsString(req.getParameterMap())); String[] tokens = req.getParameterValues(&quot;accessToken&quot;); if (tokens != null &amp;&amp; tokens.length &gt; 0) &#123; accessToken = tokens[0]; &#125; &#125; if (requestWrapper == null) &#123; strError = &quot;请求方式错误！&quot;; &#125; else &#123; if (checkAuth != null) &#123; if (&quot;&quot;.equals(accessToken)) &#123; strError = &quot;缺少必要的参数&quot;; &#125; else &#123; // 校验接口权限 if (checkAuth != null &amp;&amp; checkAuth.checkAuth(accessToken, currentURI)) &#123; // Filter 只是链式处理，请求依然转发到目的地址。 filterChain.doFilter(requestWrapper, rsp); return; &#125; else &#123; strError = &quot;权限不足&quot;; &#125; &#125; &#125; else &#123; strError = &quot;服务器异常&quot;; logger.error(&quot;过滤器中未能获取到checkAuth对象！&quot;); &#125; &#125; rsp.setCharacterEncoding(&quot;UTF-8&quot;); rsp.setContentType(&quot;application/json; charset=utf-8&quot;); String rspValue = &quot;&quot;; // 返回错误json信息 logger.info(&quot;返回：&#123;&#125;&quot;, rspValue); rsp.getWriter().write(rspValue); &#125; @Override public void destroy() &#123; &#125;&#125; 注意事项 filter中注入对象 filter的加载在servlet之前。所以在Filter中使用@Autowired注入对象CheckAuth肯定会失败。我们可以使用WebApplicationContextUtils来获取对象。(可参考：web.xml 中的listener、 filter、servlet 加载顺序及其详解)123456// 注入checkAuth对象ServletContext sc = req.getSession().getServletContext();WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123; checkAuth = context.getBean(CheckAuth.class);&#125; 流的读取 读取请求参数：对于post请求，我们通过stream流进行读取，但是会发现，直接读取response流中的数据后，使用filterChain.doFilter(requestWrapper, rsp);请求，会报错：没有请求内容。 因为： stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。 为了防止流读取一次后就没有了, 所以需要将流继续写出去。 下面是对Request的封装。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172import java.io.BufferedReader;import java.io.ByteArrayInputStream; import java.io.IOException; import java.io.InputStreamReader; import java.nio.charset.Charset; import java.util.Enumeration; import javax.servlet.ReadListener;import javax.servlet.ServletInputStream;import javax.servlet.http.HttpServletRequest;/** * httpServletRequst封装类 */public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletRequestWrapper &#123; private final byte[] body; public HttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123; super(request); body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;)); &#125; @Override public BufferedReader getReader() throws IOException &#123; return new BufferedReader(new InputStreamReader(getInputStream())); &#125; @Override public ServletInputStream getInputStream() throws IOException &#123; final ByteArrayInputStream bais = new ByteArrayInputStream(body); return new ServletInputStream() &#123; @Override public boolean isFinished() &#123; return false; &#125; @Override public boolean isReady() &#123; return false; &#125; @Override public void setReadListener(ReadListener listener) &#123; &#125; @Override public int read() throws IOException &#123; return bais.read(); &#125; &#125;; &#125; @Override public String getHeader(String name) &#123; return super.getHeader(name); &#125; @Override public Enumeration&lt;String&gt; getHeaderNames() &#123; return super.getHeaderNames(); &#125; @Override public Enumeration&lt;String&gt; getHeaders(String name) &#123; return super.getHeaders(name); &#125;&#125; request读取数据工具类1234567891011121314151617181920212223242526272829303132333435363738394041424344454647import java.io.BufferedReader;import java.io.IOException; import java.io.InputStream; import java.io.InputStreamReader; import java.nio.charset.Charset; import javax.servlet.ServletRequest; public class HttpHelper &#123; /** * 获取请求Body * * @param request * @return */ public static String getBodyString(ServletRequest request) &#123; StringBuilder sb = new StringBuilder(); InputStream inputStream = null; BufferedReader reader = null; try &#123; inputStream = request.getInputStream(); reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;))); String line; while ((line = reader.readLine()) != null) &#123; sb.append(line); &#125; &#125; catch (IOException e) &#123; e.printStackTrace(); &#125; finally &#123; if (inputStream != null) &#123; try &#123; inputStream.close(); &#125; catch (IOException e) &#123; e.printStackTrace(); &#125; &#125; if (reader != null) &#123; try &#123; reader.close(); &#125; catch (IOException e) &#123; e.printStackTrace(); &#125; &#125; &#125; return sb.toString(); &#125; &#125;]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>filter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java_auth_interface]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-auth-interface%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <title><![CDATA[ArrayList的线程安全问题]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
+    <content type="text"><![CDATA[多个线程对ArrayList操作，出现问题。demo中进行演示： 1 实例112345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 2 实例2下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random; // Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 3 总结ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class MessageList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (MessageList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (MessageList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
+      <tags>
+        <tag>-java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ajax常见问题]]></title>
+    <url>%2F2017%2F05%2F24%2Fhtml-ajax%2F</url>
+    <content type="text"><![CDATA[1 获取ajax返回结果 2 access-origin3 ajax请求页面刷新4]]></content>
+      <categories>
+        <category>html</category>
+      </categories>
+      <tags>
+        <tag>ajax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[idea中配置tomcat]]></title>
+    <url>%2F2017%2F05%2F21%2Fidea-tomcat%2F</url>
+    <content type="text"><![CDATA[1 配置tomcat2 导入项目3 注意问题]]></content>
+      <categories>
+        <category>idea</category>
+      </categories>
+      <tags>
+        <tag>tomcat</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与activemq]]></title>
+    <url>%2F2017%2F05%2F18%2Fspringboot-activemq%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>activemq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot的切面aop]]></title>
+    <url>%2F2017%2F05%2F17%2Fspringboot-aop%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>aop</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[springboot读取配置文件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-config%2F</url>
-    <content type="text"><![CDATA[1、安装nodejs(官网下载安装包安装即可)2、安装hexo 安装速度慢，可以使用淘宝镜像： npm install cnpm -g –registry=https://registry.npm.taobao.org12345 npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save hexo init npm install hexo的一些命令： hexo clean hexo generate hexo s hexo deploy]]></content>
+    <url>%2F2017%2F05%2F16%2Fspringboot-config%2F</url>
+    <content type="text"><![CDATA[1、各个环境的配置文件 开发中，分为三种环境：开发（dev）、测试（test）、生产（pro） 所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml） 在application.yml中可以配置使用哪种环境： 123server: application: active: dev #使用开发环境 2、读取配置文件123456789@configuration@Componentpublic class BasicProperties &#123; @Value(&quot;swagger.show&quot;) public boolean swaggerShow; @Value(&quot;ad.ips&quot;) public List&lt;Strings&gt; adIps; // get set 方法&#125; 3、配置文件中的变量]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -12,9 +83,158 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot读取配置文件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-two%2F</url>
-    <content type="text"><![CDATA[1、安装nodejs(官网下载安装包安装即可)2、安装hexo 安装速度慢，可以使用淘宝镜像： npm install cnpm -g –registry=https://registry.npm.taobao.org12345 npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save hexo init npm install hexo的一些命令： hexo clean hexo generate hexo s hexo deploy]]></content>
+    <title><![CDATA[springboot的文件上传]]></title>
+    <url>%2F2017%2F05%2F15%2Fspringboot-file-upload%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot的https配置]]></title>
+    <url>%2F2017%2F05%2F14%2Fspringboot-https%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与redis]]></title>
+    <url>%2F2017%2F05%2F13%2Fspringboot-redis%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc与分页]]></title>
+    <url>%2F2017%2F05%2F12%2Fspringmvc-page%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springmvc</category>
+      </categories>
+      <tags>
+        <tag>springmvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[1、xml格式1.1 插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;&lt;/insert&gt; 1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 1.3 关联查询 2、注解格式2.1 插入后返回主键12@Insert(&quot;&quot;)@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用的工具类]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-util%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>util</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[1 常用命令2 安装redis3 安装activemq]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
+      <categories>
+        <category>html</category>
+      </categories>
+      <tags>
+        <tag>html</tag>
+        <tag>json</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
+      <categories>
+        <category>html</category>
+      </categories>
+      <tags>
+        <tag>date</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springmvc</category>
+      </categories>
+      <tags>
+        <tag>springmvc</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -25,7 +245,7 @@
   <entry>
     <title><![CDATA[hexo+github搭建自己的网站]]></title>
     <url>%2F2017%2F03%2F25%2Fhexo-github%2F</url>
-    <content type="text"><![CDATA[1、安装nodejs(官网下载安装包安装即可)2、安装hexo 安装速度慢，可以使用淘宝镜像： npm install cnpm -g –registry=https://registry.npm.taobao.org12345 npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save hexo init npm install hexo的一些命令： hexo clean hexo generate hexo s hexo deploy 3、使用git部署hexo到github (1) github上创建一个仓库 仓库名称(Repository name)可以写成blog。github自动生成的网址会是：https://账户名称.github.io/仓库名称/ (2) git使用hexo deploy部署的时候，保证user.name和github账上上的账户名一致。 设置username：git config –global user.name “ff” 查看：git config –list 修改：vi ~/.gitconfig 按下i键，修改，dd删除一行，esc退出编辑。按住shift，wq保存 (3) 部署：hexo deploy 4、使用next主题 （网上很多，此处记下可能遇到的问题） (1) 使用中文语言： 修改（hexo安装目录_config.yml）文件：(不是themes\next_config.yml) language: zh-Hans (2) 侧边栏中只显示日志，并没有标签、分类： 因为是首次使用，并没有新建任何博客，使用hexo new “first blog”创建博客：123456---title: first blog date: 2017-03-25 13:53:30 tags: 写作 categories: 随笔 --- 可以看到侧边栏出现分类、标签。 (3) 部署到github上js、css找不到 修改（hexo安装目录_config.yml）文件： root: /blog/ #blog是你github上面的仓库名称 (4) 侧边栏的分类、标签无法点击： 执行命令hexo new categories，修改hexo\source\categories下的index.md文件：123456---title: 分类date: 2016-07-16 04:36:09type: &quot;categories&quot;comments: false--- 执行命令hexo new tags,修改hexo\source\tags下的index.md文件：123456---title: 标签云date: 2016-07-16 04:32:03type: &quot;tags&quot;comments: false--- 5、使用atom实现预览编辑文档 atom安装插件atom-hexo，速度很慢，可以使用本地安装： 在github上下载好后解压到C:\Users\cage.atom\packages，cmd打开命令行输入：apm install安装即可。 如果apm命令找不到，在环境变量中加入: C:\Users\hfyuser\AppData\Local\atom\bin atom自带markdown preview，编写md可以实时浏览。]]></content>
+    <content type="text"><![CDATA[安装nodejs(官网下载安装包安装即可) 安装hexo 安装速度慢，可以使用淘宝镜像： npm install cnpm -g –registry=https://registry.npm.taobao.org12345 npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save hexo init npm install hexo的一些命令： hexo clean hexo generate hexo s hexo deploy 使用git部署hexo到github (1) github上创建一个仓库 仓库名称(Repository name)可以写成blog。github自动生成的网址会是：https://账户名称.github.io/仓库名称/ (2) git使用hexo deploy部署的时候，保证user.name和github账上上的账户名一致。 设置username：git config –global user.name “ff” 查看：git config –list 修改：vi ~/.gitconfig 按下i键，修改，dd删除一行，esc退出编辑。按住shift，wq保存 (3) 部署：hexo deploy 使用next主题 （网上很多，此处记下可能遇到的问题） (1) 使用中文语言： 修改（hexo安装目录_config.yml）文件：(不是themes\next_config.yml) language: zh-Hans (2) 侧边栏中只显示日志，并没有标签、分类： 因为是首次使用，并没有新建任何博客，使用hexo new “first blog”创建博客：123456---title: first blog date: 2017-03-25 13:53:30 tags: 写作 categories: 随笔 --- 可以看到侧边栏出现分类、标签。 (3) 部署到github上js、css找不到 修改（hexo安装目录_config.yml）文件： root: /blog/ #blog是你github上面的仓库名称 (4) 侧边栏的分类、标签无法点击： 执行命令hexo new categories，修改hexo\source\categories下的index.md文件：123456---title: 分类date: 2016-07-16 04:36:09type: &quot;categories&quot;comments: false--- 执行命令hexo new tags,修改hexo\source\tags下的index.md文件：123456---title: 标签云date: 2016-07-16 04:32:03type: &quot;tags&quot;comments: false--- 使用atom实现预览编辑文档 atom安装插件atom-hexo，速度很慢，可以使用本地安装： 在github上下载好后解压到C:\Users\cage.atom\packages，cmd打开命令行输入：apm install安装即可。 如果apm命令找不到，在环境变量中加入: C:\Users\hfyuser\AppData\Local\atom\bin atom自带markdown preview，编写md可以实时浏览。 参考置顶文章]]></content>
       <categories>
         <category>hexo</category>
       </categories>
