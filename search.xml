@@ -129,28 +129,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[常用的工具类]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-util%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>util</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux常用命令]]></title>
     <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
     <content type="text"><![CDATA[1 常用命令2 安装redis3 安装activemq]]></content>
@@ -159,28 +137,6 @@
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mybatis中的mapper]]></title>
-    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[1、xml格式1.1 插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;&lt;/insert&gt; 1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 1.3 关联查询 2、注解格式2.1 插入后返回主键12@Insert(&quot;&quot;)@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -195,15 +151,48 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
-    <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
       <categories>
         <category>html</category>
       </categories>
       <tags>
-        <tag>date</tag>
+        <tag>json</tag>
         <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[1、xml格式1.1 插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;&lt;/insert&gt; 1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 1.3 关联查询 2、注解格式2.1 插入后返回主键12@Insert(&quot;&quot;)@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用的工具类]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-util%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>util</tag>
       </tags>
   </entry>
   <entry>
@@ -219,15 +208,26 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
       <categories>
         <category>html</category>
       </categories>
       <tags>
         <tag>html</tag>
-        <tag>json</tag>
+        <tag>date</tag>
       </tags>
   </entry>
   <entry>
