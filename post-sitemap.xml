@@ -111,14 +111,6 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/2017/05/18/springboot-activemq/</loc>
-        <lastmod>2017-05-25T05:45:38.751Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/2017/05/17/springboot-aop/</loc>
         <lastmod>2017-05-25T05:45:38.751Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -127,8 +119,8 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/2017/05/11/php/</loc>
-        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
+        <loc>https://haofangyuan.github.io/2017/05/18/springboot-activemq/</loc>
+        <lastmod>2017-05-25T05:45:38.751Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -136,6 +128,14 @@
 
     <url>
         <loc>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</loc>
+        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/2017/05/11/php/</loc>
         <lastmod>2017-05-25T05:45:38.750Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -167,7 +167,7 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/2017/05/21/idea-tomcat/</loc>
+        <loc>https://haofangyuan.github.io/2017/05/11/html-json/</loc>
         <lastmod>2017-05-25T05:45:38.748Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -175,7 +175,7 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/2017/05/11/html-json/</loc>
+        <loc>https://haofangyuan.github.io/2017/05/21/idea-tomcat/</loc>
         <lastmod>2017-05-25T05:45:38.748Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
