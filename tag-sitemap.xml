@@ -16,13 +16,6 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/json/</loc>
-        <lastmod>2017-05-25T05:45:38.748Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/tags/tomcat/</loc>
         <lastmod>2017-05-25T05:45:38.748Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -30,14 +23,21 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/util/</loc>
-        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/json/</loc>
+        <lastmod>2017-05-25T05:45:38.748Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/tags/linux/</loc>
+        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/util/</loc>
         <lastmod>2017-05-25T05:45:38.749Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -58,14 +58,14 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/aop/</loc>
+        <loc>https://haofangyuan.github.io/tags/activemq/</loc>
         <lastmod>2017-05-25T05:45:38.751Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/activemq/</loc>
+        <loc>https://haofangyuan.github.io/tags/aop/</loc>
         <lastmod>2017-05-25T05:45:38.751Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
