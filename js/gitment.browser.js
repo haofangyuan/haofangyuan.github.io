@@ -2882,6 +2882,8 @@ function renderHeader(_ref, instance) {
 }
 
 function renderComments(_ref2, instance) {
+    alert(_ref2.user);
+    alert(_ref2.userInfo);
   var meta = _ref2.meta,
       comments = _ref2.comments,
       commentReactions = _ref2.commentReactions,
@@ -2896,9 +2898,7 @@ function renderComments(_ref2, instance) {
   if (error) {
     var errorBlock = document.createElement('div');
     errorBlock.className = 'gitment-comments-error';
-    alert(_constants.NOT_INITIALIZED_ERROR);
     alert(user.login);
-    alert(instance.owner);
     if (error === _constants.NOT_INITIALIZED_ERROR && user.login && user.login.toLowerCase() === instance.owner.toLowerCase()) {
       var initHint = document.createElement('div');
       var initButton = document.createElement('button');
