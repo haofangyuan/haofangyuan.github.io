@@ -282,99 +282,6 @@
   </entry>
   
   <entry>
-    <title>js中日期相关问题</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/html-date/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/html-date/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.747Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-日期转换"><a href="#1-日期转换" class="headerlink" title="1 日期转换"></a>1 日期转换</h3><h3 id="2-日期增减"><a href="#2-日期增减" class="headerlink" title="2 日期增减"></a>2 日期增减</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-日期转换&quot;&gt;&lt;a href=&quot;#1-日期转换&quot; class=&quot;headerlink&quot; title=&quot;1 日期转换&quot;&gt;&lt;/a&gt;1 日期转换&lt;/h3&gt;&lt;h3 id=&quot;2-日期增减&quot;&gt;&lt;a href=&quot;#2-日期增减&quot; class=&quot;headerlink&quot; titl
-    
-    </summary>
-    
-      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
-    
-    
-      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
-    
-      <category term="date" scheme="https://haofangyuan.github.io/tags/date/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mybatis中的mapper</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-06-09T10:11:07.361Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
-<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
-<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
-<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
-<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　插入后返回主键、关联查询、多参&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
-    
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux常用命令</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/linux-command/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/linux-command/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-06-09T10:26:45.978Z</updated>
-    
-    <content type="html"><![CDATA[<p>linux常用命令，和安装一些软件<br><a id="more"></a></p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>查看java程序是否启动：<code>ps -ef | grep java</code><br>杀掉进程： <code>kill -9 4564</code> 4564是进程号，通过上一个命令查看（第二列）<br>启动jar包：<code>java -jar test.jar</code><br>在后台启动jar：<code>sh start.sh</code><br>　　其中，start.sh是个脚本。里面内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test=`dirname &quot;$0&quot;`</div><div class="line">cd $test</div><div class="line">nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</div><div class="line">cd -</div></pre></td></tr></table></figure></p>
-<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><h2 id="安装activemq"><a href="#安装activemq" class="headerlink" title="安装activemq"></a>安装activemq</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;linux常用命令，和安装一些软件&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="linux" scheme="https://haofangyuan.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://haofangyuan.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jdk生成https证书</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/java-https-cert/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/java-https-cert/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.749Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
-    
-  </entry>
-  
-  <entry>
     <title>页面中json相关问题</title>
     <link href="https://haofangyuan.github.io/2017/05/11/html-json/"/>
     <id>https://haofangyuan.github.io/2017/05/11/html-json/</id>
@@ -417,21 +324,69 @@
   </entry>
   
   <entry>
-    <title>springboot与swagger</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/springboot-swagger/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/springboot-swagger/</id>
+    <title>linux常用命令</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/linux-command/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/linux-command/</id>
     <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-06-09T10:18:26.289Z</updated>
+    <updated>2017-06-09T10:26:45.978Z</updated>
     
-    <content type="html"><![CDATA[<p>springboot项目中使用swagger，快速生成api<br><a id="more"></a></p>
-<h2 id="pom中引入"><a href="#pom中引入" class="headerlink" title="pom中引入"></a>pom中引入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- swagger --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
-<h2 id="swagger配置"><a href="#swagger配置" class="headerlink" title="swagger配置"></a>swagger配置</h2><p>　　支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。<a href="https://haofangyuan.github.io/2017/05/16/springboot-config">springboot读取配置文件</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@EnableSwagger2</div><div class="line">@Component</div><div class="line">public class Swagger2 &#123;</div><div class="line"></div><div class="line">    @Autowired</div><div class="line">    private BasicProperties basicProperties;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Docket createRestApi() &#123;</div><div class="line">        return new Docket(DocumentationType.SWAGGER_2)</div><div class="line">                .enable(basicProperties.getSwaggerShow())</div><div class="line">                .apiInfo(apiInfo())</div><div class="line">                .select()</div><div class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))</div><div class="line">//                .paths(PathSelectors.any())</div><div class="line">                //.paths(PathSelectors.regex(&quot;/ab/*&quot;))</div><div class="line">                .paths(path())</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private Predicate&lt;String&gt; path() &#123;</div><div class="line">        List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;();</div><div class="line">        for (String pattern : basicProperties.getSwaggerPatterns()) &#123;</div><div class="line">            list.add(PathSelectors.regex(pattern));</div><div class="line">        &#125;</div><div class="line">        return Predicates.or(list);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private ApiInfo apiInfo() &#123;</div><div class="line">        return new ApiInfoBuilder()</div><div class="line">                .title(&quot;APIs&quot;)</div><div class="line">                .contact(&quot;hfy&quot;)</div><div class="line">                .version(&quot;1.0&quot;)</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h2><p>　　暂时没做到：swagger中搜索不可用。</p>
+    <content type="html"><![CDATA[<p>linux常用命令，和安装一些软件<br><a id="more"></a></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>查看java程序是否启动：<code>ps -ef | grep java</code><br>杀掉进程： <code>kill -9 4564</code> 4564是进程号，通过上一个命令查看（第二列）<br>启动jar包：<code>java -jar test.jar</code><br>在后台启动jar：<code>sh start.sh</code><br>　　其中，start.sh是个脚本。里面内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test=`dirname &quot;$0&quot;`</div><div class="line">cd $test</div><div class="line">nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</div><div class="line">cd -</div></pre></td></tr></table></figure></p>
+<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><h2 id="安装activemq"><a href="#安装activemq" class="headerlink" title="安装activemq"></a>安装activemq</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;linux常用命令，和安装一些软件&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="https://haofangyuan.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://haofangyuan.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mybatis中的mapper</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-06-09T10:11:07.361Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
+<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
+<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
+<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
+<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　插入后返回主键、关联查询、多参&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
+    
+    
+      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springmvc+mybatis事务不起作用</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/springmvc-transaction/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/springmvc-transaction/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:55.560Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://blog.csdn.net/liuxiao723846/article/details/43483101" target="_blank" rel="external">http://blog.csdn.net/liuxiao723846/article/details/43483101</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;springboot项目中使用swagger，快速生成api&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/liuxiao723846/article/details/43483101&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/liuxiao723846/a
     
     </summary>
     
@@ -440,7 +395,47 @@
     
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
     
-      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
+  </entry>
+  
+  <entry>
+    <title>jdk生成https证书</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/java-https-cert/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/java-https-cert/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:38.749Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>js中日期相关问题</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/html-date/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/html-date/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:38.747Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-日期转换"><a href="#1-日期转换" class="headerlink" title="1 日期转换"></a>1 日期转换</h3><h3 id="2-日期增减"><a href="#2-日期增减" class="headerlink" title="2 日期增减"></a>2 日期增减</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-日期转换&quot;&gt;&lt;a href=&quot;#1-日期转换&quot; class=&quot;headerlink&quot; title=&quot;1 日期转换&quot;&gt;&lt;/a&gt;1 日期转换&lt;/h3&gt;&lt;h3 id=&quot;2-日期增减&quot;&gt;&lt;a href=&quot;#2-日期增减&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
+    
+    
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
+    
+      <category term="date" scheme="https://haofangyuan.github.io/tags/date/"/>
     
   </entry>
   
@@ -465,18 +460,21 @@
   </entry>
   
   <entry>
-    <title>springmvc+mybatis事务不起作用</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/springmvc-transaction/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/springmvc-transaction/</id>
+    <title>springboot与swagger</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/springboot-swagger/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/springboot-swagger/</id>
     <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:55.560Z</updated>
+    <updated>2017-06-09T10:18:26.289Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="http://blog.csdn.net/liuxiao723846/article/details/43483101" target="_blank" rel="external">http://blog.csdn.net/liuxiao723846/article/details/43483101</a></p>
+    <content type="html"><![CDATA[<p>springboot项目中使用swagger，快速生成api<br><a id="more"></a></p>
+<h2 id="pom中引入"><a href="#pom中引入" class="headerlink" title="pom中引入"></a>pom中引入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- swagger --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h2 id="swagger配置"><a href="#swagger配置" class="headerlink" title="swagger配置"></a>swagger配置</h2><p>　　支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。<a href="https://haofangyuan.github.io/2017/05/16/springboot-config">springboot读取配置文件</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@EnableSwagger2</div><div class="line">@Component</div><div class="line">public class Swagger2 &#123;</div><div class="line"></div><div class="line">    @Autowired</div><div class="line">    private BasicProperties basicProperties;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Docket createRestApi() &#123;</div><div class="line">        return new Docket(DocumentationType.SWAGGER_2)</div><div class="line">                .enable(basicProperties.getSwaggerShow())</div><div class="line">                .apiInfo(apiInfo())</div><div class="line">                .select()</div><div class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))</div><div class="line">//                .paths(PathSelectors.any())</div><div class="line">                //.paths(PathSelectors.regex(&quot;/ab/*&quot;))</div><div class="line">                .paths(path())</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private Predicate&lt;String&gt; path() &#123;</div><div class="line">        List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;();</div><div class="line">        for (String pattern : basicProperties.getSwaggerPatterns()) &#123;</div><div class="line">            list.add(PathSelectors.regex(pattern));</div><div class="line">        &#125;</div><div class="line">        return Predicates.or(list);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private ApiInfo apiInfo() &#123;</div><div class="line">        return new ApiInfoBuilder()</div><div class="line">                .title(&quot;APIs&quot;)</div><div class="line">                .contact(&quot;hfy&quot;)</div><div class="line">                .version(&quot;1.0&quot;)</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h2><p>　　暂时没做到：swagger中搜索不可用。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/liuxiao723846/article/details/43483101&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/liuxiao723846/a
+      &lt;p&gt;springboot项目中使用swagger，快速生成api&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -484,6 +482,8 @@
     
     
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
     
   </entry>
   

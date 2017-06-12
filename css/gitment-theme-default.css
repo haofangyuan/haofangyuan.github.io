@@ -50,11 +50,11 @@
 }
 
 .gitment-root-container {
-  margin: 19px 0;
+  margin: 30px;
 }
 
 .gitment-header-container {
-  margin: 19px 0;
+  margin: 30px;
 }
 
 .gitment-header-like-btn,
@@ -143,6 +143,7 @@ a.gitment-header-issue-link:hover {
   position: relative;
   border: 1px solid #CFD8DC;
   border-radius: 0;
+  background-color: #F1F1F1
 }
 
 .gitment-editor-main::before,
