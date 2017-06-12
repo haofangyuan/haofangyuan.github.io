@@ -143,7 +143,7 @@ a.gitment-header-issue-link:hover {
   position: relative;
   border: 1px solid #CFD8DC;
   border-radius: 0;
-  background-color: #F1F1F1
+  background-color: #F1F1F1;
 }
 
 .gitment-editor-main::before,
@@ -160,12 +160,14 @@ a.gitment-header-issue-link:hover {
   content: "";
   border-color: transparent;
   border-style: solid solid outset;
+  background-color: #F1F1F1;
 }
 
 .gitment-editor-main::before,
 .gitment-comment-main::before {
   border-width: 8px;
   border-right-color: #CFD8DC;
+  background-color: #F1F1F1;
 }
 
 .gitment-editor-main::after,
@@ -174,6 +176,7 @@ a.gitment-header-issue-link:hover {
   margin-left: 2px;
   border-width: 7px;
   border-right-color: #fff;
+  background-color: #F1F1F1;
 }
 
 .gitment-comment-header {
