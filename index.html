@@ -299,60 +299,6 @@
 
 
 
-  
-    <article id="post-java-auth-interface" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/02/java-auth-interface/" class="article-date">
-      <time datetime="2017-06-02T06:17:43.000Z" itemprop="datePublished">2017-06-02</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/02/java-auth-interface/">java_auth_interface</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
 
   
     <article id="post-java-thread-arraylist" class="article article-type-post" itemscope itemprop="blogPost">
@@ -384,23 +330,28 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>多个线程对ArrayList操作，出现问题。demo中进行演示：</p>
-<h3 id="1-实例1"><a href="#1-实例1" class="headerlink" title="1 实例1"></a>1 实例1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-实例2"><a href="#2-实例2" class="headerlink" title="2 实例2"></a>2 实例2</h3><p>下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"> </div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); </div><div class="line">        final Random rand = new Random(); </div><div class="line">         </div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return; </div><div class="line">                &#125; </div><div class="line">                list.add(&quot;0&quot;); </div><div class="line">            &#125;</div><div class="line">        &#125;; </div><div class="line">         </div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        return list.size(); </div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList(); </div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList()); </div><div class="line">        final int N = 10000; </div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear(); </div><div class="line">            safeList.clear(); </div><div class="line">            int unsafeSize = demo(unsafeList, N); </div><div class="line">            int safeSize = demo(safeList, N); </div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); </div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h3><p>ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MessageList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+              <p>　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。<br></p>
+          
       
     </div>
     
     <div class="article-info article-info-index">
       
       
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">-java</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/thread/">thread</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a href="/2017/06/02/java-thread-arraylist/#more">阅读全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -408,6 +359,7 @@
   </div>
   
 </article>
+
 
 
 
@@ -447,7 +399,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <h3 id="1-获取ajax返回结果"><a href="#1-获取ajax返回结果" class="headerlink" title="1 获取ajax返回结果"></a>1 获取ajax返回结果</h3>
+              <p>　　这里主要记录用ajax时遇到的问题。<br></p>
           
       
     </div>
@@ -456,7 +408,7 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/html/">html</a>
+    <a class="article-category-link" href="/categories/前端/">前端</a>
     </div>
 
 
@@ -476,6 +428,7 @@
   </div>
   
 </article>
+
 
 
 
@@ -515,7 +468,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="1-配置tomcat"><a href="#1-配置tomcat" class="headerlink" title="1 配置tomcat"></a>1 配置tomcat</h3><h3 id="2-导入项目"><a href="#2-导入项目" class="headerlink" title="2 导入项目"></a>2 导入项目</h3><h3 id="3-注意问题"><a href="#3-注意问题" class="headerlink" title="3 注意问题"></a>3 注意问题</h3>
+              <p>　　在idea中添加tomcat，运行springmvc项目。<br></p>
+          
       
     </div>
     
@@ -533,12 +487,86 @@
     </div>
 
       
+        <p class="article-more-link">
+          <a href="/2017/05/21/idea-tomcat/#more">阅读全文 >></a>
+        </p>
+      
       <div class="clearfix"></div>
     </div>
     
   </div>
   
 </article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot-activemq" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/18/springboot-activemq/" class="article-date">
+      <time datetime="2017-05-18T14:56:11.000Z" itemprop="datePublished">2017-05-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/18/springboot-activemq/">springboot与activemq</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>　　本文章简单介绍了activemq，以及在springboot项目中使用activemq<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activemq/">activemq</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/05/18/springboot-activemq/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
 
 
 
@@ -588,7 +616,12 @@
     </div>
 </footer>
     </div>
-    
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
     <script>
@@ -600,7 +633,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 4;
+                var backgroundnum = 5;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
@@ -661,6 +694,9 @@ MathJax.Hub.Queue(function() {
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+<!-- Gitment Start -->
+
+<!-- Gitment End -->
   </div>
 </body>
 </html>

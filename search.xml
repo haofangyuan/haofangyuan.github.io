@@ -13,24 +13,23 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java_auth_interface]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-auth-interface%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[ArrayList的线程安全问题]]></title>
     <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
-    <content type="text"><![CDATA[多个线程对ArrayList操作，出现问题。demo中进行演示： 1 实例112345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 2 实例2下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random; // Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 3 总结ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class MessageList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (MessageList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (MessageList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
+    <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random; // Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class MessageList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (MessageList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (MessageList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
       <tags>
-        <tag>-java</tag>
+        <tag>java</tag>
+        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[ajax常见问题]]></title>
     <url>%2F2017%2F05%2F24%2Fhtml-ajax%2F</url>
-    <content type="text"><![CDATA[1 获取ajax返回结果 2 access-origin3 ajax请求页面刷新4]]></content>
+    <content type="text"><![CDATA[这里主要记录用ajax时遇到的问题。 获取ajax返回结果 ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。1234567891011121314151617181920212223242526var rspTxt = $.ajax(&#123; async:false, cache:false, type : &quot;POST&quot;, url : &quot;&lt;%=basePath%&gt;test.action&quot;, data : &#123; id: $(&quot;#id&quot;).val() &#125;, success : function(data) &#123; var status = data.status; if(&apos;success&apos; == status)&#123; alert(&quot;成功！&quot;); &#125;else&#123; alert(data.msg); &#125; &#125;, error:function()&#123; alert(&quot;失败！&quot;); &#125;&#125;).responseText;if(typeof(rspTxt) != &quot;undefined&quot;) &#123; var obj = JSON.parse(rspTxt); if(obj.status == &apos;success&apos;) &#123; // 业务处理 &#125;&#125; access-origin ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置 以下是springmvc项目的处理方式：1234567891011121314151617181920212223242526import java.io.IOException;import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterConfig;import javax.servlet.ServletException;import javax.servlet.ServletRequest;import javax.servlet.ServletResponse;import javax.servlet.http.HttpServletResponse;import org.springframework.stereotype.Component;@Componentpublic class SimpleCORSFilter implements Filter &#123; public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse) res; response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;); response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;); response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;); chain.doFilter(req, res); &#125; public void init(FilterConfig filterConfig) &#123;&#125; public void destroy() &#123;&#125;&#125; 以下是springboot项目的处理方式：12345678910import io.swagger.annotations.Api;import io.swagger.annotations.ApiOperation;import org.springframework.web.bind.annotation.*;@RestController@Api(&quot;测试ajax跨域&quot;)@RequestMapping(&quot;ajaxdemo&quot;)@CrossOrigin(allowedHeaders = &quot;x-requested-with&quot;, origins = &quot;*&quot;)public class TestHttpController &#123; // ...&#125; ajax请求页面刷新 ajax请求，发现页面闪烁以下，刷新。可以配置global: false来解决123456789101112$.ajax(&#123; global: false, type : &quot;POST&quot;, url : &quot;&quot;, data : &#123; &#125;, dataType : &quot;json&quot;, success : function(data) &#123; &#125;, error : function() &#123; &#125;&#125;);]]></content>
       <categories>
-        <category>html</category>
+        <category>前端</category>
       </categories>
       <tags>
         <tag>ajax</tag>
@@ -39,7 +38,7 @@
   <entry>
     <title><![CDATA[idea中配置tomcat]]></title>
     <url>%2F2017%2F05%2F21%2Fidea-tomcat%2F</url>
-    <content type="text"><![CDATA[1 配置tomcat2 导入项目3 注意问题]]></content>
+    <content type="text"><![CDATA[在idea中添加tomcat，运行springmvc项目。 配置tomcat简单配置，参考: http://jingyan.baidu.com/album/0a52e3f43d9f69bf62ed72f9.html?picindex=2 注意问题以下是我的项目的配置：注意事项已在图中标出]]></content>
       <categories>
         <category>idea</category>
       </categories>
@@ -50,7 +49,7 @@
   <entry>
     <title><![CDATA[springboot与activemq]]></title>
     <url>%2F2017%2F05%2F18%2Fspringboot-activemq%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[本文章简单介绍了activemq，以及在springboot项目中使用activemq activemq介绍 ActiveMQ 是Apache出品，最流行的，能力强劲的开源消息总线。 ActiveMQ的消息机制： 1.点对点方式： 每个消息只能有一个消费者。 2.发布/订阅消息传递域 每个消息可以有多个消费者。 在springboot中使用配置pom文件12345&lt;!-- activemq --&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-activemq&lt;/artifactId&gt;&lt;/dependency&gt; 配置工厂1234567891011121314151617181920212223242526272829303132333435import org.springframework.context.annotation.Bean;import org.springframework.context.annotation.Configuration;import org.springframework.jms.annotation.EnableJms;import org.springframework.jms.config.DefaultJmsListenerContainerFactory;import org.springframework.jms.config.JmsListenerContainerFactory;import javax.jms.ConnectionFactory;@Configuration@EnableJmspublic class JmsConfiguration &#123; // queue模式的ListenerContainer @Bean(name = &quot;jmsListenerContainerQueue&quot;) public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerQueue(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); // 实际运行时DefaultMessageListenerContainer对象将使用5000ms(5s)这个时间间隔刷新JMS连接，输出连接异常信息 // 此处使用10s重连 bean.setRecoveryInterval(10000L); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125; // topic模式的ListenerContainer @Bean(name = &quot;jmsListenerContainerTopic&quot;) public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) &#123; DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory(); // 实际运行时DefaultMessageListenerContainer对象将使用5000ms(5s)这个时间间隔刷新JMS连接，输出连接异常信息 // 此处使用10s重连 bean.setRecoveryInterval(10000L); bean.setPubSubDomain(true); bean.setConnectionFactory(activeMQConnectionFactory); return bean; &#125;&#125; 发送消息1234567891011121314151617181920import org.slf4j.Logger;import org.slf4j.LoggerFactory;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.jms.core.JmsTemplate;import org.springframework.stereotype.Service;@Servicepublic class SendMsgServiceImpl implements SendMsgService &#123; private static final Logger logger = LoggerFactory.getLogger(SendMsgServiceImpl.class); @Autowired private JmsTemplate jmsTemplate; @Override public void sendQueueMessageText(String message) &#123; logger.info(&quot;activemq发送消息：&#123;&#125;&quot;, message); jmsTemplate.convertAndSend(QueueList.QUEUE_SEND, message); &#125;&#125; 接收消息 此处是接收的topic模式的消息123456789101112131415161718192021222324import org.slf4j.Logger;import org.slf4j.LoggerFactory;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.jms.annotation.JmsListener;import org.springframework.stereotype.Service;@Servicepublic class ReceiveMsgServiceImpl implements ReceiveMsgService &#123; private static final Logger logger = LoggerFactory.getLogger(ReceiveMsgServiceImpl.class); @JmsListener(destination = QueueList.TOPIC_RECEIVE, containerFactory = &quot;jmsListenerContainerTopic&quot;) @Override public void getQueueMessageText(String message) &#123; try &#123; logger.info(&quot;activemq收到消息：&#123;&#125;&quot;, message); // ... &#125; catch (IOException e) &#123; // ... &#125; &#125;&#125; 队列的定义12345678910111213import org.apache.activemq.command.ActiveMQQueue;import org.springframework.context.annotation.Bean;import org.springframework.stereotype.Component;/** * 消息队列 */@Componentpublic class QueueList &#123; public static final String QUEUE_SEND = &quot;queue_send&quot;; public static final String TOPIC_RECEIVE = &quot;topic_receive&quot;;&#125;]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -62,7 +61,7 @@
   <entry>
     <title><![CDATA[springboot的切面aop]]></title>
     <url>%2F2017%2F05%2F17%2Fspringboot-aop%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。注意：post请求和get请求获取参数的方式不同。request.getQueryString();使用与get请求12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970import com.fasterxml.jackson.databind.ObjectMapper;import org.aspectj.lang.ProceedingJoinPoint;import org.aspectj.lang.annotation.Around;import org.aspectj.lang.annotation.Aspect;import org.aspectj.lang.annotation.Pointcut;import org.slf4j.Logger;import org.slf4j.LoggerFactory;import org.springframework.context.annotation.Configuration;import org.springframework.stereotype.Component;import org.springframework.web.context.request.RequestAttributes;import org.springframework.web.context.request.RequestContextHolder;import org.springframework.web.context.request.ServletRequestAttributes;import javax.servlet.http.HttpServletRequest;import java.util.Map;//描述切面类@Aspect@Configuration@Componentpublic class HttpControllerAop &#123; private static final Logger logger = LoggerFactory.getLogger(HttpControllerAop.class); /** * 定义切点Pointcut */ @Pointcut(&quot;execution(* com.hfy..*HttpController.*(..))&quot;) public void excudeService() &#123; &#125; @Around(&quot;excudeService()&quot;) public Object doAround(ProceedingJoinPoint pjp) throws Throwable &#123; ObjectMapper mapper = new ObjectMapper(); RequestAttributes ra = RequestContextHolder.getRequestAttributes(); ServletRequestAttributes sra = (ServletRequestAttributes) ra; HttpServletRequest request = sra.getRequest(); String uri = request.getRequestURI(); String queryString = request.getQueryString(); Map&lt;String, String[]&gt; params = request.getParameterMap(); if (params != null) &#123; queryString = mapper.writeValueAsString(params); &#125; String method = request.getMethod(); if (&quot;POST&quot;.equals(method)) &#123; Object[] paramsArray = pjp.getArgs(); if (paramsArray.length &gt; 0) &#123; queryString = mapper.writeValueAsString(paramsArray[0]); &#125; &#125; else &#123; queryString = request.getQueryString(); &#125; logger.info(&quot;请求uri: (&#123;&#125;), params: &#123;&#125;&quot;, uri, queryString); // result的值就是被拦截方法的返回值 Object result = pjp.proceed(); // 过滤 高频或数据量大的日志，不打印 String[] skipRsp = new String[]&#123;&quot;/getFile&quot;&#125;; boolean printRspLog = !Arrays.asList(skipRsp).contains(uri); boolean printRspLog = true; if (printRspLog) &#123; logger.info(&quot;请求结束，controller的返回值是：&#123;&#125;&quot;, mapper.writeValueAsString(result)); &#125; return result; &#125;&#125;]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -74,7 +73,7 @@
   <entry>
     <title><![CDATA[springboot读取配置文件]]></title>
     <url>%2F2017%2F05%2F16%2Fspringboot-config%2F</url>
-    <content type="text"><![CDATA[1、各个环境的配置文件 开发中，分为三种环境：开发（dev）、测试（test）、生产（pro） 所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml） 在application.yml中可以配置使用哪种环境： 123server: application: active: dev #使用开发环境 2、读取配置文件123456789@configuration@Componentpublic class BasicProperties &#123; @Value(&quot;swagger.show&quot;) public boolean swaggerShow; @Value(&quot;ad.ips&quot;) public List&lt;Strings&gt; adIps; // get set 方法&#125; 3、配置文件中的变量]]></content>
+    <content type="text"><![CDATA[各个环境的配置文件 开发中，分为三种环境：开发（dev）、测试（test）、生产（pro） 所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）在application.yml中可以配置使用哪种环境：123spring: profiles: active: dev 读取配置文件123456789101112131415@Component@ConfigurationPropertiespublic class BasicProperties &#123; @Value(&quot;$&#123;server.port&#125;&quot;) // https端口 private int serverPort; @Value(&quot;$&#123;server.address&#125;&quot;) // 应用请求地址。为了app测试方便（用户获取头像） private String serverAddress; @Value(&quot;$&#123;http.port&#125;&quot;) // http端口 private int httpPort; @Value(&quot;$&#123;http.url.patterns&#125;&quot;) // http的请求url private String[] httpUrlPatterns; @Value(&quot;$&#123;https.url.patterns&#125;&quot;) // https的请求url private String[] httpsUrlPatterns;&#125; 配置文件中的变量123com.didispace.blog.name=程序猿DDcom.didispace.blog.title=Spring Boot教程com.didispace.blog.desc=$&#123;com.didispace.blog.name&#125;正在努力写《$&#123;com.didispace.blog.title&#125;》 参考Spring Boot属性配置文件详解]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -101,8 +100,8 @@
         <category>springboot</category>
       </categories>
       <tags>
-        <tag>https</tag>
         <tag>springboot</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -129,15 +128,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)]]></content>
       <categories>
-        <category>springboot</category>
+        <category>mybatis</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
+        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -152,14 +150,38 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[常用的工具类]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-util%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
       <categories>
-        <category>java</category>
+        <category>html</category>
       </categories>
       <tags>
-        <tag>util</tag>
+        <tag>html</tag>
+        <tag>json</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件 常用命令查看java程序是否启动：ps -ef | grep java杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）启动jar包：java -jar test.jar在后台启动jar：sh start.sh 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 安装redis安装activemq]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -171,40 +193,6 @@
       </categories>
       <tags>
         <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
-      <categories>
-        <category>html</category>
-      </categories>
-      <tags>
-        <tag>json</tag>
-        <tag>html</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[1 常用命令2 安装redis3 安装activemq]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mybatis中的mapper]]></title>
-    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[1、xml格式1.1 插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;&lt;/insert&gt; 1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 1.3 关联查询 2、注解格式2.1 插入后返回主键12@Insert(&quot;&quot;)@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -238,8 +226,8 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>html</tag>
         <tag>date</tag>
+        <tag>html</tag>
       </tags>
   </entry>
   <entry>

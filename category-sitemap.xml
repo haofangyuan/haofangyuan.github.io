@@ -7,29 +7,8 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/idea/</loc>
+        <loc>https://haofangyuan.github.io/categories/html/</loc>
         <lastmod>2017-05-25T05:45:38.748Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/java/</loc>
-        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/linux/</loc>
-        <lastmod>2017-05-25T05:45:38.749Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/mybatis/</loc>
-        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -49,22 +28,50 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/html/</loc>
-        <lastmod>2017-06-09T01:30:02.293Z</lastmod>
+        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
+        <lastmod>2017-06-09T06:24:34.511Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/java/</loc>
+        <lastmod>2017-06-09T07:55:33.735Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
+        <lastmod>2017-06-09T08:26:56.074Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/idea/</loc>
+        <lastmod>2017-06-09T09:04:31.127Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/mybatis/</loc>
+        <lastmod>2017-06-09T10:11:07.361Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/categories/springboot/</loc>
-        <lastmod>2017-06-09T03:19:31.439Z</lastmod>
+        <lastmod>2017-06-09T10:18:26.289Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
-        <lastmod>2017-06-09T06:24:34.511Z</lastmod>
+        <loc>https://haofangyuan.github.io/categories/linux/</loc>
+        <lastmod>2017-06-09T10:26:45.978Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

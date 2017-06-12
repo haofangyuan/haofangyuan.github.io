@@ -15,19 +15,16 @@
 
 
 
-<meta name="description" content="1、xml格式1.1 插入后返回主键12&amp;lt;insert id=&amp;quot;insertAd&amp;quot; parameterType=&amp;quot;com.hfy.db.bean.Ad&amp;quot;&amp;gt;&amp;lt;/insert&amp;gt;
-1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&amp;quot;typ">
+<meta name="description" content="插入后返回主键、关联查询、多参">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mybatis中的mapper">
 <meta property="og:url" content="https://haofangyuan.github.io/2017/05/11/mybatis-sql/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="1、xml格式1.1 插入后返回主键12&amp;lt;insert id=&amp;quot;insertAd&amp;quot; parameterType=&amp;quot;com.hfy.db.bean.Ad&amp;quot;&amp;gt;&amp;lt;/insert&amp;gt;
-1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&amp;quot;typ">
-<meta property="og:updated_time" content="2017-05-25T05:45:38.750Z">
+<meta property="og:description" content="插入后返回主键、关联查询、多参">
+<meta property="og:updated_time" content="2017-06-09T10:11:07.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mybatis中的mapper">
-<meta name="twitter:description" content="1、xml格式1.1 插入后返回主键12&amp;lt;insert id=&amp;quot;insertAd&amp;quot; parameterType=&amp;quot;com.hfy.db.bean.Ad&amp;quot;&amp;gt;&amp;lt;/insert&amp;gt;
-1.2 多个参数12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&amp;quot;typ">
+<meta name="twitter:description" content="插入后返回主键、关联查询、多参">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -276,10 +273,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="1、xml格式"><a href="#1、xml格式" class="headerlink" title="1、xml格式"></a>1、xml格式</h3><h4 id="1-1-插入后返回主键"><a href="#1-1-插入后返回主键" class="headerlink" title="1.1 插入后返回主键"></a>1.1 插入后返回主键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
-<h4 id="1-2-多个参数"><a href="#1-2-多个参数" class="headerlink" title="1.2 多个参数"></a>1.2 多个参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<h4 id="1-3-关联查询"><a href="#1-3-关联查询" class="headerlink" title="1.3 关联查询　　"></a>1.3 关联查询　　</h4><h3 id="2、注解格式"><a href="#2、注解格式" class="headerlink" title="2、注解格式"></a>2、注解格式</h3><h4 id="2-1-插入后返回主键"><a href="#2-1-插入后返回主键" class="headerlink" title="2.1 插入后返回主键"></a>2.1 插入后返回主键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)</div></pre></td></tr></table></figure>
-
+        <p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
+<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
+<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
+<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
+<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -290,7 +289,7 @@
         <p><span>本文标题:</span><a href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
         <p><span>发布时间:</span>2017-05-11, 22:56:11</p>
-        <p><span>最后更新:</span>2017-05-25, 13:45:38</p>
+        <p><span>最后更新:</span>2017-06-09, 18:11:07</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/05/11/mybatis-sql/" title="mybatis中的mapper">https://haofangyuan.github.io/2017/05/11/mybatis-sql/</a>
             <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/05/11/mybatis-sql/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -306,15 +305,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/05/11/springboot-swagger/">
-                    springboot与swagger
+                <a href="/2017/05/12/springmvc-page/">
+                    springmvc与分页
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/05/11/springmvc-swagger/">
-                    springmvc与swagger
+                <a href="/2017/05/11/php/">
+                    php
                 </a>
             </div>
         
@@ -326,7 +325,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、xml格式"><span class="toc-number">1.</span> <span class="toc-text">1、xml格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-插入后返回主键"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 插入后返回主键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-多个参数"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 多个参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-关联查询"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 关联查询　　</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、注解格式"><span class="toc-number">2.</span> <span class="toc-text">2、注解格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-插入后返回主键"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 插入后返回主键</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#xml格式"><span class="toc-number">1.</span> <span class="toc-text">xml格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后返回主键"><span class="toc-number">1.1.</span> <span class="toc-text">插入后返回主键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多个参数"><span class="toc-number">1.2.</span> <span class="toc-text">多个参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联查询"><span class="toc-number">1.3.</span> <span class="toc-text">关联查询　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注解格式"><span class="toc-number">2.</span> <span class="toc-text">注解格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入后返回主键-1"><span class="toc-number">2.1.</span> <span class="toc-text">插入后返回主键</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -382,7 +381,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/05/11/springboot-swagger/" title="上一篇: springboot与swagger">
+            <a href="/2017/05/12/springmvc-page/" title="上一篇: springmvc与分页">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -390,13 +389,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/05/11/springmvc-swagger/" title="下一篇: springmvc与swagger">
+            <a href="/2017/05/11/php/" title="下一篇: php">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-auth-interface/">java_auth_interface</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-util/">常用的工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li></ul>
 
 
 
@@ -404,6 +403,11 @@
     <script>
         
     </script>
+
+
+<section id="comments"  class="comment">
+  <div id="commentContainer"></div>
+</section>
 </div>
       <footer id="footer">
     <div class="outer">
@@ -438,7 +442,12 @@
     </div>
 </footer>
     </div>
-    
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
     <script>
@@ -450,7 +459,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 4;
+                var backgroundnum = 5;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
@@ -511,6 +520,23 @@ MathJax.Hub.Queue(function() {
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+<!-- Gitment Start -->
+
+<script>
+$(document).ready(function(){
+var gitment = new Gitment({
+  owner: 'haofangyuan',
+  repo: 'blogcomments',
+  oauth: {
+    client_id: 'ddb1baf2f5b8a0d22219',
+    client_secret: 'dd78f6f19223d202d351a4f1106b84f6a96ec0be',
+  },
+});
+if($('#commentContainer')) gitment.render('commentContainer');
+});
+</script>
+
+<!-- Gitment End -->
   </div>
 </body>
 </html>

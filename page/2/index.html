@@ -232,69 +232,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-springboot-activemq" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/18/springboot-activemq/" class="article-date">
-      <time datetime="2017-05-18T14:56:11.000Z" itemprop="datePublished">2017-05-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/18/springboot-activemq/">springboot与activemq</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/springboot/">springboot</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activemq/">activemq</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-springboot-aop" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -324,7 +261,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        
+              <p>　　在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。<br></p>
+          
       
     </div>
     
@@ -342,12 +280,17 @@
     </div>
 
       
+        <p class="article-more-link">
+          <a href="/2017/05/17/springboot-aop/#more">阅读全文 >></a>
+        </p>
+      
       <div class="clearfix"></div>
     </div>
     
   </div>
   
 </article>
+
 
 
 
@@ -387,9 +330,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h3 id="1、各个环境的配置文件"><a href="#1、各个环境的配置文件" class="headerlink" title="1、各个环境的配置文件"></a>1、各个环境的配置文件</h3><p>　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）<br>　　所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）<br>　　在application.yml中可以配置使用哪种环境：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  application:</div><div class="line">      active: dev #使用开发环境</div></pre></td></tr></table></figure></p>
-<h3 id="2、读取配置文件"><a href="#2、读取配置文件" class="headerlink" title="2、读取配置文件"></a>2、读取配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@configuration</div><div class="line">@Component</div><div class="line">public class BasicProperties &#123;</div><div class="line">    @Value(&quot;swagger.show&quot;)</div><div class="line">    public boolean swaggerShow;</div><div class="line">    @Value(&quot;ad.ips&quot;)</div><div class="line">    public List&lt;Strings&gt; adIps;</div><div class="line">    // get set 方法</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3、配置文件中的变量"><a href="#3、配置文件中的变量" class="headerlink" title="3、配置文件中的变量"></a>3、配置文件中的变量</h3>
+              <h2 id="各个环境的配置文件"><a href="#各个环境的配置文件" class="headerlink" title="各个环境的配置文件"></a>各个环境的配置文件</h2><p>　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）<br>　　所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）在<code>application.yml</code>中可以配置使用哪种环境：<br></p>
+          
       
     </div>
     
@@ -407,12 +349,17 @@
     </div>
 
       
+        <p class="article-more-link">
+          <a href="/2017/05/16/springboot-config/#more">阅读全文 >></a>
+        </p>
+      
       <div class="clearfix"></div>
     </div>
     
   </div>
   
 </article>
+
 
 
 
@@ -485,6 +432,7 @@
 
 
 
+
   
     <article id="post-springboot-https" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -548,6 +496,71 @@
 
 
 
+
+  
+    <article id="post-springboot-redis" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/13/springboot-redis/" class="article-date">
+      <time datetime="2017-05-13T12:51:11.000Z" itemprop="datePublished">2017-05-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/13/springboot-redis/">springboot与redis</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
   
   
     <nav id="page-nav">
@@ -588,7 +601,12 @@
     </div>
 </footer>
     </div>
-    
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
 <script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
 
     <script>
@@ -600,7 +618,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 4;
+                var backgroundnum = 5;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
@@ -661,6 +679,9 @@ MathJax.Hub.Queue(function() {
 
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
+<!-- Gitment Start -->
+
+<!-- Gitment End -->
   </div>
 </body>
 </html>

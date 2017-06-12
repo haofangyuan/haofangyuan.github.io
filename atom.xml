@@ -45,41 +45,30 @@
   </entry>
   
   <entry>
-    <title>java_auth_interface</title>
-    <link href="https://haofangyuan.github.io/2017/06/02/java-auth-interface/"/>
-    <id>https://haofangyuan.github.io/2017/06/02/java-auth-interface/</id>
-    <published>2017-06-02T06:17:43.000Z</published>
-    <updated>2017-06-02T06:17:43.186Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>ArrayList的线程安全问题</title>
     <link href="https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/"/>
     <id>https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/</id>
     <published>2017-06-02T05:56:59.000Z</published>
-    <updated>2017-06-02T06:11:03.161Z</updated>
+    <updated>2017-06-09T07:55:33.735Z</updated>
     
-    <content type="html"><![CDATA[<p>多个线程对ArrayList操作，出现问题。demo中进行演示：</p>
-<h3 id="1-实例1"><a href="#1-实例1" class="headerlink" title="1 实例1"></a>1 实例1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="2-实例2"><a href="#2-实例2" class="headerlink" title="2 实例2"></a>2 实例2</h3><p>下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"> </div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); </div><div class="line">        final Random rand = new Random(); </div><div class="line">         </div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return; </div><div class="line">                &#125; </div><div class="line">                list.add(&quot;0&quot;); </div><div class="line">            &#125;</div><div class="line">        &#125;; </div><div class="line">         </div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        return list.size(); </div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList(); </div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList()); </div><div class="line">        final int N = 10000; </div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear(); </div><div class="line">            safeList.clear(); </div><div class="line">            int unsafeSize = demo(unsafeList, N); </div><div class="line">            int safeSize = demo(safeList, N); </div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); </div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h3><p>ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MessageList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+    <content type="html"><![CDATA[<p>　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。<br><a id="more"></a></p>
+<h2 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h2><p>　　下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。<br>　　以下是异常图片：<br><img src="http://or8a8is80.bkt.clouddn.com/java_arraylist_thread.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="实例2"><a href="#实例2" class="headerlink" title="实例2"></a>实例2</h2><p>　　演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。<br>　　下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"> </div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); </div><div class="line">        final Random rand = new Random(); </div><div class="line">         </div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return; </div><div class="line">                &#125; </div><div class="line">                list.add(&quot;0&quot;); </div><div class="line">            &#125;</div><div class="line">        &#125;; </div><div class="line">         </div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10); </div><div class="line">        &#125;</div><div class="line">         </div><div class="line">        return list.size(); </div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList(); </div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList()); </div><div class="line">        final int N = 10000; </div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear(); </div><div class="line">            safeList.clear(); </div><div class="line">            int unsafeSize = demo(unsafeList, N); </div><div class="line">            int safeSize = demo(safeList, N); </div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); </div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class MessageList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (MessageList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;多个线程对ArrayList操作，出现问题。demo中进行演示：&lt;/p&gt;
-&lt;h3 id=&quot;1-实例1&quot;&gt;&lt;a href=&quot;#1-实例1&quot; class=&quot;headerlink&quot; title=&quot;1 实例1&quot;&gt;&lt;/a&gt;1 实例1&lt;/h3&gt;&lt;figure class=&quot;highli
+      &lt;p&gt;　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
     
-      <category term="-java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+      <category term="thread" scheme="https://haofangyuan.github.io/tags/thread/"/>
     
   </entry>
   
@@ -88,18 +77,22 @@
     <link href="https://haofangyuan.github.io/2017/05/24/html-ajax/"/>
     <id>https://haofangyuan.github.io/2017/05/24/html-ajax/</id>
     <published>2017-05-24T12:37:11.000Z</published>
-    <updated>2017-06-09T01:30:02.293Z</updated>
+    <updated>2017-06-09T08:26:56.074Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1-获取ajax返回结果"><a href="#1-获取ajax返回结果" class="headerlink" title="1 获取ajax返回结果"></a>1 获取ajax返回结果</h3><a id="more"></a>
-<h3 id="2-access-origin"><a href="#2-access-origin" class="headerlink" title="2 access-origin"></a>2 access-origin</h3><h3 id="3-ajax请求页面刷新"><a href="#3-ajax请求页面刷新" class="headerlink" title="3 ajax请求页面刷新"></a>3 ajax请求页面刷新</h3><h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3>]]></content>
+    <content type="html"><![CDATA[<p>　　这里主要记录用ajax时遇到的问题。<br><a id="more"></a></p>
+<h2 id="获取ajax返回结果"><a href="#获取ajax返回结果" class="headerlink" title="获取ajax返回结果"></a>获取ajax返回结果</h2><p>　　ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var rspTxt = $.ajax(&#123;</div><div class="line">    async:false,</div><div class="line">    cache:false,</div><div class="line">    type : &quot;POST&quot;,</div><div class="line">    url : &quot;&lt;%=basePath%&gt;test.action&quot;,</div><div class="line">    data : &#123;</div><div class="line">        id: $(&quot;#id&quot;).val()</div><div class="line">    &#125;,</div><div class="line">    success : function(data) &#123;</div><div class="line">        var status = data.status;</div><div class="line">        if(&apos;success&apos; == status)&#123;</div><div class="line">            alert(&quot;成功！&quot;);</div><div class="line">        &#125;else&#123;</div><div class="line">            alert(data.msg);</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    error:function()&#123;</div><div class="line">        alert(&quot;失败！&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;).responseText;</div><div class="line">if(typeof(rspTxt) != &quot;undefined&quot;) &#123;</div><div class="line">    var obj = JSON.parse(rspTxt);</div><div class="line">    if(obj.status == &apos;success&apos;) &#123;</div><div class="line">        // 业务处理</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="access-origin"><a href="#access-origin" class="headerlink" title="access-origin"></a>access-origin</h2><p>　　ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置<br>　　以下是springmvc项目的处理方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">import java.io.IOException;</div><div class="line">import javax.servlet.Filter;</div><div class="line">import javax.servlet.FilterChain;</div><div class="line">import javax.servlet.FilterConfig;</div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.ServletRequest;</div><div class="line">import javax.servlet.ServletResponse;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class SimpleCORSFilter implements Filter &#123;</div><div class="line"></div><div class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123;</div><div class="line">        HttpServletResponse response = (HttpServletResponse) res;</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;);</div><div class="line">        chain.doFilter(req, res);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void init(FilterConfig filterConfig) &#123;&#125;</div><div class="line"></div><div class="line">    public void destroy() &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　以下是springboot项目的处理方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import io.swagger.annotations.Api;</div><div class="line">import io.swagger.annotations.ApiOperation;</div><div class="line">import org.springframework.web.bind.annotation.*;</div><div class="line">@RestController</div><div class="line">@Api(&quot;测试ajax跨域&quot;)</div><div class="line">@RequestMapping(&quot;ajaxdemo&quot;)</div><div class="line">@CrossOrigin(allowedHeaders = &quot;x-requested-with&quot;, origins = &quot;*&quot;)</div><div class="line">public class TestHttpController &#123;</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="ajax请求页面刷新"><a href="#ajax请求页面刷新" class="headerlink" title="ajax请求页面刷新"></a>ajax请求页面刷新</h2><p>　　ajax请求，发现页面闪烁以下，刷新。可以配置<code>global: false</code>来解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">    global: false,</div><div class="line">    type : &quot;POST&quot;,</div><div class="line">    url : &quot;&quot;,</div><div class="line">    data : &#123;</div><div class="line">    &#125;,</div><div class="line">    dataType : &quot;json&quot;,</div><div class="line">    success : function(data) &#123;</div><div class="line">    &#125;,</div><div class="line">    error : function() &#123;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1-获取ajax返回结果&quot;&gt;&lt;a href=&quot;#1-获取ajax返回结果&quot; class=&quot;headerlink&quot; title=&quot;1 获取ajax返回结果&quot;&gt;&lt;/a&gt;1 获取ajax返回结果&lt;/h3&gt;
+      &lt;p&gt;　　这里主要记录用ajax时遇到的问题。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
-      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
+      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
       <category term="ajax" scheme="https://haofangyuan.github.io/tags/ajax/"/>
@@ -111,13 +104,16 @@
     <link href="https://haofangyuan.github.io/2017/05/21/idea-tomcat/"/>
     <id>https://haofangyuan.github.io/2017/05/21/idea-tomcat/</id>
     <published>2017-05-21T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.748Z</updated>
+    <updated>2017-06-09T09:04:31.127Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1-配置tomcat"><a href="#1-配置tomcat" class="headerlink" title="1 配置tomcat"></a>1 配置tomcat</h3><h3 id="2-导入项目"><a href="#2-导入项目" class="headerlink" title="2 导入项目"></a>2 导入项目</h3><h3 id="3-注意问题"><a href="#3-注意问题" class="headerlink" title="3 注意问题"></a>3 注意问题</h3>]]></content>
+    <content type="html"><![CDATA[<p>　　在idea中添加tomcat，运行springmvc项目。<br><a id="more"></a></p>
+<h2 id="配置tomcat"><a href="#配置tomcat" class="headerlink" title="配置tomcat"></a>配置tomcat</h2><p>简单配置，参考: <a href="http://jingyan.baidu.com/album/0a52e3f43d9f69bf62ed72f9.html?picindex=2" target="_blank" rel="external">http://jingyan.baidu.com/album/0a52e3f43d9f69bf62ed72f9.html?picindex=2</a></p>
+<h2 id="注意问题"><a href="#注意问题" class="headerlink" title="注意问题"></a>注意问题</h2><p>以下是我的项目的配置：注意事项已在图中标出<br><img src="http://or8a8is80.bkt.clouddn.com/idea_tomcat1.png" alt=""><br><img src="http://or8a8is80.bkt.clouddn.com/idea_tomcat2.png" alt=""><br><img src="http://or8a8is80.bkt.clouddn.com/idea_tomcat3.png" alt=""></p>
+]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1-配置tomcat&quot;&gt;&lt;a href=&quot;#1-配置tomcat&quot; class=&quot;headerlink&quot; title=&quot;1 配置tomcat&quot;&gt;&lt;/a&gt;1 配置tomcat&lt;/h3&gt;&lt;h3 id=&quot;2-导入项目&quot;&gt;&lt;a href=&quot;#2-导入项目&quot; class=&quot;
+      &lt;p&gt;　　在idea中添加tomcat，运行springmvc项目。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -133,9 +129,19 @@
     <link href="https://haofangyuan.github.io/2017/05/18/springboot-activemq/"/>
     <id>https://haofangyuan.github.io/2017/05/18/springboot-activemq/</id>
     <published>2017-05-18T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.751Z</updated>
+    <updated>2017-06-09T09:18:49.698Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　本文章简单介绍了activemq，以及在springboot项目中使用activemq<br><a id="more"></a></p>
+<h2 id="activemq介绍"><a href="#activemq介绍" class="headerlink" title="activemq介绍"></a>activemq介绍</h2><p>　　ActiveMQ 是Apache出品，最流行的，能力强劲的开源消息总线。<br>　　ActiveMQ的消息机制：<br>　　　　1.点对点方式：<br>        　　每个消息只能有一个消费者。<br>　　　　2.发布/订阅消息传递域<br>　　　　　　每个消息可以有多个消费者。</p>
+<h2 id="在springboot中使用"><a href="#在springboot中使用" class="headerlink" title="在springboot中使用"></a>在springboot中使用</h2><h3 id="配置pom文件"><a href="#配置pom文件" class="headerlink" title="配置pom文件"></a>配置pom文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;!-- activemq --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-activemq&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h3 id="配置工厂"><a href="#配置工厂" class="headerlink" title="配置工厂"></a>配置工厂</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.jms.annotation.EnableJms;</div><div class="line">import org.springframework.jms.config.DefaultJmsListenerContainerFactory;</div><div class="line">import org.springframework.jms.config.JmsListenerContainerFactory;</div><div class="line"></div><div class="line">import javax.jms.ConnectionFactory;</div><div class="line"></div><div class="line">@Configuration</div><div class="line">@EnableJms</div><div class="line">public class JmsConfiguration &#123;</div><div class="line"></div><div class="line">    // queue模式的ListenerContainer</div><div class="line">    @Bean(name = &quot;jmsListenerContainerQueue&quot;)</div><div class="line">    public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerQueue(ConnectionFactory activeMQConnectionFactory) &#123;</div><div class="line">        DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();</div><div class="line">        // 实际运行时DefaultMessageListenerContainer对象将使用5000ms(5s)这个时间间隔刷新JMS连接，输出连接异常信息</div><div class="line">        // 此处使用10s重连</div><div class="line">        bean.setRecoveryInterval(10000L);</div><div class="line">        bean.setConnectionFactory(activeMQConnectionFactory);</div><div class="line">        return bean;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // topic模式的ListenerContainer</div><div class="line">    @Bean(name = &quot;jmsListenerContainerTopic&quot;)</div><div class="line">    public JmsListenerContainerFactory&lt;?&gt; jmsListenerContainerTopic(ConnectionFactory activeMQConnectionFactory) &#123;</div><div class="line">        DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();</div><div class="line">        // 实际运行时DefaultMessageListenerContainer对象将使用5000ms(5s)这个时间间隔刷新JMS连接，输出连接异常信息</div><div class="line">        // 此处使用10s重连</div><div class="line">        bean.setRecoveryInterval(10000L);</div><div class="line">        bean.setPubSubDomain(true);</div><div class="line">        bean.setConnectionFactory(activeMQConnectionFactory);</div><div class="line">        return bean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="发送消息"><a href="#发送消息" class="headerlink" title="发送消息"></a>发送消息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.jms.core.JmsTemplate;</div><div class="line">import org.springframework.stereotype.Service;</div><div class="line"></div><div class="line">@Service</div><div class="line">public class SendMsgServiceImpl implements SendMsgService &#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(SendMsgServiceImpl.class);</div><div class="line"></div><div class="line">    @Autowired</div><div class="line">    private JmsTemplate jmsTemplate;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void sendQueueMessageText(String message) &#123;</div><div class="line">        logger.info(&quot;activemq发送消息：&#123;&#125;&quot;, message);</div><div class="line">        jmsTemplate.convertAndSend(QueueList.QUEUE_SEND, message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h3><p>　　此处是接收的topic模式的消息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.beans.factory.annotation.Autowired;</div><div class="line">import org.springframework.jms.annotation.JmsListener;</div><div class="line">import org.springframework.stereotype.Service;</div><div class="line"></div><div class="line">@Service</div><div class="line">public class ReceiveMsgServiceImpl implements ReceiveMsgService &#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(ReceiveMsgServiceImpl.class);</div><div class="line"></div><div class="line">    @JmsListener(destination = QueueList.TOPIC_RECEIVE, containerFactory = &quot;jmsListenerContainerTopic&quot;)</div><div class="line">    @Override</div><div class="line">    public void getQueueMessageText(String message) &#123;</div><div class="line">        try &#123;</div><div class="line">            logger.info(&quot;activemq收到消息：&#123;&#125;&quot;, message);</div><div class="line">            // ...</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            // ...</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="队列的定义"><a href="#队列的定义" class="headerlink" title="队列的定义"></a>队列的定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">import org.apache.activemq.command.ActiveMQQueue;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 消息队列</div><div class="line"> */</div><div class="line">@Component</div><div class="line">public class QueueList &#123;</div><div class="line"></div><div class="line">    public static final String QUEUE_SEND = &quot;queue_send&quot;;</div><div class="line">    public static final String TOPIC_RECEIVE = &quot;topic_receive&quot;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;　　本文章简单介绍了activemq，以及在springboot项目中使用activemq&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -153,9 +159,14 @@
     <link href="https://haofangyuan.github.io/2017/05/17/springboot-aop/"/>
     <id>https://haofangyuan.github.io/2017/05/17/springboot-aop/</id>
     <published>2017-05-17T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.751Z</updated>
+    <updated>2017-06-09T09:53:10.703Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。<br><a id="more"></a><br>注意：post请求和get请求获取参数的方式不同。request.getQueryString();使用与get请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">import com.fasterxml.jackson.databind.ObjectMapper;</div><div class="line">import org.aspectj.lang.ProceedingJoinPoint;</div><div class="line">import org.aspectj.lang.annotation.Around;</div><div class="line">import org.aspectj.lang.annotation.Aspect;</div><div class="line">import org.aspectj.lang.annotation.Pointcut;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.context.request.RequestAttributes;</div><div class="line">import org.springframework.web.context.request.RequestContextHolder;</div><div class="line">import org.springframework.web.context.request.ServletRequestAttributes;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">//描述切面类</div><div class="line">@Aspect</div><div class="line">@Configuration</div><div class="line">@Component</div><div class="line">public class HttpControllerAop &#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(HttpControllerAop.class);</div><div class="line"></div><div class="line">    /**</div><div class="line">     *  定义切点Pointcut</div><div class="line">     */</div><div class="line">    @Pointcut(&quot;execution(* com.hfy..*HttpController.*(..))&quot;)</div><div class="line">    public void excudeService() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Around(&quot;excudeService()&quot;)</div><div class="line">    public Object doAround(ProceedingJoinPoint pjp) throws Throwable &#123;</div><div class="line">        ObjectMapper mapper = new ObjectMapper();</div><div class="line"></div><div class="line">        RequestAttributes ra = RequestContextHolder.getRequestAttributes();</div><div class="line">        ServletRequestAttributes sra = (ServletRequestAttributes) ra;</div><div class="line">        HttpServletRequest request = sra.getRequest();</div><div class="line"></div><div class="line">        String uri = request.getRequestURI();</div><div class="line">        String queryString = request.getQueryString();</div><div class="line">        Map&lt;String, String[]&gt; params = request.getParameterMap();</div><div class="line">        if (params != null) &#123;</div><div class="line">            queryString = mapper.writeValueAsString(params);</div><div class="line">        &#125;</div><div class="line">        String method = request.getMethod();</div><div class="line">        if (&quot;POST&quot;.equals(method)) &#123;</div><div class="line">            Object[] paramsArray = pjp.getArgs();</div><div class="line">            if (paramsArray.length &gt; 0) &#123;</div><div class="line">                queryString = mapper.writeValueAsString(paramsArray[0]);</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            queryString = request.getQueryString();</div><div class="line">        &#125;</div><div class="line">        logger.info(&quot;请求uri: (&#123;&#125;), params: &#123;&#125;&quot;, uri, queryString);</div><div class="line"></div><div class="line">        // result的值就是被拦截方法的返回值</div><div class="line">        Object result = pjp.proceed();</div><div class="line"></div><div class="line">        // 过滤 高频或数据量大的日志，不打印</div><div class="line">        String[] skipRsp = new String[]&#123;&quot;/getFile&quot;&#125;;</div><div class="line">        boolean printRspLog = !Arrays.asList(skipRsp).contains(uri);</div><div class="line">        boolean printRspLog = true;</div><div class="line">        if (printRspLog) &#123;</div><div class="line">            logger.info(&quot;请求结束，controller的返回值是：&#123;&#125;&quot;, mapper.writeValueAsString(result));</div><div class="line">        &#125;</div><div class="line">        return result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;　　在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -173,15 +184,17 @@
     <link href="https://haofangyuan.github.io/2017/05/16/springboot-config/"/>
     <id>https://haofangyuan.github.io/2017/05/16/springboot-config/</id>
     <published>2017-05-16T12:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.752Z</updated>
+    <updated>2017-06-09T10:01:35.251Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1、各个环境的配置文件"><a href="#1、各个环境的配置文件" class="headerlink" title="1、各个环境的配置文件"></a>1、各个环境的配置文件</h3><p>　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）<br>　　所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）<br>　　在application.yml中可以配置使用哪种环境：<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">server:</div><div class="line">  application:</div><div class="line">      active: dev #使用开发环境</div></pre></td></tr></table></figure></p>
-<h3 id="2、读取配置文件"><a href="#2、读取配置文件" class="headerlink" title="2、读取配置文件"></a>2、读取配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">@configuration</div><div class="line">@Component</div><div class="line">public class BasicProperties &#123;</div><div class="line">    @Value(&quot;swagger.show&quot;)</div><div class="line">    public boolean swaggerShow;</div><div class="line">    @Value(&quot;ad.ips&quot;)</div><div class="line">    public List&lt;Strings&gt; adIps;</div><div class="line">    // get set 方法</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="3、配置文件中的变量"><a href="#3、配置文件中的变量" class="headerlink" title="3、配置文件中的变量"></a>3、配置文件中的变量</h3>]]></content>
+    <content type="html"><![CDATA[<h2 id="各个环境的配置文件"><a href="#各个环境的配置文件" class="headerlink" title="各个环境的配置文件"></a>各个环境的配置文件</h2><p>　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）<br>　　所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）在<code>application.yml</code>中可以配置使用哪种环境：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">spring:</div><div class="line">  profiles:</div><div class="line">    active: dev</div></pre></td></tr></table></figure></p>
+<h2 id="读取配置文件"><a href="#读取配置文件" class="headerlink" title="读取配置文件"></a>读取配置文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@Component</div><div class="line">@ConfigurationProperties</div><div class="line">public class BasicProperties &#123;</div><div class="line"></div><div class="line">    @Value(&quot;$&#123;server.port&#125;&quot;)    // https端口</div><div class="line">    private int serverPort;</div><div class="line">    @Value(&quot;$&#123;server.address&#125;&quot;)     // 应用请求地址。为了app测试方便（用户获取头像）</div><div class="line">    private String serverAddress;</div><div class="line">    @Value(&quot;$&#123;http.port&#125;&quot;)      // http端口</div><div class="line">    private int httpPort;</div><div class="line">    @Value(&quot;$&#123;http.url.patterns&#125;&quot;)  // http的请求url</div><div class="line">    private String[] httpUrlPatterns;</div><div class="line">    @Value(&quot;$&#123;https.url.patterns&#125;&quot;) // https的请求url</div><div class="line">    private String[] httpsUrlPatterns;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="配置文件中的变量"><a href="#配置文件中的变量" class="headerlink" title="配置文件中的变量"></a>配置文件中的变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">com.didispace.blog.name=程序猿DD</div><div class="line">com.didispace.blog.title=Spring Boot教程</div><div class="line">com.didispace.blog.desc=$&#123;com.didispace.blog.name&#125;正在努力写《$&#123;com.didispace.blog.title&#125;》</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.didispace.com/springbootproperties/" target="_blank" rel="external">Spring Boot属性配置文件详解</a></p>
+]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1、各个环境的配置文件&quot;&gt;&lt;a href=&quot;#1、各个环境的配置文件&quot; class=&quot;headerlink&quot; title=&quot;1、各个环境的配置文件&quot;&gt;&lt;/a&gt;1、各个环境的配置文件&lt;/h3&gt;&lt;p&gt;　　开发中，分为三种环境：开发（dev）、测试（test）、生产（p
+      &lt;h2 id=&quot;各个环境的配置文件&quot;&gt;&lt;a href=&quot;#各个环境的配置文件&quot; class=&quot;headerlink&quot; title=&quot;各个环境的配置文件&quot;&gt;&lt;/a&gt;各个环境的配置文件&lt;/h2&gt;&lt;p&gt;　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）&lt;br&gt;　　所以，不同的环境配置文件名为：application-环境.yml。例如（application-dev.yml）在&lt;code&gt;application.yml&lt;/code&gt;中可以配置使用哪种环境：&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -224,9 +237,9 @@
       <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
     
     
-      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
-    
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
     
   </entry>
   
@@ -269,22 +282,29 @@
   </entry>
   
   <entry>
-    <title>springboot与swagger</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/springboot-swagger/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/springboot-swagger/</id>
+    <title>mybatis中的mapper</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
     <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.754Z</updated>
+    <updated>2017-06-09T10:11:07.361Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
+<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
+<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
+<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
+<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;　　插入后返回主键、关联查询、多参&lt;br&gt;&lt;/p&gt;
+    
     </summary>
     
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
     
     
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
+      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
     
   </entry>
   
@@ -307,20 +327,78 @@
   </entry>
   
   <entry>
-    <title>常用的工具类</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/java-util/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/java-util/</id>
+    <title>页面中json相关问题</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/html-json/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/html-json/</id>
     <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.749Z</updated>
+    <updated>2017-05-25T05:45:38.748Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-json与字符串"><a href="#1-json与字符串" class="headerlink" title="1 json与字符串"></a>1 json与字符串</h3><h3 id="2-json与数组"><a href="#2-json与数组" class="headerlink" title="2 json与数组"></a>2 json与数组</h3>]]></content>
     
     <summary type="html">
     
+      &lt;h3 id=&quot;1-json与字符串&quot;&gt;&lt;a href=&quot;#1-json与字符串&quot; class=&quot;headerlink&quot; title=&quot;1 json与字符串&quot;&gt;&lt;/a&gt;1 json与字符串&lt;/h3&gt;&lt;h3 id=&quot;2-json与数组&quot;&gt;&lt;a href=&quot;#2-json与数组&quot; c
+    
     </summary>
     
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
     
     
-      <category term="util" scheme="https://haofangyuan.github.io/tags/util/"/>
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
+    
+      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot与swagger</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/springboot-swagger/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/springboot-swagger/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-06-09T10:18:26.289Z</updated>
+    
+    <content type="html"><![CDATA[<p>springboot项目中使用swagger，快速生成api<br><a id="more"></a></p>
+<h2 id="pom中引入"><a href="#pom中引入" class="headerlink" title="pom中引入"></a>pom中引入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- swagger --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;io.springfox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.2.2&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h2 id="swagger配置"><a href="#swagger配置" class="headerlink" title="swagger配置"></a>swagger配置</h2><p>　　支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。<a href="https://haofangyuan.github.io/2017/05/16/springboot-config">springboot读取配置文件</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@EnableSwagger2</div><div class="line">@Component</div><div class="line">public class Swagger2 &#123;</div><div class="line"></div><div class="line">    @Autowired</div><div class="line">    private BasicProperties basicProperties;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public Docket createRestApi() &#123;</div><div class="line">        return new Docket(DocumentationType.SWAGGER_2)</div><div class="line">                .enable(basicProperties.getSwaggerShow())</div><div class="line">                .apiInfo(apiInfo())</div><div class="line">                .select()</div><div class="line">                .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))</div><div class="line">//                .paths(PathSelectors.any())</div><div class="line">                //.paths(PathSelectors.regex(&quot;/ab/*&quot;))</div><div class="line">                .paths(path())</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private Predicate&lt;String&gt; path() &#123;</div><div class="line">        List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;();</div><div class="line">        for (String pattern : basicProperties.getSwaggerPatterns()) &#123;</div><div class="line">            list.add(PathSelectors.regex(pattern));</div><div class="line">        &#125;</div><div class="line">        return Predicates.or(list);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private ApiInfo apiInfo() &#123;</div><div class="line">        return new ApiInfoBuilder()</div><div class="line">                .title(&quot;APIs&quot;)</div><div class="line">                .contact(&quot;hfy&quot;)</div><div class="line">                .version(&quot;1.0&quot;)</div><div class="line">                .build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="待完成"><a href="#待完成" class="headerlink" title="待完成"></a>待完成</h2><p>　　暂时没做到：swagger中搜索不可用。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;springboot项目中使用swagger，快速生成api&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux常用命令</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/linux-command/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/linux-command/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-06-09T10:26:45.978Z</updated>
+    
+    <content type="html"><![CDATA[<p>linux常用命令，和安装一些软件<br><a id="more"></a></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>查看java程序是否启动：<code>ps -ef | grep java</code><br>杀掉进程： <code>kill -9 4564</code> 4564是进程号，通过上一个命令查看（第二列）<br>启动jar包：<code>java -jar test.jar</code><br>在后台启动jar：<code>sh start.sh</code><br>　　其中，start.sh是个脚本。里面内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test=`dirname &quot;$0&quot;`</div><div class="line">cd $test</div><div class="line">nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</div><div class="line">cd -</div></pre></td></tr></table></figure></p>
+<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><h2 id="安装activemq"><a href="#安装activemq" class="headerlink" title="安装activemq"></a>安装activemq</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;linux常用命令，和安装一些软件&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="https://haofangyuan.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://haofangyuan.github.io/tags/linux/"/>
     
   </entry>
   
@@ -343,77 +421,6 @@
   </entry>
   
   <entry>
-    <title>页面中json相关问题</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/html-json/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/html-json/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.748Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-json与字符串"><a href="#1-json与字符串" class="headerlink" title="1 json与字符串"></a>1 json与字符串</h3><h3 id="2-json与数组"><a href="#2-json与数组" class="headerlink" title="2 json与数组"></a>2 json与数组</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-json与字符串&quot;&gt;&lt;a href=&quot;#1-json与字符串&quot; class=&quot;headerlink&quot; title=&quot;1 json与字符串&quot;&gt;&lt;/a&gt;1 json与字符串&lt;/h3&gt;&lt;h3 id=&quot;2-json与数组&quot;&gt;&lt;a href=&quot;#2-json与数组&quot; c
-    
-    </summary>
-    
-      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
-    
-      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux常用命令</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/linux-command/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/linux-command/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.749Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1 常用命令"></a>1 常用命令</h3><h3 id="2-安装redis"><a href="#2-安装redis" class="headerlink" title="2 安装redis"></a>2 安装redis</h3><h3 id="3-安装activemq"><a href="#3-安装activemq" class="headerlink" title="3 安装activemq"></a>3 安装activemq</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1-常用命令&quot;&gt;&lt;a href=&quot;#1-常用命令&quot; class=&quot;headerlink&quot; title=&quot;1 常用命令&quot;&gt;&lt;/a&gt;1 常用命令&lt;/h3&gt;&lt;h3 id=&quot;2-安装redis&quot;&gt;&lt;a href=&quot;#2-安装redis&quot; class=&quot;headerlink
-    
-    </summary>
-    
-      <category term="linux" scheme="https://haofangyuan.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://haofangyuan.github.io/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>mybatis中的mapper</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.750Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="1、xml格式"><a href="#1、xml格式" class="headerlink" title="1、xml格式"></a>1、xml格式</h3><h4 id="1-1-插入后返回主键"><a href="#1-1-插入后返回主键" class="headerlink" title="1.1 插入后返回主键"></a>1.1 插入后返回主键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
-<h4 id="1-2-多个参数"><a href="#1-2-多个参数" class="headerlink" title="1.2 多个参数"></a>1.2 多个参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot;&gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
-<h4 id="1-3-关联查询"><a href="#1-3-关联查询" class="headerlink" title="1.3 关联查询　　"></a>1.3 关联查询　　</h4><h3 id="2、注解格式"><a href="#2、注解格式" class="headerlink" title="2、注解格式"></a>2、注解格式</h3><h4 id="2-1-插入后返回主键"><a href="#2-1-插入后返回主键" class="headerlink" title="2.1 插入后返回主键"></a>2.1 插入后返回主键</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(keyProperty=&quot;ad.id&quot;, column=&quot;id&quot;)</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;1、xml格式&quot;&gt;&lt;a href=&quot;#1、xml格式&quot; class=&quot;headerlink&quot; title=&quot;1、xml格式&quot;&gt;&lt;/a&gt;1、xml格式&lt;/h3&gt;&lt;h4 id=&quot;1-1-插入后返回主键&quot;&gt;&lt;a href=&quot;#1-1-插入后返回主键&quot; class=&quot;he
-    
-    </summary>
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
-    
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springmvc与swagger</title>
     <link href="https://haofangyuan.github.io/2017/05/11/springmvc-swagger/"/>
     <id>https://haofangyuan.github.io/2017/05/11/springmvc-swagger/</id>
@@ -430,6 +437,53 @@
       <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
     
       <category term="springmvc" scheme="https://haofangyuan.github.io/tags/springmvc/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springmvc+mybatis事务不起作用</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/springmvc-transaction/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/springmvc-transaction/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:55.560Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://blog.csdn.net/liuxiao723846/article/details/43483101" target="_blank" rel="external">http://blog.csdn.net/liuxiao723846/article/details/43483101</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/liuxiao723846/article/details/43483101&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.csdn.net/liuxiao723846/a
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>js中日期相关问题</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/html-date/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/html-date/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:38.747Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-日期转换"><a href="#1-日期转换" class="headerlink" title="1 日期转换"></a>1 日期转换</h3><h3 id="2-日期增减"><a href="#2-日期增减" class="headerlink" title="2 日期增减"></a>2 日期增减</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-日期转换&quot;&gt;&lt;a href=&quot;#1-日期转换&quot; class=&quot;headerlink&quot; title=&quot;1 日期转换&quot;&gt;&lt;/a&gt;1 日期转换&lt;/h3&gt;&lt;h3 id=&quot;2-日期增减&quot;&gt;&lt;a href=&quot;#2-日期增减&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+      <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
+    
+    
+      <category term="date" scheme="https://haofangyuan.github.io/tags/date/"/>
+    
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
     
   </entry>
   
