@@ -128,6 +128,63 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件 常用命令查看java程序是否启动：ps -ef | grep java杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）启动jar包：java -jar test.jar在后台启动jar：sh start.sh 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 安装redis安装activemq]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>springmvc</category>
+      </categories>
+      <tags>
+        <tag>swagger</tag>
+        <tag>springmvc</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[js中日期相关问题]]></title>
     <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
     <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
@@ -135,8 +192,19 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>date</tag>
         <tag>html</tag>
+        <tag>date</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -158,76 +226,8 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>html</tag>
         <tag>json</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[linux常用命令，和安装一些软件 常用命令查看java程序是否启动：ps -ef | grep java杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）启动jar包：java -jar test.jar在后台启动jar：sh start.sh 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 安装redis安装activemq]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springmvc与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>springmvc</category>
-      </categories>
-      <tags>
-        <tag>springmvc</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mybatis中的mapper]]></title>
-    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
-    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
-    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
+        <tag>html</tag>
       </tags>
   </entry>
   <entry>
