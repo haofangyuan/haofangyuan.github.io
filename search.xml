@@ -100,8 +100,8 @@
         <category>springboot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>https</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -125,6 +125,40 @@
       </categories>
       <tags>
         <tag>springmvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
+      <categories>
+        <category>html</category>
+      </categories>
+      <tags>
+        <tag>html</tag>
+        <tag>date</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件 常用命令查看java程序是否启动：ps -ef | grep java杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）启动jar包：java -jar test.jar在后台启动jar：sh start.sh 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 安装redis安装activemq]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -157,8 +191,8 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>html</tag>
         <tag>json</tag>
+        <tag>html</tag>
       </tags>
   </entry>
   <entry>
@@ -171,17 +205,6 @@
       <tags>
         <tag>springboot</tag>
         <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[linux常用命令，和安装一些软件 常用命令查看java程序是否启动：ps -ef | grep java杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）启动jar包：java -jar test.jar在后台启动jar：sh start.sh 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 安装redis安装activemq]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -205,29 +228,6 @@
       <tags>
         <tag>swagger</tag>
         <tag>springmvc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
-    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
-    <content type="text"><![CDATA[1 日期转换2 日期增减]]></content>
-      <categories>
-        <category>html</category>
-      </categories>
-      <tags>
-        <tag>date</tag>
-        <tag>html</tag>
       </tags>
   </entry>
   <entry>
