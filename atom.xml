@@ -299,9 +299,36 @@
       <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
     
     
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
+    
       <category term="date" scheme="https://haofangyuan.github.io/tags/date/"/>
     
-      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
+  </entry>
+  
+  <entry>
+    <title>mybatis中的mapper</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-06-09T10:11:07.361Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
+<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
+<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
+<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
+<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　插入后返回主键、关联查询、多参&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
+    
+    
+      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
     
   </entry>
   
@@ -330,6 +357,24 @@
   </entry>
   
   <entry>
+    <title>jdk生成https证书</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/java-https-cert/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/java-https-cert/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:38.749Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
+    
+  </entry>
+  
+  <entry>
     <title>页面中json相关问题</title>
     <link href="https://haofangyuan.github.io/2017/05/11/html-json/"/>
     <id>https://haofangyuan.github.io/2017/05/11/html-json/</id>
@@ -347,9 +392,27 @@
       <category term="html" scheme="https://haofangyuan.github.io/categories/html/"/>
     
     
+      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
       <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
     
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+  </entry>
+  
+  <entry>
+    <title>php</title>
+    <link href="https://haofangyuan.github.io/2017/05/11/php/"/>
+    <id>https://haofangyuan.github.io/2017/05/11/php/</id>
+    <published>2017-05-11T14:56:11.000Z</published>
+    <updated>2017-05-25T05:45:38.750Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="php" scheme="https://haofangyuan.github.io/categories/php/"/>
+    
+    
+      <category term="php" scheme="https://haofangyuan.github.io/tags/php/"/>
     
   </entry>
   
@@ -382,24 +445,6 @@
   </entry>
   
   <entry>
-    <title>jdk生成https证书</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/java-https-cert/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/java-https-cert/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.749Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="https" scheme="https://haofangyuan.github.io/tags/https/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springmvc与swagger</title>
     <link href="https://haofangyuan.github.io/2017/05/11/springmvc-swagger/"/>
     <id>https://haofangyuan.github.io/2017/05/11/springmvc-swagger/</id>
@@ -413,36 +458,9 @@
       <category term="springmvc" scheme="https://haofangyuan.github.io/categories/springmvc/"/>
     
     
-      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
-    
       <category term="springmvc" scheme="https://haofangyuan.github.io/tags/springmvc/"/>
     
-  </entry>
-  
-  <entry>
-    <title>mybatis中的mapper</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/mybatis-sql/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/mybatis-sql/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-06-09T10:11:07.361Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　插入后返回主键、关联查询、多参<br><a id="more"></a></p>
-<h2 id="xml格式"><a href="#xml格式" class="headerlink" title="xml格式"></a>xml格式</h2><h3 id="插入后返回主键"><a href="#插入后返回主键" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;</div><div class="line">&lt;/insert&gt;</div></pre></td></tr></table></figure>
-<h3 id="多个参数"><a href="#多个参数" class="headerlink" title="多个参数"></a>多个参数</h3><hr>
-<p>　　对于接口中多个请求参数，没有封装成对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// dao中:</div><div class="line">OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);</div><div class="line">// mapper中：</div><div class="line">&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt;</div><div class="line">    SELECT * FROM order_detail</div><div class="line">    WHERE type = #&#123;type&#125;</div><div class="line">    &lt;c:if test=&quot;type == 1&quot;&gt;</div><div class="line">      and minPlayTime &gt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">    &lt;c:if test=&quot;type == 2&quot;&gt;</div><div class="line">      and maxPlayTime &lt; #&#123;date&#125;</div><div class="line">    &lt;/c:if&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="关联查询"><a href="#关联查询" class="headerlink" title="关联查询　　"></a>关联查询　　</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt;</div><div class="line">    &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt;</div><div class="line">    &lt;!-- 配置关联关系 --&gt;</div><div class="line">    &lt;association property=&quot;user&quot; column=&quot;userId&quot;</div><div class="line">      select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt;</div><div class="line">  &lt;/resultMap&gt;</div></pre></td></tr></table></figure>
-<h2 id="注解格式"><a href="#注解格式" class="headerlink" title="注解格式"></a>注解格式</h2><h3 id="插入后返回主键-1"><a href="#插入后返回主键-1" class="headerlink" title="插入后返回主键"></a>插入后返回主键</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Insert(&quot;&quot;)</div><div class="line">@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　插入后返回主键、关联查询、多参&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/categories/mybatis/"/>
-    
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
+      <category term="swagger" scheme="https://haofangyuan.github.io/tags/swagger/"/>
     
   </entry>
   
@@ -466,24 +484,6 @@
     
     
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>php</title>
-    <link href="https://haofangyuan.github.io/2017/05/11/php/"/>
-    <id>https://haofangyuan.github.io/2017/05/11/php/</id>
-    <published>2017-05-11T14:56:11.000Z</published>
-    <updated>2017-05-25T05:45:38.750Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="php" scheme="https://haofangyuan.github.io/categories/php/"/>
-    
-    
-      <category term="php" scheme="https://haofangyuan.github.io/tags/php/"/>
     
   </entry>
   

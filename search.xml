@@ -135,8 +135,19 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>date</tag>
         <tag>html</tag>
+        <tag>date</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
       </tags>
   </entry>
   <entry>
@@ -151,6 +162,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[页面中json相关问题]]></title>
     <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
     <content type="text"><![CDATA[1 json与字符串2 json与数组]]></content>
@@ -158,8 +180,19 @@
         <category>html</category>
       </categories>
       <tags>
-        <tag>html</tag>
         <tag>json</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -175,17 +208,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[springmvc与swagger]]></title>
     <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
     <content type="text"></content>
@@ -193,19 +215,8 @@
         <category>springmvc</category>
       </categories>
       <tags>
-        <tag>swagger</tag>
         <tag>springmvc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mybatis中的mapper]]></title>
-    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertAd&quot; parameterType=&quot;com.hfy.db.bean.Ad&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.PayOrder&quot; id=&quot;payOrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectAdById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false)]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -217,17 +228,6 @@
       </categories>
       <tags>
         <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
       </tags>
   </entry>
   <entry>
