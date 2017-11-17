@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="郝方圆" />
+
+
+
+<meta name="description" content="自己一些总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解负载均衡 会话保持 session同步(转)">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/10/16/java_nginx/index.html">
+<meta property="og:site_name" content="hfy Blog">
+<meta property="og:description" content="自己一些总结">
+<meta property="og:updated_time" content="2017-11-15T10:04:46.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="了解负载均衡 会话保持 session同步(转)">
+<meta name="twitter:description" content="自己一些总结">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="hfy Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>了解负载均衡 会话保持 session同步(转) | hfy Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?a512ffeaad766b6a1e38e8f4fc16a733";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">郝方圆</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">javaweb</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">郝方圆</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">郝方圆</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-java_nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/16/java_nginx/" class="article-date">
+      <time datetime="2017-10-16T04:30:00.000Z" itemprop="datePublished">2017-10-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      了解负载均衡 会话保持 session同步(转)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>  自己一些总结<br><a id="more"></a><br>　　转自：<a href="http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212" target="_blank" rel="external">http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212</a>  </p>
+<h2 id="什么负载均衡"><a href="#什么负载均衡" class="headerlink" title="什么负载均衡"></a>什么负载均衡</h2><p>　　一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。<br>　　在这种情况下，有二种方案可以选择：<br>　　1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。<br>　　2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。<br>　　第一种方法可以理解为纵向发展，这种方法总是有限。<br>　　第二种方法才是解决问题的正确选择。<br>　　实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。<br>　　负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法:<br>　　1、根据请求数<br>　　　　a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。<br>　　　　b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。<br>　　2、根据IP<br>　　　　a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题<br>　　　　b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。<br>　　　　c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。  </p>
+<h2 id="什么是会话保持，有什么作用"><a href="#什么是会话保持，有什么作用" class="headerlink" title="什么是会话保持，有什么作用"></a>什么是会话保持，有什么作用</h2><p>　　会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。</p>
+<p>会话保持有什么作用呢，举例说明一下<br>　　如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。<br>　　还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。<br>　　会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。  </p>
+<h2 id="session同步"><a href="#session同步" class="headerlink" title="session同步"></a>session同步</h2><p>　　为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法  </p>
+<p>　　web集群时session同步的3种方法  </p>
+<p>　　在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题：  </p>
+<h3 id="利用数据库同步session"><a href="#利用数据库同步session" class="headerlink" title="利用数据库同步session"></a>利用数据库同步session</h3><p>　　在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法：<br>　　a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。<br>　　b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。<br>　　说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担  </p>
+<h3 id="利用cookie同步session"><a href="#利用cookie同步session" class="headerlink" title="利用cookie同步session"></a>利用cookie同步session</h3><p>　　session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。  </p>
+<p>　　说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。  </p>
+<h3 id="利用memcache同步session"><a href="#利用memcache同步session" class="headerlink" title="利用memcache同步session"></a>利用memcache同步session</h3><p>　　memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。  </p>
+<p>　　优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。<br>　　缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。  </p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　上面三种方法都是可行的<br>　　第一种方法，最影响系统速度的那种，不推荐使用；<br>　　第二种方法，效果不错，不过安全隐患一样的存在；<br>　　第三种方法，个人觉得第三种方法是最好的，推荐大家使用;  </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
+        <p><span>发布时间:</span>2017-10-16, 12:30:00</p>
+        <p><span>最后更新:</span>2017-11-15, 18:04:46</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/16/java_nginx/" title="了解负载均衡 会话保持 session同步(转)">https://haofangyuan.github.io/2017/10/16/java_nginx/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/10/16/java_nginx/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/10/18/findbugs/">
+                    FindBugs常见错误描述和解决方法
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/10/16/java-HashMap/">
+                    java中的HashMap
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么负载均衡"><span class="toc-number">1.</span> <span class="toc-text">什么负载均衡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是会话保持，有什么作用"><span class="toc-number">2.</span> <span class="toc-text">什么是会话保持，有什么作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session同步"><span class="toc-number">3.</span> <span class="toc-text">session同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用数据库同步session"><span class="toc-number">3.1.</span> <span class="toc-text">利用数据库同步session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用cookie同步session"><span class="toc-number">3.2.</span> <span class="toc-text">利用cookie同步session</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用memcache同步session"><span class="toc-number">3.3.</span> <span class="toc-text">利用memcache同步session</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="javascript:void(0);" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="javascript:void(0);" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="javascript:void(0);" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="javascript:void(0);" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="javascript:void(0);" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="javascript:void(0);" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="javascript:void(0);" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"了解负载均衡 会话保持 session同步(转)　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/10/18/findbugs/" title="上一篇: FindBugs常见错误描述和解决方法">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/10/16/java-HashMap/" title="下一篇: java中的HashMap">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_extra/">springboot一些额外的知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jsp/">springboot中的jsp</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jar/">springboot中的jar和dll</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-mybatis-datasource/">springboot + mybatis + 多数据源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-tomcat/">springboot的tomcat相关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-validation/">springboot接口参数校验</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay_wechat/">微信支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+
+
+  <! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &uarr;<br>
+           欣赏此文？求鼓励，求支持！
+        </span>
+        <br>
+      </div>  
+    <div id="donate_guide" class="donate_bar center hidden" >
+        <!-- 支付宝打赏图案 -->
+        <img src="/img/alipay_reward_image.jpg" title="支付宝打赏"> 
+        <!-- 微信打赏图案 -->
+        <img src="/img/wechat_reward_image.jpg" title="微信打赏">  
+    </div>
+    <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+            $('#donate_board').addClass('hidden');
+            $('#donate_guide').removeClass('hidden');
+        }
+    </script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+
+<section id="comments"  class="comment">
+  <div id="commentContainer"></div>
+</section>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 郝方圆
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+<!-- Gitment Start -->
+
+<script>
+$(document).ready(function(){
+var gitment = new Gitment({
+  owner: 'haofangyuan',
+  repo: 'blogcomments',
+  oauth: {
+    client_id: 'fe86290697a17f8b5a8d',
+    client_secret: '71455c23e54a534dfe12764de237c9b01d01b8db',
+  },
+});
+if($('#commentContainer')) gitment.render('commentContainer');
+});
+</script>
+
+<!-- Gitment End -->
+  </div>
+</body>
+</html>

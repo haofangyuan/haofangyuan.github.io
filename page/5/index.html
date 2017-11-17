@@ -232,11 +232,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-hexo-github" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-idea-tomcat" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/03/25/hexo-github/" class="article-date">
-      <time datetime="2017-03-25T12:59:11.000Z" itemprop="datePublished">2017-03-25</time>
+      <a href="/2017/05/21/idea-tomcat/" class="article-date">
+      <time datetime="2017-05-21T14:56:11.000Z" itemprop="datePublished">2017-05-21</time>
 </a>
 
 
@@ -251,7 +251,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a>
+      <a class="article-title" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a>
     </h1>
   
 
@@ -261,15 +261,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="安装nodejs-官网下载安装包安装即可"><a href="#安装nodejs-官网下载安装包安装即可" class="headerlink" title="安装nodejs(官网下载安装包安装即可)  "></a>安装nodejs(官网下载安装包安装即可)  </h2><h2 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo  "></a>安装hexo  </h2><p>　　安装速度慢，可以使用淘宝镜像：<br>　　　　npm install cnpm -g –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="external">https://registry.npm.taobao.org</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">　　npm install hexo-cli -g    </div><div class="line">　　npm install hexo --save  </div><div class="line">　　npm install hexo-deployer-git --save  </div><div class="line">　　hexo init   </div><div class="line">　　npm install</div></pre></td></tr></table></figure></p>
-<p>hexo的一些命令：<br>　　hexo clean<br>　　hexo generate<br>　　hexo s<br>　　hexo deploy  </p>
-<h2 id="使用git部署hexo到github"><a href="#使用git部署hexo到github" class="headerlink" title="使用git部署hexo到github"></a>使用git部署hexo到github</h2><p>　　(1) github上创建一个仓库<br>　　仓库名称(Repository name)可以写成blog。github自动生成的网址会是：<a href="https://账户名称.github.io/仓库名称/" target="_blank" rel="external">https://账户名称.github.io/仓库名称/</a><br>　　(2) git使用hexo deploy部署的时候，保证user.name和github账上上的账户名一致。<br>　　　　设置username：git config –global user.name “ff”<br>　　　　查看：git config –list<br>　　　　修改：vi ~/.gitconfig   按下i键，修改，dd删除一行，esc退出编辑。按住shift，wq保存<br>　　(3) 部署：hexo deploy    </p>
-<h2 id="使用next主题"><a href="#使用next主题" class="headerlink" title="使用next主题  "></a>使用next主题  </h2><p>　　（网上很多，此处记下可能遇到的问题）<br>　　(1) 使用中文语言：<br>　　　　修改（hexo安装目录_config.yml）文件：(不是themes\next_config.yml)<br>　　　　language: zh-Hans<br>　　(2) 侧边栏中只显示日志，并没有标签、分类：<br>　　　　因为是首次使用，并没有新建任何博客，使用hexo new “first blog”创建博客：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: first blog  </div><div class="line">date: 2017-03-25 13:53:30  </div><div class="line">tags: 写作  </div><div class="line">categories: 随笔  </div><div class="line">---</div></pre></td></tr></table></figure></p>
-<p>　　可以看到侧边栏出现分类、标签。<br>　　(3) 部署到github上js、css找不到<br>　　修改（hexo安装目录_config.yml）文件：<br>　　　　root: /blog/  #blog是你github上面的仓库名称<br>　　(4) 侧边栏的分类、标签无法点击：<br>　　执行命令hexo new categories，修改hexo\source\categories下的index.md文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 分类</div><div class="line">date: 2016-07-16 04:36:09</div><div class="line">type: &quot;categories&quot;</div><div class="line">comments: false</div><div class="line">---</div></pre></td></tr></table></figure></p>
-<p>　　执行命令hexo new tags,修改hexo\source\tags下的index.md文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">title: 标签云</div><div class="line">date: 2016-07-16 04:32:03</div><div class="line">type: &quot;tags&quot;</div><div class="line">comments: false</div><div class="line">---</div></pre></td></tr></table></figure></p>
-<h2 id="使用atom实现预览编辑文档"><a href="#使用atom实现预览编辑文档" class="headerlink" title="使用atom实现预览编辑文档  "></a>使用atom实现预览编辑文档  </h2><p>　　atom安装插件atom-hexo，速度很慢，可以使用本地安装：<br>　　在github上下载好后解压到C:\Users\cage.atom\packages，cmd打开命令行输入：apm install安装即可。<br>　　如果apm命令找不到，在环境变量中加入: C:\Users\hfyuser\AppData\Local\atom\bin<br>　　atom自带markdown preview，编写md可以实时浏览。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://code.youmeek.com/2016/02/29/2016/02/Hexo-Intensify/" target="_blank" rel="external">置顶文章</a></p>
-
+              <p>　　在idea中添加tomcat，运行springmvc项目。<br></p>
+          
       
     </div>
     
@@ -277,15 +270,307 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/hexo/">hexo</a>
+    <a class="article-category-link" href="/categories/idea/">idea</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tomcat/">tomcat</a></li></ul>
     </div>
 
+      
+        <p class="article-more-link">
+          <a href="/2017/05/21/idea-tomcat/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot-activemq" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/18/springboot-activemq/" class="article-date">
+      <time datetime="2017-05-18T14:56:11.000Z" itemprop="datePublished">2017-05-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/18/springboot-activemq/">springboot与activemq</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>　　本文章简单介绍了activemq，以及在springboot项目中使用activemq<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/activemq/">activemq</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/05/18/springboot-activemq/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot-aop" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/17/springboot-aop/" class="article-date">
+      <time datetime="2017-05-17T14:56:11.000Z" itemprop="datePublished">2017-05-17</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/17/springboot-aop/">springboot的切面aop</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>　　在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aop/">aop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/05/17/springboot-aop/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot-config" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/16/springboot-config/" class="article-date">
+      <time datetime="2017-05-16T12:56:11.000Z" itemprop="datePublished">2017-05-16</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/16/springboot-config/">springboot读取配置文件</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <h2 id="各个环境的配置文件"><a href="#各个环境的配置文件" class="headerlink" title="各个环境的配置文件"></a>各个环境的配置文件</h2><p>　　开发中，分为三种环境：开发（dev）、测试（test）、生产（pro）<br>　　所以，不同的环境配置文件名为：application-环境.yml。例如:application-dev.yml<br>　　在<code>application.yml</code>中可以配置使用哪种环境：<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/05/16/springboot-config/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-springboot-file-upload" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/15/springboot-file-upload/" class="article-date">
+      <time datetime="2017-05-15T03:56:11.000Z" itemprop="datePublished">2017-05-15</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>  待总结<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/05/15/springboot-file-upload/#more">阅读全文 >></a>
+        </p>
       
       <div class="clearfix"></div>
     </div>
@@ -309,7 +594,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 </div>

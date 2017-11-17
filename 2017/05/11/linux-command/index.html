@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="linux常用命令，和安装一些软件">
+<meta name="description" content="linux常用命令，和安装一些软件，以及一些基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux常用命令">
+<meta property="og:title" content="linux相关知识">
 <meta property="og:url" content="https://haofangyuan.github.io/2017/05/11/linux-command/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="linux常用命令，和安装一些软件">
-<meta property="og:updated_time" content="2017-06-09T10:26:45.978Z">
+<meta property="og:description" content="linux常用命令，和安装一些软件，以及一些基础知识">
+<meta property="og:updated_time" content="2017-11-17T07:20:42.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux常用命令">
-<meta name="twitter:description" content="linux常用命令，和安装一些软件">
+<meta name="twitter:title" content="linux相关知识">
+<meta name="twitter:description" content="linux常用命令，和安装一些软件，以及一些基础知识">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>linux常用命令 | hfy Blog</title>
+<title>linux相关知识 | hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -248,7 +248,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      linux常用命令
+      linux相关知识
     </h1>
   
 
@@ -273,9 +273,16 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>linux常用命令，和安装一些软件<br><a id="more"></a></p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>查看java程序是否启动：<code>ps -ef | grep java</code><br>杀掉进程： <code>kill -9 4564</code> 4564是进程号，通过上一个命令查看（第二列）<br>启动jar包：<code>java -jar test.jar</code><br>在后台启动jar：<code>sh start.sh</code><br>　　其中，start.sh是个脚本。里面内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test=`dirname &quot;$0&quot;`</div><div class="line">cd $test</div><div class="line">nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</div><div class="line">cd -</div></pre></td></tr></table></figure></p>
-<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><h2 id="安装activemq"><a href="#安装activemq" class="headerlink" title="安装activemq"></a>安装activemq</h2>
+        <p>linux常用命令，和安装一些软件，以及一些基础知识<br><a id="more"></a></p>
+<p>[CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（<a href="http://blog.csdn.net/sasoritattoo/article/details/9318893）" target="_blank" rel="external">http://blog.csdn.net/sasoritattoo/article/details/9318893）</a></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>1、启动jar包：<code>java -jar test.jar</code><br>2、在后台启动jar：<code>nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</code><br>　　当然，我们可以将其写到sh脚本中。然后<code>sh start.sh</code> 执行脚本即可。<br>　　其中，start.sh是个脚本。里面内容是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test=`dirname &quot;$0&quot;`</div><div class="line">cd $test</div><div class="line">nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;</div><div class="line">cd -</div></pre></td></tr></table></figure></p>
+<p>3、查看java程序是否启动：<code>ps -ef | grep java</code> （<a href="http://www.cnblogs.com/peida/archive/2012/12/19/2824418.html" target="_blank" rel="external">每天一个linux命令（41）：ps命令</a>）<br>4、根据端口查看进行：<code>netstat -anp | grep 8080</code><br>5、杀掉进程： <code>kill -9 4564</code> 4564是进程号，通过上一个命令查看（第二列）<br>6、查看目录大小：<code>du -h</code> <code>df -h</code>（命令详解请看<a href="http://blog.csdn.net/kmesg/article/details/6570800" target="_blank" rel="external">linux的du和df命令</a>、<a href="http://www.voidcn.com/article/p-wuthngtf-bgz.html" target="_blank" rel="external">df, du, ls 的区别</a>）</p>
+<h2 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h2><p>1、创建文件夹：<code>mkdir test.git</code><br>2、进入目录：<code>cd test.git</code><br>3、git初始化：<code>git init --bare</code><br>4、创建快捷方式：<code>ln -s /home/git/test.git</code>   </p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p>6.0以后<br>1、启动：<code>/bin/systemctl start  mariadb</code><br>2、停止：<code>/bin/systemctl stop  mariadb</code><br>3、查看: <code>systemctl status mariadb.service</code>  </p>
+<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><h2 id="安装activemq"><a href="#安装activemq" class="headerlink" title="安装activemq"></a>安装activemq</h2><h2 id="安装中文字体"><a href="#安装中文字体" class="headerlink" title="安装中文字体"></a>安装中文字体</h2><p>去网上下载字体：例如：微软雅黑：<a href="http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz" target="_blank" rel="external">http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz</a>  </p>
+<p>查看当前系统已经安装的中文字体：<code>fc-list :lang=zh</code></p>
+<p>字体安装步骤：<br>1、解压压缩包到任意普通目录<br><code>cd /home/hfy/test/</code><br><code>tar -zxvf YaHeiConsolas.tar.gz</code><br>2、在系统目录下创建自定义字体目录（必须要sudo）<br><code>sudo mkdir -p /usr/share/fonts/chinese/msyh</code><br>3、复制解压出来的字体到刚才创建的目录<br><code>sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh</code><br>4、进入字体目录<br><code>cd /usr/share/fonts/chinese/msyh</code><br>5、刷新并安装字体<br><code>sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv</code>  </p>
+
       
     </div>
     
@@ -283,12 +290,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/05/11/linux-command/">linux常用命令</a></p>
+        <p><span>本文标题:</span><a href="/2017/05/11/linux-command/">linux相关知识</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
         <p><span>发布时间:</span>2017-05-11, 22:56:11</p>
-        <p><span>最后更新:</span>2017-06-09, 18:26:45</p>
+        <p><span>最后更新:</span>2017-11-17, 15:20:42</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/05/11/linux-command/" title="linux常用命令">https://haofangyuan.github.io/2017/05/11/linux-command/</a>
+            <span>原始链接:</span><a class="post-url" href="/2017/05/11/linux-command/" title="linux相关知识">https://haofangyuan.github.io/2017/05/11/linux-command/</a>
             <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/05/11/linux-command/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -302,15 +309,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/05/11/html-json/">
-                    页面中json相关问题
+                <a href="/2017/05/11/jquery-weui-page/">
+                    JQuery WEUI的分页加载
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/05/11/mybatis-sql/">
-                    mybatis中的mapper
+                <a href="/2017/05/11/linux-expect/">
+                    linux命令expect
                 </a>
             </div>
         
@@ -322,7 +329,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装redis"><span class="toc-number">2.</span> <span class="toc-text">安装redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装activemq"><span class="toc-number">3.</span> <span class="toc-text">安装activemq</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令"><span class="toc-number">1.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建git仓库"><span class="toc-number">2.</span> <span class="toc-text">创建git仓库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql"><span class="toc-number">3.</span> <span class="toc-text">mysql</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装redis"><span class="toc-number">4.</span> <span class="toc-text">安装redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装activemq"><span class="toc-number">5.</span> <span class="toc-text">安装activemq</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装中文字体"><span class="toc-number">6.</span> <span class="toc-text">安装中文字体</span></a></li></ol>
         
     </div>
     <style>
@@ -358,7 +365,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"linux常用命令　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"linux相关知识　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -378,7 +385,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/05/11/html-json/" title="上一篇: 页面中json相关问题">
+            <a href="/2017/05/11/jquery-weui-page/" title="上一篇: JQuery WEUI的分页加载">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -386,13 +393,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/05/11/mybatis-sql/" title="下一篇: mybatis中的mapper">
+            <a href="/2017/05/11/linux-expect/" title="下一篇: linux命令expect">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_extra/">springboot一些额外的知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jsp/">springboot中的jsp</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jar/">springboot中的jar和dll</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-mybatis-datasource/">springboot + mybatis + 多数据源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-tomcat/">springboot的tomcat相关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-validation/">springboot接口参数校验</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay_wechat/">微信支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li></ul>
 
 
 
@@ -555,8 +562,8 @@ var gitment = new Gitment({
   owner: 'haofangyuan',
   repo: 'blogcomments',
   oauth: {
-    client_id: 'ddb1baf2f5b8a0d22219',
-    client_secret: 'dd78f6f19223d202d351a4f1106b84f6a96ec0be',
+    client_id: 'fe86290697a17f8b5a8d',
+    client_secret: '71455c23e54a534dfe12764de237c9b01d01b8db',
   },
 });
 if($('#commentContainer')) gitment.render('commentContainer');

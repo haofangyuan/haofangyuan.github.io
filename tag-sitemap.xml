@@ -2,41 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/date/</loc>
-        <lastmod>2017-05-25T05:45:38.747Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/html/</loc>
-        <lastmod>2017-05-25T05:45:38.748Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/json/</loc>
-        <lastmod>2017-05-25T05:45:38.748Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/php/</loc>
-        <lastmod>2017-05-25T05:45:38.750Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/https/</loc>
-        <lastmod>2017-05-25T05:45:38.753Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/tags/redis/</loc>
         <lastmod>2017-05-25T05:45:38.754Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -45,91 +10,189 @@
 
     <url>
         <loc>https://haofangyuan.github.io/tags/springmvc/</loc>
-        <lastmod>2017-05-25T05:45:38.755Z</lastmod>
+        <lastmod>2017-07-17T08:42:51.322Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/filter/</loc>
-        <lastmod>2017-06-09T03:19:31.439Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/adminlte-chartjs/</loc>
+        <lastmod>2017-11-15T10:04:46.726Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/hexo/</loc>
-        <lastmod>2017-06-09T06:24:34.511Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/js/</loc>
+        <lastmod>2017-11-15T10:04:46.740Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/java/</loc>
-        <lastmod>2017-06-09T07:55:33.735Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/thread/</loc>
-        <lastmod>2017-06-09T07:55:33.735Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/tags/ajax/</loc>
-        <lastmod>2017-06-09T08:26:56.074Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/json-js/</loc>
+        <lastmod>2017-11-15T10:04:46.742Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/tags/tomcat/</loc>
-        <lastmod>2017-06-09T09:04:31.127Z</lastmod>
+        <lastmod>2017-11-15T10:04:46.745Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/activemq/</loc>
-        <lastmod>2017-06-09T09:18:49.698Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/html/</loc>
+        <lastmod>2017-11-15T10:04:46.750Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/aop/</loc>
-        <lastmod>2017-06-09T09:53:10.703Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/https/</loc>
+        <lastmod>2017-11-15T10:04:46.752Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/thread/</loc>
+        <lastmod>2017-11-15T10:04:46.757Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/java/</loc>
+        <lastmod>2017-11-15T10:04:46.762Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/jquery-WEUI/</loc>
+        <lastmod>2017-11-15T10:04:46.767Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/tags/mybatis/</loc>
-        <lastmod>2017-06-09T10:11:07.361Z</lastmod>
+        <lastmod>2017-11-15T10:04:46.775Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/tags/springboot/</loc>
-        <lastmod>2017-06-09T10:18:26.289Z</lastmod>
+        <loc>https://haofangyuan.github.io/tags/mysql/</loc>
+        <lastmod>2017-11-15T10:04:46.779Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/pay/</loc>
+        <lastmod>2017-11-15T10:04:46.780Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/php/</loc>
+        <lastmod>2017-11-15T10:04:46.783Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/activemq/</loc>
+        <lastmod>2017-11-15T10:04:46.785Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/aop/</loc>
+        <lastmod>2017-11-15T10:04:46.788Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/tags/swagger/</loc>
-        <lastmod>2017-06-09T10:18:26.289Z</lastmod>
+        <lastmod>2017-11-15T10:04:46.808Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/windows/</loc>
+        <lastmod>2017-11-15T10:04:46.813Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/github/</loc>
+        <lastmod>2017-11-17T02:24:27.784Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/hexo/</loc>
+        <lastmod>2017-11-17T06:43:49.152Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/protobuf/</loc>
+        <lastmod>2017-11-17T06:45:15.838Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/git/</loc>
+        <lastmod>2017-11-17T07:07:55.045Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/filter/</loc>
+        <lastmod>2017-11-17T07:20:04.425Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://haofangyuan.github.io/tags/linux/</loc>
-        <lastmod>2017-06-09T10:26:45.978Z</lastmod>
+        <lastmod>2017-11-17T07:20:42.663Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/springboot/</loc>
+        <lastmod>2017-11-17T07:20:44.726Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/ajax/</loc>
+        <lastmod>2017-11-17T07:23:17.712Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/tags/json/</loc>
+        <lastmod>2017-11-17T07:35:03.701Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

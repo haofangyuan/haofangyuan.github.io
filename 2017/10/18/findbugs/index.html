@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="郝方圆" />
+
+
+
+<meta name="description" content="FindBugs常见错误描述和解决方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FindBugs常见错误描述和解决方法">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/10/18/findbugs/index.html">
+<meta property="og:site_name" content="hfy Blog">
+<meta property="og:description" content="FindBugs常见错误描述和解决方法">
+<meta property="og:updated_time" content="2017-11-15T10:04:46.727Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FindBugs常见错误描述和解决方法">
+<meta name="twitter:description" content="FindBugs常见错误描述和解决方法">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="hfy Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>FindBugs常见错误描述和解决方法 | hfy Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?a512ffeaad766b6a1e38e8f4fc16a733";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">郝方圆</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">javaweb</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">郝方圆</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">郝方圆</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/3034929950" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-findbugs" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/18/findbugs/" class="article-date">
+      <time datetime="2017-10-18T10:56:11.000Z" itemprop="datePublished">2017-10-18</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      FindBugs常见错误描述和解决方法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>　　FindBugs常见错误描述和解决方法  　　<br><a id="more"></a></p>
+<p>　　本文转载自：<a href="http://blog.sina.com.cn/s/blog_4adc4b090102vi9p.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4adc4b090102vi9p.html</a></p>
+<h3 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h3><p>　　描述： Dead store to 未使用的局部变量<br>　　解决方法：局部变量定义后未使用；实例化对象后又重新对该对象赋值</p>
+<h3 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h3><p>　　描述：Write to static field 通过实例方法更新静态属性<br>　　常见于常量类，直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用，而如果将常量改成静态成员变量，又因为spring不支持静态注入导致不能实现，解决方法是非静态的setter调用静态的setter方法给静态成员变量赋值。<br>　　解决方法：<br>　　常量类F：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　　class F&#123;</div><div class="line">  public static String a = “123”;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　　常量a改为静态成员变量，通过F.getA()获取，且由于spring不支持静态注入，改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class F&#123;</div><div class="line">    private static String a;</div><div class="line">    public static Integer getA() &#123;</div><div class="line">      return a;</div><div class="line">    &#125;</div><div class="line">    public void setA(String a) &#123;</div><div class="line">      setAValue(a);</div><div class="line">    &#125;</div><div class="line">    public static void setAValue(String a) &#123;</div><div class="line">      F.a = a;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="BX-UNBOXING-IMMEDIATELY-REBOXED"><a href="#BX-UNBOXING-IMMEDIATELY-REBOXED" class="headerlink" title="BX_UNBOXING_IMMEDIATELY_REBOXED"></a>BX_UNBOXING_IMMEDIATELY_REBOXED</h3><p>　　描述： Boxed value is unboxed and then immediately reboxed  装箱的值被拆箱，然后立刻重新装箱了<br>　　常见的是三目运算时，同时存在基本类型和包装类型。<br>　　解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Integer a = null;</div><div class="line">//...</div><div class="line">a = (a == null)?0:a;</div></pre></td></tr></table></figure></p>
+<p>　　此问题在于a不为null时，会被拆箱，赋值时再装箱。这是自动装箱拆箱的特性，只要运算中有不同类型，当涉及到类型转换时，编译器就会向下转型，再进行运算。修改方法，统一类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Integer a = null;</div><div class="line">//...</div><div class="line">a = (a == null)?Integer.valueOf(0):a;</div></pre></td></tr></table></figure></p>
+<h3 id="SE-BAD-FIELD"><a href="#SE-BAD-FIELD" class="headerlink" title="SE_BAD_FIELD"></a>SE_BAD_FIELD</h3><p>　　描述： Non-transient non-serializable instance field in serializable class在可序列化的类中存在不能序列化或者不能暂存的数据<br>　　解决方法：<br>　　　　方法1：序列化该对象<br>　　　　方法2：当采用struts2框架开发，不可避免的此问题会大量出现，因为ActionSupport实现了序列化接口，action继承了此类，而service没序列化，所以在action中引用service对象时提示此错误，最简单的解决方法是将service对象声明成transient，即service不需要序列化<br>　　　　方法3(未验证)：To avoid java serialization you need to implement writeObject() and readObject() method in your Class and need to throw NotSerializableException from those method.（action中实现这两个方法?）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException &#123;</div><div class="line">    throw new java.io.NotSerializableException( getClass().getName() );</div><div class="line">&#125;</div><div class="line">private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException &#123;</div><div class="line">    throw new java.io.NotSerializableException( getClass().getName() );</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="NP-LOAD-OF-KNOWN-NULL-VALUE"><a href="#NP-LOAD-OF-KNOWN-NULL-VALUE" class="headerlink" title="NP_LOAD_OF_KNOWN_NULL_VALUE"></a>NP_LOAD_OF_KNOWN_NULL_VALUE</h3><p>　　描述： Load of known null value加载已知是null的值<br>　　解决方法：已知方法参数为null是，直接传递null而不是参数名</p>
+<h3 id="REC-CATCH-EXCEPTION"><a href="#REC-CATCH-EXCEPTION" class="headerlink" title="REC_CATCH_EXCEPTION"></a>REC_CATCH_EXCEPTION</h3><p>　　描述： Exception is caught when Exception is not thrown 过泛地捕获异常或捕获异常后未做任何处理<br>　　解决方法：异常分类捕获（至少要打印出此异常对象）</p>
+<h3 id="NP-NULL-PARAM-DEREF"><a href="#NP-NULL-PARAM-DEREF" class="headerlink" title="NP_NULL_PARAM_DEREF"></a>NP_NULL_PARAM_DEREF</h3><p>　　描述： Null passed for nonnull parameter  把空值传给了非空的参数<br>　　解决方法：增加非空判断</p>
+<h3 id="NP-IMMEDIATE-DEREFERENCE-OF-READLINE"><a href="#NP-IMMEDIATE-DEREFERENCE-OF-READLINE" class="headerlink" title="NP_IMMEDIATE_DEREFERENCE_OF_READLINE"></a>NP_IMMEDIATE_DEREFERENCE_OF_READLINE</h3><p>　　描述： Immediate dereference of the result of readLine() 立即引用了readLine()的结果<br>　　解决方法：判断readLine的结果是否为空</p>
+<h3 id="EI-EXPOSE-REP-恶意代码漏洞"><a href="#EI-EXPOSE-REP-恶意代码漏洞" class="headerlink" title="EI_EXPOSE_REP 恶意代码漏洞"></a>EI_EXPOSE_REP 恶意代码漏洞</h3><p>　　描述：may expose internal representation by returning  getter方法返回引用类型<br>　　eclipse自动生成的引用类型(Object、数组、Date等)的getter、setter方法会得到或通过对可变对象的引用操作而暴露代码内部实现，解决方法很多，只要返回的或赋值的对象不是原引用对象即可。<br>　　解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//以Date类型为例：</div><div class="line">public Date getHappenTime() &#123;</div><div class="line">if(happenTime != null)&#123;</div><div class="line">return (Date) happenTime.clone();</div><div class="line">&#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="EI-EXPOSE-REP2-恶意代码漏洞"><a href="#EI-EXPOSE-REP2-恶意代码漏洞" class="headerlink" title="EI_EXPOSE_REP2 恶意代码漏洞"></a>EI_EXPOSE_REP2 恶意代码漏洞</h3><p>　　描述：may expose internal representation by storing an externally mutable object into  setter方法返回引用类型<br>　　eclipse自动生成的引用类型(Object、数组、Date等)的getter、setter方法会得到或通过对可变对象的引用操作而暴露代码内部实现，解决方法很多，只要返回的或赋值的对象不是原引用对象即可。<br>  解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//以Date类型为例：</div><div class="line">public void setHappenTime(Date happenTime) &#123;</div><div class="line">  if(happenTime != null)&#123;</div><div class="line">    this.happenTime = (Date) happenTime.clone();</div><div class="line">    &#125;else&#123;</div><div class="line">      this.happenTime = null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
+        <p><span>发布时间:</span>2017-10-18, 18:56:11</p>
+        <p><span>最后更新:</span>2017-11-15, 18:04:46</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/18/findbugs/" title="FindBugs常见错误描述和解决方法">https://haofangyuan.github.io/2017/10/18/findbugs/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/10/18/findbugs/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/10/23/springboot-logback/">
+                    springboot整合logback
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/10/16/java_nginx/">
+                    了解负载均衡 会话保持 session同步(转)
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DLS-DEAD-LOCAL-STORE"><span class="toc-number">1.</span> <span class="toc-text">DLS_DEAD_LOCAL_STORE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><span class="toc-number">2.</span> <span class="toc-text">ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BX-UNBOXING-IMMEDIATELY-REBOXED"><span class="toc-number">3.</span> <span class="toc-text">BX_UNBOXING_IMMEDIATELY_REBOXED</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SE-BAD-FIELD"><span class="toc-number">4.</span> <span class="toc-text">SE_BAD_FIELD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NP-LOAD-OF-KNOWN-NULL-VALUE"><span class="toc-number">5.</span> <span class="toc-text">NP_LOAD_OF_KNOWN_NULL_VALUE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#REC-CATCH-EXCEPTION"><span class="toc-number">6.</span> <span class="toc-text">REC_CATCH_EXCEPTION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NP-NULL-PARAM-DEREF"><span class="toc-number">7.</span> <span class="toc-text">NP_NULL_PARAM_DEREF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NP-IMMEDIATE-DEREFERENCE-OF-READLINE"><span class="toc-number">8.</span> <span class="toc-text">NP_IMMEDIATE_DEREFERENCE_OF_READLINE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EI-EXPOSE-REP-恶意代码漏洞"><span class="toc-number">9.</span> <span class="toc-text">EI_EXPOSE_REP 恶意代码漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EI-EXPOSE-REP2-恶意代码漏洞"><span class="toc-number">10.</span> <span class="toc-text">EI_EXPOSE_REP2 恶意代码漏洞</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="javascript:void(0);" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="javascript:void(0);" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="javascript:void(0);" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="javascript:void(0);" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="javascript:void(0);" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="javascript:void(0);" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="javascript:void(0);" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"FindBugs常见错误描述和解决方法　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/10/23/springboot-logback/" title="上一篇: springboot整合logback">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/10/16/java_nginx/" title="下一篇: 了解负载均衡 会话保持 session同步(转)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_extra/">springboot一些额外的知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jsp/">springboot中的jsp</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jar/">springboot中的jar和dll</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-mybatis-datasource/">springboot + mybatis + 多数据源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-tomcat/">springboot的tomcat相关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-validation/">springboot接口参数校验</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay_wechat/">微信支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+
+
+  <! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &uarr;<br>
+           欣赏此文？求鼓励，求支持！
+        </span>
+        <br>
+      </div>  
+    <div id="donate_guide" class="donate_bar center hidden" >
+        <!-- 支付宝打赏图案 -->
+        <img src="/img/alipay_reward_image.jpg" title="支付宝打赏"> 
+        <!-- 微信打赏图案 -->
+        <img src="/img/wechat_reward_image.jpg" title="微信打赏">  
+    </div>
+    <script type="text/javascript">
+        document.getElementById('btn_donate').onclick = function(){
+            $('#donate_board').addClass('hidden');
+            $('#donate_guide').removeClass('hidden');
+        }
+    </script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+
+<section id="comments"  class="comment">
+  <div id="commentContainer"></div>
+</section>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017 郝方圆
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+<!-- Gitment Start -->
+
+<script>
+$(document).ready(function(){
+var gitment = new Gitment({
+  owner: 'haofangyuan',
+  repo: 'blogcomments',
+  oauth: {
+    client_id: 'fe86290697a17f8b5a8d',
+    client_secret: '71455c23e54a534dfe12764de237c9b01d01b8db',
+  },
+});
+if($('#commentContainer')) gitment.render('commentContainer');
+});
+</script>
+
+<!-- Gitment End -->
+  </div>
+</body>
+</html>
