@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haofangyuan.github.io/"/>
-  <updated>2017-11-17T06:45:15.838Z</updated>
+  <updated>2017-11-17T08:59:37.984Z</updated>
   <id>https://haofangyuan.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://haofangyuan.github.io/2017/11/16/protobuf/"/>
     <id>https://haofangyuan.github.io/2017/11/16/protobuf/</id>
     <published>2017-11-16T10:56:11.000Z</published>
-    <updated>2017-11-17T06:45:15.838Z</updated>
+    <updated>2017-11-17T08:59:37.984Z</updated>
     
     <content type="html"><![CDATA[<p>  开始学习pb了，来些总结吧！<br><a id="more"></a><br>本人项目源码地址：<a href="https://github.com/haofangyuan/springboot-protobuf" target="_blank" rel="external">https://github.com/haofangyuan/springboot-protobuf</a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.csdn.net/u010939285/article/details/78538927" target="_blank" rel="external">protobuf 和 intellij 配置使用</a><br><a href="http://colobu.com/2015/01/07/Protobuf-language-guide/" target="_blank" rel="external">Protobuf 语法指南</a><br><a href="http://blog.csdn.net/z69183787/article/details/52610138" target="_blank" rel="external">httpclient ＋protobuf 实现数据传输</a></p>
@@ -44,7 +44,7 @@
     <link href="https://haofangyuan.github.io/2017/10/27/springboot-exception/"/>
     <id>https://haofangyuan.github.io/2017/10/27/springboot-exception/</id>
     <published>2017-10-27T12:37:11.000Z</published>
-    <updated>2017-11-17T07:20:44.726Z</updated>
+    <updated>2017-11-17T10:34:26.894Z</updated>
     
     <content type="html"><![CDATA[<p>　　spring boot 项目遇到的一些问题<br><a id="more"></a></p>
 <h2 id="项目假死"><a href="#项目假死" class="headerlink" title="项目假死"></a>项目假死</h2><p>问题描述：<br>　　在linux服务器中，springboot项目运行一段时间后，ps -ef|grep java发现项目进程在，但是打开日志，请求项目接口，发现服务器没有反应，好像死了一样。什么原因呢？<br>解决：<br>　　问题出现后，通过 <code>jstack 进程id</code> 发现，出现了死锁问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">JNI global references: 296</div><div class="line"></div><div class="line"></div><div class="line">Found one Java-level deadlock:</div><div class="line">=============================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2d424ec98 (object 0x0000000086bef5c8, a com.hfy.service.impl.TokenServiceImpl),</div><div class="line">  which is held by &quot;SockJS-2&quot;</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line"></div><div class="line">Java stack information for the threads listed above:</div><div class="line">===================================================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.keepAlive(SessionServiceImpl.java:114)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.PmWebSocketHandler.handleTextMessage(PmWebSocketHandler.java:85)</div><div class="line">	- locked &lt;0x00000000d8ca01c8&gt; (a org.springframework.web.socket.adapter.standard.StandardWebSocketSession)</div><div class="line">	............</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.deleteToken(TokenServiceImpl.java:49)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.sessionTimeout(SessionServiceImpl.java:96)</div><div class="line">	- locked &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.sessionTimeout(ScheduleTask.java:75)</div><div class="line">	.......</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.deleteSession(SessionServiceImpl.java:47)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.tokenTimeout(TokenServiceImpl.java:80)</div><div class="line">	- locked &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.tokenTimeout(ScheduleTask.java:69)</div><div class="line">	.......</div><div class="line"></div><div class="line">Found 1 deadlock.</div></pre></td></tr></table></figure></p>
@@ -62,34 +62,6 @@
     
     
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot一些额外的知识</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2017-11-17T07:35:03.701Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
-<h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
-<h2 id="启动彩蛋"><a href="#启动彩蛋" class="headerlink" title="启动彩蛋"></a>启动彩蛋</h2><p>springboot项目启动总会打印一下内容，想要更换怎么办？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.   ____          _            __ _ _</div><div class="line">/\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line">\\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">&apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line">=========|_|==============|___/=/_/_/_/</div><div class="line">:: Spring Boot ::        (v1.4.0.RELEASE)</div></pre></td></tr></table></figure></p>
-<p>1、在<code>resource</code>目录下面放入一个<code>banner.txt</code>文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；<br>2、在里面存放要打印的内容；<br>3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过<code>${AnsiColor.BRIGHT_YELLOW}</code>来控制文件中字符的颜色，<code>${spring-boot.version}</code>这个是springboot的版本号；<br>4、ok啦啦啦……  </p>
-<h3 id="额外："><a href="#额外：" class="headerlink" title="额外："></a>额外：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
     
   </entry>
   
@@ -114,6 +86,34 @@
     <summary type="html">
     
       &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot一些额外的知识</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2017-11-17T08:59:37.994Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
+<h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
+<h2 id="启动彩蛋"><a href="#启动彩蛋" class="headerlink" title="启动彩蛋"></a>启动彩蛋</h2><p>springboot项目启动总会打印一下内容，想要更换怎么办？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.   ____          _            __ _ _</div><div class="line">/\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line">\\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">&apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line">=========|_|==============|___/=/_/_/_/</div><div class="line">:: Spring Boot ::        (v1.4.0.RELEASE)</div></pre></td></tr></table></figure></p>
+<p>1、在<code>resource</code>目录下面放入一个<code>banner.txt</code>文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；<br>2、在里面存放要打印的内容；<br>3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过<code>${AnsiColor.BRIGHT_YELLOW}</code>来控制文件中字符的颜色，<code>${spring-boot.version}</code>这个是springboot的版本号；<br>4、ok啦啦啦……  </p>
+<h3 id="额外："><a href="#额外：" class="headerlink" title="额外："></a>额外：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -189,6 +189,30 @@
   </entry>
   
   <entry>
+    <title>java中的HashMap</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2017-11-15T10:04:46.747Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>了解负载均衡 会话保持 session同步(转)</title>
     <link href="https://haofangyuan.github.io/2017/10/16/java_nginx/"/>
     <id>https://haofangyuan.github.io/2017/10/16/java_nginx/</id>
@@ -224,19 +248,21 @@
   </entry>
   
   <entry>
-    <title>java中的HashMap</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2017-11-15T10:04:46.747Z</updated>
+    <title>lombok学习</title>
+    <link href="https://haofangyuan.github.io/2017/10/11/lombok/"/>
+    <id>https://haofangyuan.github.io/2017/10/11/lombok/</id>
+    <published>2017-10-11T14:56:11.000Z</published>
+    <updated>2017-11-17T10:32:14.867Z</updated>
     
-    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
+    <content type="html"><![CDATA[<p>　　lombok的学习<br><a id="more"></a><br>  在github上看开源代码，发现maven中用了org.projectlombok，一查询，相见恨晚的感觉啊！</p>
+<h2 id="lombok简介"><a href="#lombok简介" class="headerlink" title="lombok简介"></a>lombok简介</h2><p>　　lombok是个什么东东呢？嘿嘿，是通过注解形式帮我们减少一些代码的书写，比如getter、setter、stream的close，null的判断等。<br>　　官网：<a href="http://projectlombok.org/" target="_blank" rel="external">http://projectlombok.org/</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;lombok&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;1.16.10&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<h2 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h2><p>@Getter: 生成get方法，是类、成员变量注解。<br>@Setter: 生成set方法，是类、成员变量注解。<br>@Data:     生成get、set、toString、equals、hashCode方法、空构造器，是类注解。<br>@ToString: 生成toString方法，是类注解。<br>@Log4j ：  注解在类上；为类提供一个 属性名为log 的 log4j 日志对象。<br>@EqualsAndHashCode： 生成equals方法、hashCode方法，是类注解。<br>@NoArgsConstructor： 注解在类上；为类提供一个无参的构造方法。<br>@AllArgsConstructor：注解在类上；为类提供一个全参的构造方法。  </p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;　　lombok的学习&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -301,6 +327,31 @@
   </entry>
   
   <entry>
+    <title>springboot + mybatis + 多数据源</title>
+    <link href="https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/"/>
+    <id>https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/</id>
+    <published>2017-07-01T07:03:11.000Z</published>
+    <updated>2017-07-01T07:03:34.550Z</updated>
+    
+    <content type="html"><![CDATA[<p> springboot + mybatis + 多数据源 <a href="http://www.cnblogs.com/java-zhao/p/5413845.html" target="_blank" rel="external">http://www.cnblogs.com/java-zhao/p/5413845.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt; springboot + mybatis + 多数据源 &lt;a href=&quot;http://www.cnblogs.com/java-zhao/p/5413845.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.cnblogs.
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot中的jsp</title>
     <link href="https://haofangyuan.github.io/2017/07/01/springboot-jsp/"/>
     <id>https://haofangyuan.github.io/2017/07/01/springboot-jsp/</id>
@@ -352,31 +403,6 @@
   </entry>
   
   <entry>
-    <title>springboot + mybatis + 多数据源</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-07-01T07:03:34.550Z</updated>
-    
-    <content type="html"><![CDATA[<p> springboot + mybatis + 多数据源 <a href="http://www.cnblogs.com/java-zhao/p/5413845.html" target="_blank" rel="external">http://www.cnblogs.com/java-zhao/p/5413845.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt; springboot + mybatis + 多数据源 &lt;a href=&quot;http://www.cnblogs.com/java-zhao/p/5413845.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.cnblogs.
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
     <title>objectMapper中自定义类型转换</title>
     <link href="https://haofangyuan.github.io/2017/06/30/java-objectMapper/"/>
     <id>https://haofangyuan.github.io/2017/06/30/java-objectMapper/</id>
@@ -408,7 +434,7 @@
     <link href="https://haofangyuan.github.io/2017/06/02/springboot-filter/"/>
     <id>https://haofangyuan.github.io/2017/06/02/springboot-filter/</id>
     <published>2017-06-02T09:52:59.000Z</published>
-    <updated>2017-11-17T07:20:04.425Z</updated>
+    <updated>2017-11-17T08:59:37.993Z</updated>
     
     <content type="html"><![CDATA[<p>　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。<br><a id="more"></a></p>
 <h2 id="springboot中使用filter"><a href="#springboot中使用filter" class="headerlink" title="springboot中使用filter  "></a>springboot中使用filter  </h2><p>　　在springboot项目中使用filter，需要注入bean：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan</div><div class="line">public class SpringbootFilterDemoApp &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SpringApplication.run(SpringbootFilterDemoApp.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public FilterRegistrationBean filterRegistrationBean() &#123;</div><div class="line">        FilterRegistrationBean registrationBean = new FilterRegistrationBean();</div><div class="line">        registrationBean.setFilter(new AuthorizationFilter()); // 自己的filter</div><div class="line"></div><div class="line">        List&lt;String&gt; urlPatterns = new ArrayList&lt;&gt;();</div><div class="line">        urlPatterns.add(&quot;/openapi/*&quot;);</div><div class="line">        registrationBean.setUrlPatterns(urlPatterns);</div><div class="line">        return registrationBean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -463,31 +489,6 @@
   </entry>
   
   <entry>
-    <title>工具类</title>
-    <link href="https://haofangyuan.github.io/2017/06/02/java-util/"/>
-    <id>https://haofangyuan.github.io/2017/06/02/java-util/</id>
-    <published>2017-06-02T05:56:59.000Z</published>
-    <updated>2017-11-15T10:04:46.760Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　常用的工具类<br><a id="more"></a></p>
-<h2 id="date"><a href="#date" class="headerlink" title="date"></a>date</h2><p>获取日期是星期几：<br>　　可以使用SimpleDateFormat：EEEE代表星期；<br>　　另外：MMMM代表中文月份</p>
-<h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>下载文件并保存在服务器上时，最好使用当前操作系统的分隔符<br>获取方法：private String sepa = java.io.File.separator;</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　常用的工具类&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>网页转图片</title>
     <link href="https://haofangyuan.github.io/2017/06/02/java-html-img/"/>
     <id>https://haofangyuan.github.io/2017/06/02/java-html-img/</id>
@@ -520,30 +521,27 @@
   </entry>
   
   <entry>
-    <title>ajax常见问题</title>
-    <link href="https://haofangyuan.github.io/2017/05/24/html-ajax/"/>
-    <id>https://haofangyuan.github.io/2017/05/24/html-ajax/</id>
-    <published>2017-05-24T12:37:11.000Z</published>
-    <updated>2017-11-17T07:23:17.712Z</updated>
+    <title>工具类</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/java-util/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/java-util/</id>
+    <published>2017-06-02T05:56:59.000Z</published>
+    <updated>2017-11-15T10:04:46.760Z</updated>
     
-    <content type="html"><![CDATA[<p>　　这里主要记录用ajax时遇到的问题。<br><a id="more"></a></p>
-<h2 id="获取ajax返回结果"><a href="#获取ajax返回结果" class="headerlink" title="获取ajax返回结果"></a>获取ajax返回结果</h2><p>　　ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var rspTxt = $.ajax(&#123;</div><div class="line">    async:false,</div><div class="line">    cache:false,</div><div class="line">    type : &quot;POST&quot;,</div><div class="line">    url : &quot;&lt;%=basePath%&gt;test.action&quot;,</div><div class="line">    data : &#123;</div><div class="line">        id: $(&quot;#id&quot;).val()</div><div class="line">    &#125;,</div><div class="line">    success : function(data) &#123;</div><div class="line">        var status = data.status;</div><div class="line">        if(&apos;success&apos; == status)&#123;</div><div class="line">            alert(&quot;成功！&quot;);</div><div class="line">        &#125;else&#123;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    error:function()&#123;</div><div class="line">        alert(&quot;失败！&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;).responseText;</div><div class="line">if(typeof(rspTxt) != &quot;undefined&quot;) &#123;</div><div class="line">    var obj = JSON.parse(rspTxt);</div><div class="line">    if(obj.status == &apos;success&apos;) &#123;</div><div class="line">        // 业务处理</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="access-origin"><a href="#access-origin" class="headerlink" title="access-origin"></a>access-origin</h2><p>　　ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置<br>　　以下是springmvc项目的处理方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">import java.io.IOException;</div><div class="line">import javax.servlet.Filter;</div><div class="line">import javax.servlet.FilterChain;</div><div class="line">import javax.servlet.FilterConfig;</div><div class="line">import javax.servlet.ServletException;</div><div class="line">import javax.servlet.ServletRequest;</div><div class="line">import javax.servlet.ServletResponse;</div><div class="line">import javax.servlet.http.HttpServletResponse;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line"></div><div class="line">@Component</div><div class="line">public class SimpleCORSFilter implements Filter &#123;</div><div class="line"></div><div class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123;</div><div class="line">        HttpServletResponse response = (HttpServletResponse) res;</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;);</div><div class="line">        response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;);</div><div class="line">        chain.doFilter(req, res);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void init(FilterConfig filterConfig) &#123;&#125;</div><div class="line"></div><div class="line">    public void destroy() &#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>　　以下是springboot项目的处理方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">import io.swagger.annotations.Api;</div><div class="line">import io.swagger.annotations.ApiOperation;</div><div class="line">import org.springframework.web.bind.annotation.*;</div><div class="line">@RestController</div><div class="line">@Api(&quot;测试ajax跨域&quot;)</div><div class="line">@RequestMapping(&quot;ajaxdemo&quot;)</div><div class="line">@CrossOrigin</div><div class="line">public class TestHttpController &#123;</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="ajax请求页面刷新"><a href="#ajax请求页面刷新" class="headerlink" title="ajax请求页面刷新"></a>ajax请求页面刷新</h2><p>　　ajax请求，发现页面闪烁以下，刷新。可以配置<code>global: false</code>来解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$.ajax(&#123;</div><div class="line">    global: false,</div><div class="line">    type : &quot;POST&quot;,</div><div class="line">    url : &quot;&quot;,</div><div class="line">    data : &#123;</div><div class="line">    &#125;,</div><div class="line">    dataType : &quot;json&quot;,</div><div class="line">    success : function(data) &#123;</div><div class="line">    &#125;,</div><div class="line">    error : function() &#123;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p><a href="http://www.cnblogs.com/yudar/p/4828987.html" target="_blank" rel="external">spring mvc 跨域请求处理——spring 4.2 以上</a></p>
+    <content type="html"><![CDATA[<p>　　常用的工具类<br><a id="more"></a></p>
+<h2 id="date"><a href="#date" class="headerlink" title="date"></a>date</h2><p>获取日期是星期几：<br>　　可以使用SimpleDateFormat：EEEE代表星期；<br>　　另外：MMMM代表中文月份</p>
+<h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>下载文件并保存在服务器上时，最好使用当前操作系统的分隔符<br>获取方法：private String sepa = java.io.File.separator;</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;　　这里主要记录用ajax时遇到的问题。&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;　　常用的工具类&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
     
     
-      <category term="ajax" scheme="https://haofangyuan.github.io/tags/ajax/"/>
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
     
   </entry>
   
@@ -552,7 +550,7 @@
     <link href="https://haofangyuan.github.io/2017/05/24/git/"/>
     <id>https://haofangyuan.github.io/2017/05/24/git/</id>
     <published>2017-05-24T12:37:11.000Z</published>
-    <updated>2017-11-17T07:07:55.045Z</updated>
+    <updated>2017-11-17T08:59:37.971Z</updated>
     
     <content type="html"><![CDATA[<p>　　git常用命令<br><a id="more"></a></p>
 <h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">1、克隆代码  </div><div class="line">	git clone 地址</div><div class="line">2、查看当前状态</div><div class="line">	git status</div><div class="line">	  状态分为 	</div><div class="line">			&quot;未跟踪&quot; 	Untracked	 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。</div><div class="line">			&quot;已经修改&quot;	modified	执行commit才会保存到版本库中。</div><div class="line">			&quot;已经删除&quot;	deleted		本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]</div><div class="line">3、添加未跟踪文件</div><div class="line">	git add [文件名]</div><div class="line">  	注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add *</div><div class="line">		使用 `git add *.java, *.jsp`</div><div class="line">4、提交代码</div><div class="line">	git commit [文件名] -m &quot;注释&quot;			</div><div class="line">5、从版本库拉代码</div><div class="line">	git pull</div><div class="line">6、代码提交到版本库</div><div class="line">	git push</div><div class="line"></div><div class="line">7、查看文件修改情况</div><div class="line">		git diff [文件名]	如果不加文件名，会将所有已经修改的文件与版本库进行比较</div><div class="line"></div><div class="line">8、回滚</div><div class="line">	git reset [--hard] [--mixed]</div><div class="line">	[--hard] 是强制抹除修改，未提交的修改会丢失。	git reset --hard #######慎重使用#####</div><div class="line">	[--mixed] 是保存修改，相当于重新提交。</div><div class="line"></div><div class="line">9、rebase</div><div class="line">	git rebase [分支名]  //一般基于origin/master rebase 	即 git rebase origin/master</div><div class="line">	本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。</div><div class="line">		出现冲突时，</div><div class="line">		1、查看那些文件冲突： git status</div><div class="line">		2、修改：</div><div class="line">		3、将冲突文件修改后添加：git add 文件名</div><div class="line">		4、git rebase --continue</div><div class="line"></div><div class="line">10、图形界面工具</div><div class="line">	gitk --all</div></pre></td></tr></table></figure>

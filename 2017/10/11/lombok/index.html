@@ -15,13 +15,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="分类 & 标签云">
-<meta property="og:url" content="https://haofangyuan.github.io/tags/index.html">
+<meta name="description" content="lombok的学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lombok学习">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/10/11/lombok/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:updated_time" content="2017-11-15T09:46:16.116Z">
+<meta property="og:description" content="lombok的学习">
+<meta property="og:updated_time" content="2017-11-17T10:32:14.867Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="分类 & 标签云">
+<meta name="twitter:title" content="lombok学习">
+<meta name="twitter:description" content="lombok的学习">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -53,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>分类 &amp; 标签云 | hfy Blog</title>
+<title>lombok学习 | hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -63,7 +66,7 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -226,11 +229,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-lombok" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/tags/index.html" class="article-date">
-      <time datetime="2016-07-15T20:32:03.000Z" itemprop="datePublished">2016-07-16</time>
+      <a href="/2017/10/11/lombok/" class="article-date">
+      <time datetime="2017-10-11T14:56:11.000Z" itemprop="datePublished">2017-10-11</time>
 </a>
 
 
@@ -245,7 +248,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      分类 &amp; 标签云
+      lombok学习
     </h1>
   
 
@@ -253,8 +256,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -262,96 +273,76 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
+        <p>　　lombok的学习<br><a id="more"></a><br>  在github上看开源代码，发现maven中用了org.projectlombok，一查询，相见恨晚的感觉啊！</p>
+<h2 id="lombok简介"><a href="#lombok简介" class="headerlink" title="lombok简介"></a>lombok简介</h2><p>　　lombok是个什么东东呢？嘿嘿，是通过注解形式帮我们减少一些代码的书写，比如getter、setter、stream的close，null的判断等。<br>　　官网：<a href="http://projectlombok.org/" target="_blank" rel="external">http://projectlombok.org/</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;lombok&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;1.16.10&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
+<h2 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h2><p>@Getter: 生成get方法，是类、成员变量注解。<br>@Setter: 生成set方法，是类、成员变量注解。<br>@Data:     生成get、set、toString、equals、hashCode方法、空构造器，是类注解。<br>@ToString: 生成toString方法，是类注解。<br>@Log4j ：  注解在类上；为类提供一个 属性名为log 的 log4j 日志对象。<br>@EqualsAndHashCode： 生成equals方法、hashCode方法，是类注解。<br>@NoArgsConstructor： 注解在类上；为类提供一个无参的构造方法。<br>@AllArgsConstructor：注解在类上；为类提供一个全参的构造方法。  </p>
 
-
-    <!-- Tag Cloud Page -->
-    <hr>
-<br>
-<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/github/">github</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mybatis/">mybatis</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pay/">pay</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/protobuf/">protobuf</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springboot/">springboot</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/springmvc/">springmvc</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/windows/">windows</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">10</span></li></ul>
-
-<p class="count"></p>
-
-<div class="tags">
-    <a href="/tags/json-js/" style="font-size: 16px; color: #808080">-json -js</a> <a href="/tags/activemq/" style="font-size: 16px; color: #808080">activemq</a> <a href="/tags/adminlte-chartjs/" style="font-size: 16px; color: #808080">adminlte chartjs</a> <a href="/tags/ajax/" style="font-size: 16px; color: #808080">ajax</a> <a href="/tags/aop/" style="font-size: 16px; color: #808080">aop</a> <a href="/tags/filter/" style="font-size: 16px; color: #808080">filter</a> <a href="/tags/git/" style="font-size: 16px; color: #808080">git</a> <a href="/tags/github/" style="font-size: 16px; color: #808080">github</a> <a href="/tags/hexo/" style="font-size: 16px; color: #808080">hexo</a> <a href="/tags/html/" style="font-size: 16px; color: #808080">html</a> <a href="/tags/https/" style="font-size: 19.8px; color: #666">https</a> <a href="/tags/java/" style="font-size: 31.2px; color: #1a1a1a">java</a> <a href="/tags/jquery-WEUI/" style="font-size: 19.8px; color: #666">jquery WEUI</a> <a href="/tags/js/" style="font-size: 23.6px; color: #4d4d4d">js</a> <a href="/tags/json/" style="font-size: 23.6px; color: #4d4d4d">json</a> <a href="/tags/linux/" style="font-size: 23.6px; color: #4d4d4d">linux</a> <a href="/tags/mybatis/" style="font-size: 19.8px; color: #666">mybatis</a> <a href="/tags/mysql/" style="font-size: 16px; color: #808080">mysql</a> <a href="/tags/pay/" style="font-size: 16px; color: #808080">pay</a> <a href="/tags/php/" style="font-size: 16px; color: #808080">php</a> <a href="/tags/protobuf/" style="font-size: 16px; color: #808080">protobuf</a> <a href="/tags/redis/" style="font-size: 16px; color: #808080">redis</a> <a href="/tags/springboot/" style="font-size: 35px; color: #000">springboot</a> <a href="/tags/springmvc/" style="font-size: 19.8px; color: #666">springmvc</a> <a href="/tags/swagger/" style="font-size: 27.4px; color: #333">swagger</a> <a href="/tags/thread/" style="font-size: 16px; color: #808080">thread</a> <a href="/tags/tomcat/" style="font-size: 16px; color: #808080">tomcat</a> <a href="/tags/windows/" style="font-size: 16px; color: #808080">windows</a>
-</div>
-<style>
-    .category-list li{
-        display: inline-block;
-        margin: 0 1em .5em 0;
-        padding: 4px;
-        border: 1px solid lightgray;
-        font-size: 1.2rem;
-    }
-    .category-list a { color: gray; }
-    .category-list-item:hover a {
-        color: gray;
-        text-decoration: none;
-    }
-    .category-list-count {
-        margin-left: 2px;
-        font-size: .9rem;
-    }
-    .article-entry ul li:before{ display: none; }
-    .article-inner { text-align: center; }
-    .tags {
-        max-width: 42em;
-        margin: 2em auto;
-        margin-top: 0em;
-    }
-    .tags a {
-        margin-right: 1em;
-        line-height: 65px;
-        border-bottom: 1px solid gray;
-        white-space: nowrap;
-        transition: border-bottom .5s;
-    }
-    .tags a:hover {
-        border-bottom: 3px dotted gray;
-        text-decoration: none;
-    }
-    #count > span {
-        margin: auto .2em;
-        font-weight: bold;
-    }
-</style>
-
-<!-- Count tags and categories -->
-<p id="count">
-        已有<span><script>document.write($(".category-list-item").length)</script></span>个分类，
-        共计<span><script>document.write($(".tags > a").length)</script></span>个标签
-</p>
-<script>
-    $('#count').appendTo('.count');
-</script>
-
-          
-        
       
     </div>
     
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/11/lombok/">lombok学习</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
+        <p><span>发布时间:</span>2017-10-11, 22:56:11</p>
+        <p><span>最后更新:</span>2017-11-17, 18:32:14</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/11/lombok/" title="lombok学习">https://haofangyuan.github.io/2017/10/11/lombok/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/10/11/lombok/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/10/16/java_nginx/">
+                    了解负载均衡 会话保持 session同步(转)
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/09/05/adminlte/">
+                    adminLTE使用中遇到的难点
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lombok简介"><span class="toc-number">1.</span> <span class="toc-text">lombok简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用注解"><span class="toc-number">3.</span> <span class="toc-text">常用注解</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -369,7 +360,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"分类 & 标签云　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"lombok学习　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -382,6 +373,28 @@
 
 
 
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/10/16/java_nginx/" title="上一篇: 了解负载均衡 会话保持 session同步(转)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/09/05/adminlte/" title="下一篇: adminLTE使用中遇到的难点">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_extra/">springboot一些额外的知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/lombok/">lombok学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jsp/">springboot中的jsp</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-jar/">springboot中的jar和dll</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/01/springboot-mybatis-datasource/">springboot + mybatis + 多数据源</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay_wechat/">微信支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-json/">页面中json相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-validation/">springboot接口参数校验</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-devtools/">一些好的插件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-tomcat/">springboot的tomcat相关</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li></ul>
 
 
 
@@ -418,6 +431,10 @@
 <! -- 添加捐赠图标 -->
 
 
+
+<section id="comments"  class="comment">
+  <div id="commentContainer"></div>
+</section>
 </div>
       <footer id="footer">
     <div class="outer">
@@ -533,6 +550,20 @@ MathJax.Hub.Queue(function() {
 
 
 <!-- Gitment Start -->
+
+<script>
+$(document).ready(function(){
+var gitment = new Gitment({
+  owner: 'haofangyuan',
+  repo: 'blogcomments',
+  oauth: {
+    client_id: 'fe86290697a17f8b5a8d',
+    client_secret: '71455c23e54a534dfe12764de237c9b01d01b8db',
+  },
+});
+if($('#commentContainer')) gitment.render('commentContainer');
+});
+</script>
 
 <!-- Gitment End -->
   </div>
