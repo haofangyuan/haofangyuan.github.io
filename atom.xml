@@ -9,7 +9,7 @@
   <id>https://haofangyuan.github.io/</id>
   
   <author>
-    <name>郝方圆</name>
+    <name>hfy</name>
     
   </author>
   
@@ -113,34 +113,6 @@
   </entry>
   
   <entry>
-    <title>springboot一些额外的知识</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2017-11-17T08:59:37.994Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
-<h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
-<h2 id="启动彩蛋"><a href="#启动彩蛋" class="headerlink" title="启动彩蛋"></a>启动彩蛋</h2><p>springboot项目启动总会打印一下内容，想要更换怎么办？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.   ____          _            __ _ _</div><div class="line">/\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line">\\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">&apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line">=========|_|==============|___/=/_/_/_/</div><div class="line">:: Spring Boot ::        (v1.4.0.RELEASE)</div></pre></td></tr></table></figure></p>
-<p>1、在<code>resource</code>目录下面放入一个<code>banner.txt</code>文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；<br>2、在里面存放要打印的内容；<br>3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过<code>${AnsiColor.BRIGHT_YELLOW}</code>来控制文件中字符的颜色，<code>${spring-boot.version}</code>这个是springboot的版本号；<br>4、ok啦啦啦……  </p>
-<h3 id="额外："><a href="#额外：" class="headerlink" title="额外："></a>额外：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
-    
-  </entry>
-  
-  <entry>
     <title>websocket相关问题</title>
     <link href="https://haofangyuan.github.io/2017/10/26/websocket/"/>
     <id>https://haofangyuan.github.io/2017/10/26/websocket/</id>
@@ -168,6 +140,34 @@
     <summary type="html">
     
       &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot一些额外的知识</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2017-11-17T08:59:37.994Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
+<h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
+<h2 id="启动彩蛋"><a href="#启动彩蛋" class="headerlink" title="启动彩蛋"></a>启动彩蛋</h2><p>springboot项目启动总会打印一下内容，想要更换怎么办？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.   ____          _            __ _ _</div><div class="line">/\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line">\\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">&apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line">=========|_|==============|___/=/_/_/_/</div><div class="line">:: Spring Boot ::        (v1.4.0.RELEASE)</div></pre></td></tr></table></figure></p>
+<p>1、在<code>resource</code>目录下面放入一个<code>banner.txt</code>文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；<br>2、在里面存放要打印的内容；<br>3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过<code>${AnsiColor.BRIGHT_YELLOW}</code>来控制文件中字符的颜色，<code>${spring-boot.version}</code>这个是springboot的版本号；<br>4、ok啦啦啦……  </p>
+<h3 id="额外："><a href="#额外：" class="headerlink" title="额外："></a>额外：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -243,30 +243,6 @@
   </entry>
   
   <entry>
-    <title>java中的HashMap</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2017-11-15T10:04:46.747Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>了解负载均衡 会话保持 session同步(转)</title>
     <link href="https://haofangyuan.github.io/2017/10/16/java_nginx/"/>
     <id>https://haofangyuan.github.io/2017/10/16/java_nginx/</id>
@@ -291,6 +267,30 @@
     <summary type="html">
     
       &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java中的HashMap</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2017-11-15T10:04:46.747Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -408,30 +408,6 @@
   </entry>
   
   <entry>
-    <title>springboot中的jar和dll</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jar/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-jar/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-11-15T10:04:46.798Z</updated>
-    
-    <content type="html"><![CDATA[<p>  参考<br><a id="more"></a>  </p>
-<p>主要参考以下链接：<br><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code><br><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  参考&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springboot中的jsp</title>
     <link href="https://haofangyuan.github.io/2017/07/01/springboot-jsp/"/>
     <id>https://haofangyuan.github.io/2017/07/01/springboot-jsp/</id>
@@ -448,6 +424,30 @@
     <summary type="html">
     
       &lt;p&gt;主要参考以下链接：&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot中的jar和dll</title>
+    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jar/"/>
+    <id>https://haofangyuan.github.io/2017/07/01/springboot-jar/</id>
+    <published>2017-07-01T07:03:11.000Z</published>
+    <updated>2017-11-15T10:04:46.798Z</updated>
+    
+    <content type="html"><![CDATA[<p>  参考<br><a id="more"></a>  </p>
+<p>主要参考以下链接：<br><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code><br><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  参考&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -517,6 +517,34 @@
   </entry>
   
   <entry>
+    <title>ArrayList的线程安全问题</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/</id>
+    <published>2017-06-02T05:56:59.000Z</published>
+    <updated>2017-11-15T10:04:46.757Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。<br><a id="more"></a></p>
+<h2 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h2><p>　　下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。<br>　　以下是异常图片：<br><img src="http://or8a8is80.bkt.clouddn.com/java_arraylist_thread.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="实例2"><a href="#实例2" class="headerlink" title="实例2"></a>实例2</h2><p>　　演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。<br>　　下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"></div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode());</div><div class="line">        final Random rand = new Random();</div><div class="line"></div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">                list.add(&quot;0&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return list.size();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList();</div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList());</div><div class="line">        final int N = 10000;</div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear();</div><div class="line">            safeList.clear();</div><div class="line">            int unsafeSize = demo(unsafeList, N);</div><div class="line">            int safeSize = demo(safeList, N);</div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　ArrayList是线程不安全的，多线程中，我们可以使用<code>Collections.synchronizedList(list);</code>方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class TestList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+      <category term="thread" scheme="https://haofangyuan.github.io/tags/thread/"/>
+    
+  </entry>
+  
+  <entry>
     <title>网页转图片</title>
     <link href="https://haofangyuan.github.io/2017/06/02/java-html-img/"/>
     <id>https://haofangyuan.github.io/2017/06/02/java-html-img/</id>
@@ -545,34 +573,6 @@
       <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
     
       <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ArrayList的线程安全问题</title>
-    <link href="https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/"/>
-    <id>https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/</id>
-    <published>2017-06-02T05:56:59.000Z</published>
-    <updated>2017-11-15T10:04:46.757Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。<br><a id="more"></a></p>
-<h2 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h2><p>　　下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。<br>　　以下是异常图片：<br><img src="http://or8a8is80.bkt.clouddn.com/java_arraylist_thread.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="实例2"><a href="#实例2" class="headerlink" title="实例2"></a>实例2</h2><p>　　演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。<br>　　下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"></div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode());</div><div class="line">        final Random rand = new Random();</div><div class="line"></div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">                list.add(&quot;0&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return list.size();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList();</div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList());</div><div class="line">        final int N = 10000;</div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear();</div><div class="line">            safeList.clear();</div><div class="line">            int unsafeSize = demo(unsafeList, N);</div><div class="line">            int safeSize = demo(safeList, N);</div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　ArrayList是线程不安全的，多线程中，我们可以使用<code>Collections.synchronizedList(list);</code>方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class TestList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-      <category term="thread" scheme="https://haofangyuan.github.io/tags/thread/"/>
     
   </entry>
   

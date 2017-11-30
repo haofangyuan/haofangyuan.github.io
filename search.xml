@@ -45,9 +45,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot一些额外的知识]]></title>
-    <url>%2F2017%2F10%2F26%2Fspringboot_extra%2F</url>
-    <content type="text"><![CDATA[自己一些总结 修改网站小图标1、在application.properties中配：spring.mvc.favicon.enabled = false2、网站图片命名为favicon.ico;3、将favicon.ico放在resources/static目录下；4、ok，结束ヾ(◍°∇°◍)ﾉﾞ 启动彩蛋springboot项目启动总会打印一下内容，想要更换怎么办？1234567. ____ _ __ _ _/\\ / ___&apos;_ __ _ _(_)_ __ __ _ \ \ \ \( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \\\/ ___)| |_)| | | | | || (_| | ) ) ) )&apos; |____| .__|_| |_|_| |_\__, | / / / /=========|_|==============|___/=/_/_/_/:: Spring Boot :: (v1.4.0.RELEASE) 1、在resource目录下面放入一个banner.txt文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；2、在里面存放要打印的内容；3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过${AnsiColor.BRIGHT_YELLOW}来控制文件中字符的颜色，${spring-boot.version}这个是springboot的版本号；4、ok啦啦啦…… 额外：1234$&#123;application.version&#125; 这个是MANIFEST.MF文件中的版本号 $&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号 $&#123;spring-boot.version&#125; 这个是springboot的版本号 $&#123;spring-boot.formatted-version&#125; 同上 参考参考链接：http://www.jianshu.com/p/692be2b00e6b]]></content>
+    <title><![CDATA[websocket相关问题]]></title>
+    <url>%2F2017%2F10%2F26%2Fwebsocket%2F</url>
+    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。12345678910111213@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -56,9 +56,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[websocket相关问题]]></title>
-    <url>%2F2017%2F10%2F26%2Fwebsocket%2F</url>
-    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。12345678910111213@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
+    <title><![CDATA[springboot一些额外的知识]]></title>
+    <url>%2F2017%2F10%2F26%2Fspringboot_extra%2F</url>
+    <content type="text"><![CDATA[自己一些总结 修改网站小图标1、在application.properties中配：spring.mvc.favicon.enabled = false2、网站图片命名为favicon.ico;3、将favicon.ico放在resources/static目录下；4、ok，结束ヾ(◍°∇°◍)ﾉﾞ 启动彩蛋springboot项目启动总会打印一下内容，想要更换怎么办？1234567. ____ _ __ _ _/\\ / ___&apos;_ __ _ _(_)_ __ __ _ \ \ \ \( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \\\/ ___)| |_)| | | | | || (_| | ) ) ) )&apos; |____| .__|_| |_|_| |_\__, | / / / /=========|_|==============|___/=/_/_/_/:: Spring Boot :: (v1.4.0.RELEASE) 1、在resource目录下面放入一个banner.txt文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；2、在里面存放要打印的内容；3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过${AnsiColor.BRIGHT_YELLOW}来控制文件中字符的颜色，${spring-boot.version}这个是springboot的版本号；4、ok啦啦啦…… 额外：1234$&#123;application.version&#125; 这个是MANIFEST.MF文件中的版本号 $&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号 $&#123;spring-boot.version&#125; 这个是springboot的版本号 $&#123;spring-boot.formatted-version&#125; 同上 参考参考链接：http://www.jianshu.com/p/692be2b00e6b]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -89,9 +89,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java中的HashMap]]></title>
-    <url>%2F2017%2F10%2F16%2Fjava-HashMap%2F</url>
-    <content type="text"><![CDATA[hashMap的那些事 参考深入分析ConcurrentHashMap]]></content>
+    <title><![CDATA[了解负载均衡 会话保持 session同步(转)]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava_nginx%2F</url>
+    <content type="text"><![CDATA[自己一些总结 转自：http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212 什么负载均衡 一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。 在这种情况下，有二种方案可以选择： 1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。 2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。 第一种方法可以理解为纵向发展，这种方法总是有限。 第二种方法才是解决问题的正确选择。 实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。 负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法: 1、根据请求数 a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。 b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。 2、根据IP a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题 b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。 c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。 什么是会话保持，有什么作用 会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。 会话保持有什么作用呢，举例说明一下 如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。 还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。 会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。 session同步 为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法 web集群时session同步的3种方法 在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题： 利用数据库同步session 在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法： a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。 b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。 说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担 利用cookie同步session session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。 说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。 利用memcache同步session memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。 优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。 缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。 总结 上面三种方法都是可行的 第一种方法，最影响系统速度的那种，不推荐使用； 第二种方法，效果不错，不过安全隐患一样的存在； 第三种方法，个人觉得第三种方法是最好的，推荐大家使用;]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -100,9 +100,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[了解负载均衡 会话保持 session同步(转)]]></title>
-    <url>%2F2017%2F10%2F16%2Fjava_nginx%2F</url>
-    <content type="text"><![CDATA[自己一些总结 转自：http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212 什么负载均衡 一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。 在这种情况下，有二种方案可以选择： 1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。 2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。 第一种方法可以理解为纵向发展，这种方法总是有限。 第二种方法才是解决问题的正确选择。 实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。 负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法: 1、根据请求数 a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。 b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。 2、根据IP a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题 b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。 c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。 什么是会话保持，有什么作用 会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。 会话保持有什么作用呢，举例说明一下 如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。 还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。 会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。 session同步 为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法 web集群时session同步的3种方法 在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题： 利用数据库同步session 在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法： a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。 b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。 说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担 利用cookie同步session session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。 说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。 利用memcache同步session memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。 优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。 缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。 总结 上面三种方法都是可行的 第一种方法，最影响系统速度的那种，不推荐使用； 第二种方法，效果不错，不过安全隐患一样的存在； 第三种方法，个人觉得第三种方法是最好的，推荐大家使用;]]></content>
+    <title><![CDATA[java中的HashMap]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava-HashMap%2F</url>
+    <content type="text"><![CDATA[hashMap的那些事 参考深入分析ConcurrentHashMap]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -145,6 +145,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[springboot中的jsp]]></title>
+    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
+    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[springboot + mybatis + 多数据源]]></title>
     <url>%2F2017%2F07%2F01%2Fspringboot-mybatis-datasource%2F</url>
     <content type="text"><![CDATA[springboot + mybatis + 多数据源 http://www.cnblogs.com/java-zhao/p/5413845.html]]></content>
@@ -160,17 +171,6 @@
     <title><![CDATA[springboot中的jar和dll]]></title>
     <url>%2F2017%2F07%2F01%2Fspringboot-jar%2F</url>
     <content type="text"><![CDATA[参考 主要参考以下链接：maven安装本地jarmvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jarSpring Boot引用本地jar包springboot加载dll]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot中的jsp]]></title>
-    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
-    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -202,18 +202,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[网页转图片]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-html-img%2F</url>
-    <content type="text"><![CDATA[一些总结 html2image示例代码如下：123456HtmlImageGenerator imageGenerator = new HtmlImageGenerator();String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;imageGenerator.loadHtml(htmlstr);imageGenerator.getBufferedImage();imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;); maven:12345&lt;dependency&gt; &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt; &lt;artifactId&gt;html2image&lt;/artifactId&gt; &lt;version&gt;0.1.0&lt;/version&gt;&lt;/dependency&gt; 放弃的原因：1、css样式不能写在&lt;style&gt;标签中，不能引用其他css文件，只能写在style属性中。2、对css的支持不好。 cssbox官网：http://cssbox.sourceforge.net/示例代码如下：123456ImageRenderer render = new ImageRenderer();String url = &quot;&quot;;FileOutputStream out = new FileOutputStream(new File(filePath));render.setWindowSize(new Dimension(1080,1920), false);render.renderURL(url, out, ImageRenderer.Type.PNG);out.close(); maven:12345 &lt;dependency&gt; &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt; &lt;artifactId&gt;cssbox&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt;&lt;/dependency&gt; 优点：调用非常简单，能支持较多的css。 遇到的问题1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。原因：不支持中文字体。（安装字体请看：linux相关知识）]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>html</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[ArrayList的线程安全问题]]></title>
     <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
     <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
@@ -223,6 +211,18 @@
       <tags>
         <tag>java</tag>
         <tag>thread</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[网页转图片]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-html-img%2F</url>
+    <content type="text"><![CDATA[一些总结 html2image示例代码如下：123456HtmlImageGenerator imageGenerator = new HtmlImageGenerator();String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;imageGenerator.loadHtml(htmlstr);imageGenerator.getBufferedImage();imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;); maven:12345&lt;dependency&gt; &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt; &lt;artifactId&gt;html2image&lt;/artifactId&gt; &lt;version&gt;0.1.0&lt;/version&gt;&lt;/dependency&gt; 放弃的原因：1、css样式不能写在&lt;style&gt;标签中，不能引用其他css文件，只能写在style属性中。2、对css的支持不好。 cssbox官网：http://cssbox.sourceforge.net/示例代码如下：123456ImageRenderer render = new ImageRenderer();String url = &quot;&quot;;FileOutputStream out = new FileOutputStream(new File(filePath));render.setWindowSize(new Dimension(1080,1920), false);render.renderURL(url, out, ImageRenderer.Type.PNG);out.close(); maven:12345 &lt;dependency&gt; &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt; &lt;artifactId&gt;cssbox&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt;&lt;/dependency&gt; 优点：调用非常简单，能支持较多的css。 遇到的问题1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。原因：不支持中文字体。（安装字体请看：linux相关知识）]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>html</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -351,54 +351,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
-    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
       <categories>
-        <category>前端</category>
+        <category>php</category>
       </categories>
       <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
-    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
-    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[JQuery WEUI的分页加载]]></title>
     <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
     <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>jquery WEUI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[JQuery WEUI的datetimePicker使用]]></title>
-    <url>%2F2017%2F05%2F11%2Fjquery-weui-datetimepicker%2F</url>
-    <content type="text"><![CDATA[此处主要记录，两个日期，截止时间不能大于开始时间1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells weui_cells_form&quot;&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;起始时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;startTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;终止时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot; id=&quot;endTimeDiv&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;endTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var curDateStr = &apos;2017-10-12 10:10&apos;; $(&quot;#startTime&quot;).datetimePicker(&#123; title: &apos;请选择起始时间&apos;, min : curDateStr, value: curDateStr, onClose: function(p) &#123; // 起始时间改变，更改终止时间的最小值 console.log(p.value); // 获取新起始时间 var year = p.value[0]; var month = p.value[1]; var day = p.value[2]; var hour = p.value[3]; var minute = p.value[4]; var dateStr = year + &quot;-&quot; + month + &quot;-&quot; + day + &quot; &quot; + hour + &quot;:&quot; + minute; var date = new Date(Date.parse(dateStr.replace(/-/g, &quot;/&quot;))); console.log(dateStr); // 获取旧终止时间 var oldEndTimeStr = $(&quot;#endTime&quot;).val(); var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); // 旧终止时间&gt;新的起始时间，不更改终止时间，否则，更新 var newEndTimeStr; if (oldEndTime &lt; date) &#123; newEndTimeStr = dateStr; &#125; else &#123; newEndTimeStr = oldEndTimeStr; &#125; $(&quot;#endTime&quot;).remove(); $(&quot;#endTimeDiv&quot;).append(&apos;&lt;input type=&quot;text&quot; id=&quot;endTime&quot; class=&quot;weui_input&quot; /&gt;&apos;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min: dateStr, value: newEndTimeStr &#125;); &#125; &#125;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min : curDateStr, value: curDateStr &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -418,6 +384,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"><![CDATA[待总结]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[mybatis中的mapper]]></title>
     <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
     <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hfy.db.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.Order&quot; id=&quot;OrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false) MyBatis注解select in参数1234567/** * * @param ids &apos;1,2,3&apos; * @return */@Select(&quot;select * from user where id in ($&#123;ids&#125;)&quot;)List&lt;UserInfo&gt; getUserbyIds(@Param(&quot;ids&quot;)String ids); MyBatis注解list参数注解中想使用xml中的&lt;if&gt;标签，需要用&lt;script&gt;标签将其包起来123456789101112&lt;script&gt;insert into tb_image_temp( &lt;foreach collection=&apos;keys&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; $&#123;item&#125; &lt;/foreach&gt;) values( &lt;foreach collection=&apos;values&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; #&#123;item&#125; &lt;/foreach&gt;)&lt;/script&gt; 12345678@Update(&quot;&lt;script&gt;\n&quot; + &quot; update $&#123;tableName&#125; set &quot; + &quot; &lt;foreach collection=&apos;map&apos; index=&apos;key&apos; item=&apos;item&apos; open=&apos;&apos; separator=&apos;,&apos; close=&apos;&apos; &gt;\n&quot; + &quot; $&#123;key&#125; = #&#123;item&#125;\n&quot; + &quot; &lt;/foreach&gt;\n&quot; + &quot; where id = #&#123;id&#125;\n&quot; + &quot;&lt;/script&gt;&quot;)void updateImage(@Param(&quot;tableName&quot;) String tableName, @Param(&quot;map&quot;) Map&lt;String, Object&gt; map, @Param(&quot;id&quot;) Integer id);]]></content>
@@ -426,28 +403,6 @@
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js获得get传过来的参数]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
-    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
-    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -462,14 +417,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"><![CDATA[待总结]]></content>
+    <title><![CDATA[JQuery WEUI的datetimePicker使用]]></title>
+    <url>%2F2017%2F05%2F11%2Fjquery-weui-datetimepicker%2F</url>
+    <content type="text"><![CDATA[此处主要记录，两个日期，截止时间不能大于开始时间1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells weui_cells_form&quot;&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;起始时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;startTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;终止时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot; id=&quot;endTimeDiv&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;endTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var curDateStr = &apos;2017-10-12 10:10&apos;; $(&quot;#startTime&quot;).datetimePicker(&#123; title: &apos;请选择起始时间&apos;, min : curDateStr, value: curDateStr, onClose: function(p) &#123; // 起始时间改变，更改终止时间的最小值 console.log(p.value); // 获取新起始时间 var year = p.value[0]; var month = p.value[1]; var day = p.value[2]; var hour = p.value[3]; var minute = p.value[4]; var dateStr = year + &quot;-&quot; + month + &quot;-&quot; + day + &quot; &quot; + hour + &quot;:&quot; + minute; var date = new Date(Date.parse(dateStr.replace(/-/g, &quot;/&quot;))); console.log(dateStr); // 获取旧终止时间 var oldEndTimeStr = $(&quot;#endTime&quot;).val(); var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); // 旧终止时间&gt;新的起始时间，不更改终止时间，否则，更新 var newEndTimeStr; if (oldEndTime &lt; date) &#123; newEndTimeStr = dateStr; &#125; else &#123; newEndTimeStr = oldEndTimeStr; &#125; $(&quot;#endTime&quot;).remove(); $(&quot;#endTimeDiv&quot;).append(&apos;&lt;input type=&quot;text&quot; id=&quot;endTime&quot; class=&quot;weui_input&quot; /&gt;&apos;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min: dateStr, value: newEndTimeStr &#125;); &#125; &#125;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min : curDateStr, value: curDateStr &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
       <categories>
-        <category>java</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>https</tag>
+        <tag>jquery WEUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -485,15 +451,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
+    <title><![CDATA[mysql相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
+    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
       <categories>
-        <category>前端</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>js</tag>
-        <tag>json</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -508,14 +473,15 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
       <categories>
-        <category>php</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>php</tag>
+        <tag>js</tag>
+        <tag>json</tag>
       </tags>
   </entry>
   <entry>
@@ -527,6 +493,41 @@
       </categories>
       <tags>
         <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[一些好的插件]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
+    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot的tomcat相关]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
+    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -542,14 +543,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些好的插件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
-    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
+    <title><![CDATA[js获得get传过来的参数]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
+    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
       <categories>
-        <category>linux</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -564,15 +565,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot的tomcat相关]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
-    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
+    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
       <categories>
         <category>springboot</category>
       </categories>
       <tags>
         <tag>springboot</tag>
-        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
