@@ -83,9 +83,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[了解负载均衡 会话保持 session同步(转)]]></title>
-    <url>%2F2017%2F10%2F16%2Fjava_nginx%2F</url>
-    <content type="text"><![CDATA[自己一些总结 转自：http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212 什么负载均衡 一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。 在这种情况下，有二种方案可以选择： 1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。 2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。 第一种方法可以理解为纵向发展，这种方法总是有限。 第二种方法才是解决问题的正确选择。 实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。 负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法: 1、根据请求数 a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。 b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。 2、根据IP a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题 b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。 c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。 什么是会话保持，有什么作用 会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。 会话保持有什么作用呢，举例说明一下 如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。 还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。 会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。 session同步 为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法 web集群时session同步的3种方法 在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题： 利用数据库同步session 在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法： a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。 b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。 说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担 利用cookie同步session session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。 说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。 利用memcache同步session memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。 优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。 缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。 总结 上面三种方法都是可行的 第一种方法，最影响系统速度的那种，不推荐使用； 第二种方法，效果不错，不过安全隐患一样的存在； 第三种方法，个人觉得第三种方法是最好的，推荐大家使用;]]></content>
+    <title><![CDATA[java中的HashMap]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava-HashMap%2F</url>
+    <content type="text"><![CDATA[hashMap的那些事 参考深入分析ConcurrentHashMap]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -94,9 +94,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java中的HashMap]]></title>
-    <url>%2F2017%2F10%2F16%2Fjava-HashMap%2F</url>
-    <content type="text"><![CDATA[hashMap的那些事 参考深入分析ConcurrentHashMap]]></content>
+    <title><![CDATA[了解负载均衡 会话保持 session同步(转)]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava_nginx%2F</url>
+    <content type="text"><![CDATA[自己一些总结 转自：http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212 什么负载均衡 一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。 在这种情况下，有二种方案可以选择： 1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。 2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。 第一种方法可以理解为纵向发展，这种方法总是有限。 第二种方法才是解决问题的正确选择。 实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。 负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法: 1、根据请求数 a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。 b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。 2、根据IP a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题 b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。 c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。 什么是会话保持，有什么作用 会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。 会话保持有什么作用呢，举例说明一下 如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。 还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。 会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。 session同步 为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法 web集群时session同步的3种方法 在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题： 利用数据库同步session 在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法： a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。 b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。 说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担 利用cookie同步session session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。 说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。 利用memcache同步session memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。 优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。 缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。 总结 上面三种方法都是可行的 第一种方法，最影响系统速度的那种，不推荐使用； 第二种方法，效果不错，不过安全隐患一样的存在； 第三种方法，个人觉得第三种方法是最好的，推荐大家使用;]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -138,6 +138,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[springboot中的jsp]]></title>
+    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
+    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[springboot + mybatis + 多数据源]]></title>
     <url>%2F2017%2F07%2F01%2Fspringboot-mybatis-datasource%2F</url>
     <content type="text"><![CDATA[springboot + mybatis + 多数据源 http://www.cnblogs.com/java-zhao/p/5413845.html]]></content>
@@ -153,17 +164,6 @@
     <title><![CDATA[springboot中的jar和dll]]></title>
     <url>%2F2017%2F07%2F01%2Fspringboot-jar%2F</url>
     <content type="text"><![CDATA[参考 主要参考以下链接：maven安装本地jarmvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jarSpring Boot引用本地jar包springboot加载dll]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot中的jsp]]></title>
-    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
-    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -195,18 +195,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ArrayList的线程安全问题]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
-    <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>thread</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[工具类]]></title>
     <url>%2F2017%2F06%2F02%2Fjava-util%2F</url>
     <content type="text"><![CDATA[常用的工具类 date获取日期是星期几： 可以使用SimpleDateFormat：EEEE代表星期； 另外：MMMM代表中文月份 File下载文件并保存在服务器上时，最好使用当前操作系统的分隔符获取方法：private String sepa = java.io.File.separator;]]></content>
@@ -230,14 +218,15 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[git常用命令]]></title>
-    <url>%2F2017%2F05%2F24%2Fgit%2F</url>
-    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上12345678将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git cherry-pick --continue]]></content>
+    <title><![CDATA[ArrayList的线程安全问题]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
+    <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
       <categories>
-        <category>git</category>
+        <category>java</category>
       </categories>
       <tags>
-        <tag>git</tag>
+        <tag>java</tag>
+        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
@@ -249,6 +238,17 @@
       </categories>
       <tags>
         <tag>ajax</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git常用命令]]></title>
+    <url>%2F2017%2F05%2F24%2Fgit%2F</url>
+    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上12345678将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git cherry-pick --continue]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -344,14 +344,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
-    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
+    <title><![CDATA[一些好的插件]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
+    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
       <categories>
-        <category>mysql</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js获得get传过来的参数]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
+    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -366,25 +377,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
-    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"><![CDATA[待总结]]></content>
       <categories>
-        <category>前端</category>
+        <category>java</category>
       </categories>
       <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[JQuery WEUI的分页加载]]></title>
-    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
-    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>jquery WEUI</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -421,14 +421,37 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"><![CDATA[待总结]]></content>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
       <categories>
-        <category>java</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>https</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
+    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -443,25 +466,38 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[js获得get传过来的参数]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
-    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
       <categories>
         <category>前端</category>
       </categories>
       <tags>
-        <tag>js</tag>
+        <tag>-json -js</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[windows常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
-    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
+    <title><![CDATA[springboot接口参数校验]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-validation%2F</url>
+    <content type="text"><![CDATA[RestFul Api 接口参数校验及前后端交互校验 https://zhuanlan.zhihu.com/p/28399903]]></content>
       <categories>
-        <category>windows</category>
+        <category>springboot</category>
       </categories>
       <tags>
-        <tag>windows</tag>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot的tomcat相关]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
+    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -487,61 +523,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
-    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
+    <title><![CDATA[windows常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
+    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
       <categories>
-        <category>springboot</category>
+        <category>windows</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot接口参数校验]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-validation%2F</url>
-    <content type="text"><![CDATA[RestFul Api 接口参数校验及前后端交互校验 https://zhuanlan.zhihu.com/p/28399903]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
-    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot的tomcat相关]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
-    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>-json -js</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -557,25 +546,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些好的插件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
-    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
+    <title><![CDATA[JQuery WEUI的分页加载]]></title>
+    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
+    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
       <categories>
-        <category>linux</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>jquery WEUI</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[github的使用]]></title>
-    <url>%2F2017%2F03%2F25%2Fgithub%2F</url>
-    <content type="text"><![CDATA[github的使用 好的文章如何用好 github 中的 watch、star、fork如何正确接收 GitHub 的消息邮件github fork项目后，代码更新]]></content>
+    <title><![CDATA[mysql相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
+    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
       <categories>
-        <category>github</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>github</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -587,6 +576,17 @@
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[github的使用]]></title>
+    <url>%2F2017%2F03%2F25%2Fgithub%2F</url>
+    <content type="text"><![CDATA[github的使用 好的文章如何用好 github 中的 watch、star、fork如何正确接收 GitHub 的消息邮件github fork项目后，代码更新]]></content>
+      <categories>
+        <category>github</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
       </tags>
   </entry>
 </search>
