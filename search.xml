@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2F2017%2F11%2F22%2Fbootstrap%2F</url>
-    <content type="text"><![CDATA[http://jz.faisco.com/pro11.html?_ta=104&amp;kw=21404http://blog.csdn.net/u010028869/article/details/43852799]]></content>
+    <title><![CDATA[bootstrap]]></title>
+    <url>%2F2017%2F11%2F26%2Fbootstrap%2F</url>
+    <content type="text"><![CDATA[这里主要记录前端页面的问题。 没想到，我这搞后台的要写个官网，好吧，此处简单记录下。]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>html</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[springboot源码学习]]></title>
@@ -52,7 +58,7 @@
   <entry>
     <title><![CDATA[websocket相关问题]]></title>
     <url>%2F2017%2F10%2F26%2Fwebsocket%2F</url>
-    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。12345678910111213@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 代码 请前往本人的github。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
+    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。12345678910111213@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -123,7 +129,8 @@
         <category>前端</category>
       </categories>
       <tags>
-        <tag>adminlte chartjs</tag>
+        <tag>adminlte</tag>
+        <tag>chartjs</tag>
       </tags>
   </entry>
   <entry>
@@ -135,17 +142,6 @@
       </categories>
       <tags>
         <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot中的jsp]]></title>
-    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
-    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -164,6 +160,17 @@
     <title><![CDATA[springboot中的jar和dll]]></title>
     <url>%2F2017%2F07%2F01%2Fspringboot-jar%2F</url>
     <content type="text"><![CDATA[参考 主要参考以下链接：maven安装本地jarmvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jarSpring Boot引用本地jar包springboot加载dll]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot中的jsp]]></title>
+    <url>%2F2017%2F07%2F01%2Fspringboot-jsp%2F</url>
+    <content type="text"><![CDATA[主要参考以下链接： 主要参考以下链接：Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContexthttps://github.com/luowei/spring-boot-demo-web-jsp http://blog.csdn.net/alan666156/article/details/52168450 https://segmentfault.com/a/1190000009726106 https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -195,17 +202,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[工具类]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-util%2F</url>
-    <content type="text"><![CDATA[常用的工具类 date获取日期是星期几： 可以使用SimpleDateFormat：EEEE代表星期； 另外：MMMM代表中文月份 File下载文件并保存在服务器上时，最好使用当前操作系统的分隔符获取方法：private String sepa = java.io.File.separator;]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[网页转图片]]></title>
     <url>%2F2017%2F06%2F02%2Fjava-html-img%2F</url>
     <content type="text"><![CDATA[一些总结 html2image示例代码如下：123456HtmlImageGenerator imageGenerator = new HtmlImageGenerator();String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;imageGenerator.loadHtml(htmlstr);imageGenerator.getBufferedImage();imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;); maven:12345&lt;dependency&gt; &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt; &lt;artifactId&gt;html2image&lt;/artifactId&gt; &lt;version&gt;0.1.0&lt;/version&gt;&lt;/dependency&gt; 放弃的原因：1、css样式不能写在&lt;style&gt;标签中，不能引用其他css文件，只能写在style属性中。2、对css的支持不好。 cssbox官网：http://cssbox.sourceforge.net/示例代码如下：123456ImageRenderer render = new ImageRenderer();String url = &quot;&quot;;FileOutputStream out = new FileOutputStream(new File(filePath));render.setWindowSize(new Dimension(1080,1920), false);render.renderURL(url, out, ImageRenderer.Type.PNG);out.close(); maven:12345 &lt;dependency&gt; &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt; &lt;artifactId&gt;cssbox&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt;&lt;/dependency&gt; 优点：调用非常简单，能支持较多的css。 遇到的问题1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。原因：不支持中文字体。（安装字体请看：linux相关知识）]]></content>
@@ -213,8 +209,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>html</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -230,9 +226,20 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[工具类]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-util%2F</url>
+    <content type="text"><![CDATA[常用的工具类 date获取日期是星期几： 可以使用SimpleDateFormat：EEEE代表星期； 另外：MMMM代表中文月份 File下载文件并保存在服务器上时，最好使用当前操作系统的分隔符获取方法：private String sepa = java.io.File.separator;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ajax常见问题]]></title>
     <url>%2F2017%2F05%2F24%2Fhtml-ajax%2F</url>
-    <content type="text"><![CDATA[这里主要记录用ajax时遇到的问题。 获取ajax返回结果 ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。1234567891011121314151617181920212223242526var rspTxt = $.ajax(&#123; async:false, cache:false, type : &quot;POST&quot;, url : &quot;&lt;%=basePath%&gt;test.action&quot;, data : &#123; id: $(&quot;#id&quot;).val() &#125;, success : function(data) &#123; var status = data.status; if(&apos;success&apos; == status)&#123; alert(&quot;成功！&quot;); &#125;else&#123; &#125; &#125;, error:function()&#123; alert(&quot;失败！&quot;); &#125;&#125;).responseText;if(typeof(rspTxt) != &quot;undefined&quot;) &#123; var obj = JSON.parse(rspTxt); if(obj.status == &apos;success&apos;) &#123; // 业务处理 &#125;&#125; access-origin ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置 以下是springmvc项目的处理方式：1234567891011121314151617181920212223242526import java.io.IOException;import javax.servlet.Filter;import javax.servlet.FilterChain;import javax.servlet.FilterConfig;import javax.servlet.ServletException;import javax.servlet.ServletRequest;import javax.servlet.ServletResponse;import javax.servlet.http.HttpServletResponse;import org.springframework.stereotype.Component;@Componentpublic class SimpleCORSFilter implements Filter &#123; public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse) res; response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;); response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;); response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;); chain.doFilter(req, res); &#125; public void init(FilterConfig filterConfig) &#123;&#125; public void destroy() &#123;&#125;&#125; 以下是springboot项目的处理方式：12345678910import io.swagger.annotations.Api;import io.swagger.annotations.ApiOperation;import org.springframework.web.bind.annotation.*;@RestController@Api(&quot;测试ajax跨域&quot;)@RequestMapping(&quot;ajaxdemo&quot;)@CrossOriginpublic class TestHttpController &#123; // ...&#125; ajax请求页面刷新 ajax请求，发现页面闪烁以下，刷新。可以配置global: false来解决123456789101112$.ajax(&#123; global: false, type : &quot;POST&quot;, url : &quot;&quot;, data : &#123; &#125;, dataType : &quot;json&quot;, success : function(data) &#123; &#125;, error : function() &#123; &#125;&#125;); 参考：spring mvc 跨域请求处理——spring 4.2 以上玩转spring boot——ajax跨域]]></content>
+    <content type="text"><![CDATA[这里主要记录用ajax时遇到的问题。 获取ajax返回结果 ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。1234567891011121314151617181920212223242526var rspTxt = $.ajax(&#123; async:false, cache:false, type : &quot;POST&quot;, url : &quot;&lt;%=basePath%&gt;test.action&quot;, data : &#123; id: $(&quot;#id&quot;).val() &#125;, success : function(data) &#123; var status = data.status; if(&apos;success&apos; == status)&#123; alert(&quot;成功！&quot;); &#125;else&#123; &#125; &#125;, error:function()&#123; alert(&quot;失败！&quot;); &#125;&#125;).responseText;if(typeof(rspTxt) != &quot;undefined&quot;) &#123; var obj = JSON.parse(rspTxt); if(obj.status == &apos;success&apos;) &#123; // 业务处理 &#125;&#125; access-origin ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置 以下是springmvc项目的处理方式：123456789101112131415public class SimpleCORSFilter implements Filter &#123; public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse) res; response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;); response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;); response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;); chain.doFilter(req, res); &#125; public void init(FilterConfig filterConfig) &#123;&#125; public void destroy() &#123;&#125;&#125; 以下是springboot项目的处理方式：1234567@RestController@Api(&quot;测试ajax跨域&quot;)@RequestMapping(&quot;ajaxdemo&quot;)@CrossOriginpublic class TestHttpController &#123; // ...&#125; ajax请求页面刷新 ajax请求，发现页面闪烁以下，刷新。可以配置global: false来解决123456789101112$.ajax(&#123; global: false, type : &quot;POST&quot;, url : &quot;&quot;, data : &#123; &#125;, dataType : &quot;json&quot;, success : function(data) &#123; &#125;, error : function() &#123; &#125;&#125;); 参考：spring mvc 跨域请求处理——spring 4.2 以上玩转spring boot——ajax跨域]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -344,83 +351,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些好的插件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
-    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js获得get传过来的参数]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
-    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux命令expect]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
-    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"><![CDATA[待总结]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mybatis中的mapper]]></title>
-    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hfy.db.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.Order&quot; id=&quot;OrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false) MyBatis注解select in参数1234567/** * * @param ids &apos;1,2,3&apos; * @return */@Select(&quot;select * from user where id in ($&#123;ids&#125;)&quot;)List&lt;UserInfo&gt; getUserbyIds(@Param(&quot;ids&quot;)String ids); MyBatis注解list参数注解中想使用xml中的&lt;if&gt;标签，需要用&lt;script&gt;标签将其包起来123456789101112&lt;script&gt;insert into tb_image_temp( &lt;foreach collection=&apos;keys&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; $&#123;item&#125; &lt;/foreach&gt;) values( &lt;foreach collection=&apos;values&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; #&#123;item&#125; &lt;/foreach&gt;)&lt;/script&gt; 12345678@Update(&quot;&lt;script&gt;\n&quot; + &quot; update $&#123;tableName&#125; set &quot; + &quot; &lt;foreach collection=&apos;map&apos; index=&apos;key&apos; item=&apos;item&apos; open=&apos;&apos; separator=&apos;,&apos; close=&apos;&apos; &gt;\n&quot; + &quot; $&#123;key&#125; = #&#123;item&#125;\n&quot; + &quot; &lt;/foreach&gt;\n&quot; + &quot; where id = #&#123;id&#125;\n&quot; + &quot;&lt;/script&gt;&quot;)void updateImage(@Param(&quot;tableName&quot;) String tableName, @Param(&quot;map&quot;) Map&lt;String, Object&gt; map, @Param(&quot;id&quot;) Integer id);]]></content>
-      <categories>
-        <category>mybatis</category>
-      </categories>
-      <tags>
-        <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redis安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[微信支付]]></title>
-    <url>%2F2017%2F05%2F11%2Fpay_wechat%2F</url>
-    <content type="text"><![CDATA[微信支付自己一些总结 一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
-      <categories>
-        <category>pay</category>
-      </categories>
-      <tags>
-        <tag>pay</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[js中日期相关问题]]></title>
     <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
     <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
@@ -455,25 +385,91 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
+    <title><![CDATA[JQuery WEUI的分页加载]]></title>
+    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
+    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
       <categories>
         <category>前端</category>
       </categories>
       <tags>
-        <tag>-json -js</tag>
+        <tag>jquery WEUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JQuery WEUI的datetimePicker使用]]></title>
+    <url>%2F2017%2F05%2F11%2Fjquery-weui-datetimepicker%2F</url>
+    <content type="text"><![CDATA[此处主要记录，两个日期，截止时间不能大于开始时间1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells weui_cells_form&quot;&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;起始时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;startTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;终止时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot; id=&quot;endTimeDiv&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;endTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var curDateStr = &apos;2017-10-12 10:10&apos;; $(&quot;#startTime&quot;).datetimePicker(&#123; title: &apos;请选择起始时间&apos;, min : curDateStr, value: curDateStr, onClose: function(p) &#123; // 起始时间改变，更改终止时间的最小值 console.log(p.value); // 获取新起始时间 var year = p.value[0]; var month = p.value[1]; var day = p.value[2]; var hour = p.value[3]; var minute = p.value[4]; var dateStr = year + &quot;-&quot; + month + &quot;-&quot; + day + &quot; &quot; + hour + &quot;:&quot; + minute; var date = new Date(Date.parse(dateStr.replace(/-/g, &quot;/&quot;))); console.log(dateStr); // 获取旧终止时间 var oldEndTimeStr = $(&quot;#endTime&quot;).val(); var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); // 旧终止时间&gt;新的起始时间，不更改终止时间，否则，更新 var newEndTimeStr; if (oldEndTime &lt; date) &#123; newEndTimeStr = dateStr; &#125; else &#123; newEndTimeStr = oldEndTimeStr; &#125; $(&quot;#endTime&quot;).remove(); $(&quot;#endTimeDiv&quot;).append(&apos;&lt;input type=&quot;text&quot; id=&quot;endTime&quot; class=&quot;weui_input&quot; /&gt;&apos;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min: dateStr, value: newEndTimeStr &#125;); &#125; &#125;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min : curDateStr, value: curDateStr &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>jquery WEUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redis安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mybatis中的mapper]]></title>
+    <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
+    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hfy.db.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.Order&quot; id=&quot;OrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false) MyBatis注解select in参数1234567/** * * @param ids &apos;1,2,3&apos; * @return */@Select(&quot;select * from user where id in ($&#123;ids&#125;)&quot;)List&lt;UserInfo&gt; getUserbyIds(@Param(&quot;ids&quot;)String ids); MyBatis注解list参数注解中想使用xml中的&lt;if&gt;标签，需要用&lt;script&gt;标签将其包起来123456789101112&lt;script&gt;insert into tb_image_temp( &lt;foreach collection=&apos;keys&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; $&#123;item&#125; &lt;/foreach&gt;) values( &lt;foreach collection=&apos;values&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; #&#123;item&#125; &lt;/foreach&gt;)&lt;/script&gt; 12345678@Update(&quot;&lt;script&gt;\n&quot; + &quot; update $&#123;tableName&#125; set &quot; + &quot; &lt;foreach collection=&apos;map&apos; index=&apos;key&apos; item=&apos;item&apos; open=&apos;&apos; separator=&apos;,&apos; close=&apos;&apos; &gt;\n&quot; + &quot; $&#123;key&#125; = #&#123;item&#125;\n&quot; + &quot; &lt;/foreach&gt;\n&quot; + &quot; where id = #&#123;id&#125;\n&quot; + &quot;&lt;/script&gt;&quot;)void updateImage(@Param(&quot;tableName&quot;) String tableName, @Param(&quot;map&quot;) Map&lt;String, Object&gt; map, @Param(&quot;id&quot;) Integer id);]]></content>
+      <categories>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>mybatis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js获得get传过来的参数]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
+    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[mysql相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
+    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux命令expect]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
+    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"><![CDATA[待总结]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -489,26 +485,37 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot的tomcat相关]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
-    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[JQuery WEUI的datetimePicker使用]]></title>
-    <url>%2F2017%2F05%2F11%2Fjquery-weui-datetimepicker%2F</url>
-    <content type="text"><![CDATA[此处主要记录，两个日期，截止时间不能大于开始时间1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells weui_cells_form&quot;&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;起始时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;startTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;weui_cell&quot;&gt; &lt;div class=&quot;weui_cell_hd&quot;&gt;&lt;label class=&quot;weui_label&quot;&gt;终止时间&lt;/label&gt;&lt;/div&gt; &lt;div class=&quot;weui_cell_bd weui_cell_primary&quot; id=&quot;endTimeDiv&quot;&gt; &lt;input type=&quot;text&quot; id=&apos;endTime&apos; class=&quot;weui_input&quot; /&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var curDateStr = &apos;2017-10-12 10:10&apos;; $(&quot;#startTime&quot;).datetimePicker(&#123; title: &apos;请选择起始时间&apos;, min : curDateStr, value: curDateStr, onClose: function(p) &#123; // 起始时间改变，更改终止时间的最小值 console.log(p.value); // 获取新起始时间 var year = p.value[0]; var month = p.value[1]; var day = p.value[2]; var hour = p.value[3]; var minute = p.value[4]; var dateStr = year + &quot;-&quot; + month + &quot;-&quot; + day + &quot; &quot; + hour + &quot;:&quot; + minute; var date = new Date(Date.parse(dateStr.replace(/-/g, &quot;/&quot;))); console.log(dateStr); // 获取旧终止时间 var oldEndTimeStr = $(&quot;#endTime&quot;).val(); var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); // 旧终止时间&gt;新的起始时间，不更改终止时间，否则，更新 var newEndTimeStr; if (oldEndTime &lt; date) &#123; newEndTimeStr = dateStr; &#125; else &#123; newEndTimeStr = oldEndTimeStr; &#125; $(&quot;#endTime&quot;).remove(); $(&quot;#endTimeDiv&quot;).append(&apos;&lt;input type=&quot;text&quot; id=&quot;endTime&quot; class=&quot;weui_input&quot; /&gt;&apos;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min: dateStr, value: newEndTimeStr &#125;); &#125; &#125;); $(&quot;#endTime&quot;).datetimePicker(&#123; title: &apos;请选择终止时间&apos;, min : curDateStr, value: curDateStr &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
+    <title><![CDATA[页面中json相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
+    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
       <categories>
         <category>前端</category>
       </categories>
       <tags>
-        <tag>jquery WEUI</tag>
+        <tag>js</tag>
+        <tag>json</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[微信支付]]></title>
+    <url>%2F2017%2F05%2F11%2Fpay_wechat%2F</url>
+    <content type="text"><![CDATA[微信支付自己一些总结 一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
+      <categories>
+        <category>pay</category>
+      </categories>
+      <tags>
+        <tag>pay</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -520,17 +527,6 @@
       </categories>
       <tags>
         <tag>springboot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[windows常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
-    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -546,25 +542,37 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[JQuery WEUI的分页加载]]></title>
-    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
-    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
+    <title><![CDATA[一些好的插件]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
+    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
       <categories>
-        <category>前端</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>jquery WEUI</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[mysql相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
-    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
+    <title><![CDATA[windows常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
+    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
       <categories>
-        <category>mysql</category>
+        <category>windows</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot的tomcat相关]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-tomcat%2F</url>
+    <content type="text"><![CDATA[主要是一些配置 详解springboot-修改内置tomcat版本 https://www.daier.org/122547.html spring-boot 替换内嵌tomcat版本 http://www.ciphermagic.cn/spring-boot-tomcat.html http://www.cnblogs.com/hark0623/p/6977737.html java.lang.IllegalArgumentException: Invalid character found in the request target. The valid characters are defined in RFC 7230 and RFC 3986tomcat8中URI不支持{}|等特殊字符解决方案 http://www.jianshu.com/p/e7fbfa418744]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
