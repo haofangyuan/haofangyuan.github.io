@@ -77,27 +77,6 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/protobuf/</loc>
-        <lastmod>2017-11-17T08:59:37.984Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/linux/</loc>
-        <lastmod>2017-11-17T08:59:37.990Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
-        <lastmod>2017-11-17T08:59:37.994Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/categories/java/</loc>
         <lastmod>2017-11-17T10:32:14.867Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -105,8 +84,29 @@
     </url>
 
     <url>
+        <loc>https://haofangyuan.github.io/categories/protobuf/</loc>
+        <lastmod>2017-11-20T06:42:47.076Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://haofangyuan.github.io/categories/springboot/</loc>
-        <lastmod>2017-11-17T10:34:26.894Z</lastmod>
+        <lastmod>2017-11-22T05:48:39.726Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
+        <lastmod>2017-11-29T09:43:39.286Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/linux/</loc>
+        <lastmod>2017-11-29T09:45:26.180Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

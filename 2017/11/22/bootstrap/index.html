@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。">
+<meta name="description" content="http://jz.faisco.com/pro11.html?_ta=104&amp;amp;kw=21404http://blog.csdn.net/u010028869/article/details/43852799">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springboot的切面aop">
-<meta property="og:url" content="https://haofangyuan.github.io/2017/05/17/springboot-aop/index.html">
+<meta property="og:title" content="hfy Blog">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/11/22/bootstrap/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。">
-<meta property="og:updated_time" content="2017-11-15T10:04:46.788Z">
+<meta property="og:description" content="http://jz.faisco.com/pro11.html?_ta=104&amp;amp;kw=21404http://blog.csdn.net/u010028869/article/details/43852799">
+<meta property="og:updated_time" content="2017-11-22T09:38:05.647Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springboot的切面aop">
-<meta name="twitter:description" content="在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。">
+<meta name="twitter:title" content="hfy Blog">
+<meta name="twitter:description" content="http://jz.faisco.com/pro11.html?_ta=104&amp;amp;kw=21404http://blog.csdn.net/u010028869/article/details/43852799">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>springboot的切面aop | hfy Blog</title>
+<title>hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -229,11 +229,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-springboot-aop" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-bootstrap" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/05/17/springboot-aop/" class="article-date">
-      <time datetime="2017-05-17T14:56:11.000Z" itemprop="datePublished">2017-05-17</time>
+      <a href="/2017/11/22/bootstrap/" class="article-date">
+      <time datetime="2017-11-22T06:10:43.868Z" itemprop="datePublished">2017-11-22</time>
 </a>
 
 
@@ -244,36 +244,10 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      springboot的切面aop
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/springboot/">springboot</a>
-    </div>
-
-
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/aop/">aop</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>　　在springboot项目中使用的切面aop，打印各个请求的请求参数和相应参数。<br><a id="more"></a><br>   注意：post请求和get请求获取参数的方式不同。request.getQueryString();使用与get请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">import com.fasterxml.jackson.databind.ObjectMapper;</div><div class="line">import org.aspectj.lang.ProceedingJoinPoint;</div><div class="line">import org.aspectj.lang.annotation.Around;</div><div class="line">import org.aspectj.lang.annotation.Aspect;</div><div class="line">import org.aspectj.lang.annotation.Pointcut;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.stereotype.Component;</div><div class="line">import org.springframework.web.context.request.RequestAttributes;</div><div class="line">import org.springframework.web.context.request.RequestContextHolder;</div><div class="line">import org.springframework.web.context.request.ServletRequestAttributes;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">//描述切面类</div><div class="line">@Aspect</div><div class="line">@Configuration</div><div class="line">@Component</div><div class="line">public class HttpControllerAop &#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(HttpControllerAop.class);</div><div class="line"></div><div class="line">    /**</div><div class="line">     *  定义切点Pointcut</div><div class="line">     */</div><div class="line">    @Pointcut(&quot;execution(* com.hfy..*HttpController.*(..))&quot;)</div><div class="line">    public void excudeService() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Around(&quot;excudeService()&quot;)</div><div class="line">    public Object doAround(ProceedingJoinPoint pjp) throws Throwable &#123;</div><div class="line">        ObjectMapper mapper = new ObjectMapper();</div><div class="line"></div><div class="line">        RequestAttributes ra = RequestContextHolder.getRequestAttributes();</div><div class="line">        ServletRequestAttributes sra = (ServletRequestAttributes) ra;</div><div class="line">        HttpServletRequest request = sra.getRequest();</div><div class="line"></div><div class="line">        String uri = request.getRequestURI();</div><div class="line">        String queryString = request.getQueryString();</div><div class="line">        Map&lt;String, String[]&gt; params = request.getParameterMap();</div><div class="line">        if (params != null) &#123;</div><div class="line">            queryString = mapper.writeValueAsString(params);</div><div class="line">        &#125;</div><div class="line">        String method = request.getMethod();</div><div class="line">        if (&quot;POST&quot;.equals(method)) &#123;</div><div class="line">            Object[] paramsArray = pjp.getArgs();</div><div class="line">            if (paramsArray.length &gt; 0) &#123;</div><div class="line">                queryString = mapper.writeValueAsString(paramsArray[0]);</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            queryString = request.getQueryString();</div><div class="line">        &#125;</div><div class="line">        logger.info(&quot;请求uri: (&#123;&#125;), params: &#123;&#125;&quot;, uri, queryString);</div><div class="line"></div><div class="line">        // result的值就是被拦截方法的返回值</div><div class="line">        Object result = pjp.proceed();</div><div class="line"></div><div class="line">        // 过滤 高频或数据量大的日志，不打印</div><div class="line">        return result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+        <p><a href="http://jz.faisco.com/pro11.html?_ta=104&amp;kw=21404" target="_blank" rel="external">http://jz.faisco.com/pro11.html?_ta=104&amp;kw=21404</a><br><a href="http://blog.csdn.net/u010028869/article/details/43852799" target="_blank" rel="external">http://blog.csdn.net/u010028869/article/details/43852799</a></p>
 
       
     </div>
@@ -282,13 +256,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/05/17/springboot-aop/">springboot的切面aop</a></p>
+        <p><span>本文标题:</span><a href="/2017/11/22/bootstrap/"></a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">郝方圆</a></p>
-        <p><span>发布时间:</span>2017-05-17, 22:56:11</p>
-        <p><span>最后更新:</span>2017-11-15, 18:04:46</p>
+        <p><span>发布时间:</span>2017-11-22, 14:10:43</p>
+        <p><span>最后更新:</span>2017-11-22, 17:38:05</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/05/17/springboot-aop/" title="springboot的切面aop">https://haofangyuan.github.io/2017/05/17/springboot-aop/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/05/17/springboot-aop/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/11/22/bootstrap/" title="">https://haofangyuan.github.io/2017/11/22/bootstrap/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/11/22/bootstrap/　　作者: 郝方圆" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -300,16 +274,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/05/18/springboot-activemq/">
-                    springboot与activemq
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/05/16/springboot-config/">
-                    springboot读取配置文件
+                <a href="/2017/11/20/springboot-source/">
+                    springboot源码学习
                 </a>
             </div>
         
@@ -357,7 +325,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"springboot的切面aop　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -377,15 +345,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/05/18/springboot-activemq/" title="上一篇: springboot与activemq">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/05/16/springboot-config/" title="下一篇: springboot读取配置文件">
+            <a href="/2017/11/20/springboot-source/" title="下一篇: springboot源码学习">
                 <i class="fa fa-angle-right"></i>
             </a>
         

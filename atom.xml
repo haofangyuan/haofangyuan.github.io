@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haofangyuan.github.io/"/>
-  <updated>2017-11-17T08:59:37.984Z</updated>
+  <updated>2017-11-22T09:38:05.647Z</updated>
   <id>https://haofangyuan.github.io/</id>
   
   <author>
@@ -16,19 +16,62 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>protobuf的学习</title>
-    <link href="https://haofangyuan.github.io/2017/11/16/protobuf/"/>
-    <id>https://haofangyuan.github.io/2017/11/16/protobuf/</id>
-    <published>2017-11-16T10:56:11.000Z</published>
-    <updated>2017-11-17T08:59:37.984Z</updated>
+    <title></title>
+    <link href="https://haofangyuan.github.io/2017/11/22/bootstrap/"/>
+    <id>https://haofangyuan.github.io/2017/11/22/bootstrap/</id>
+    <published>2017-11-22T06:10:43.868Z</published>
+    <updated>2017-11-22T09:38:05.647Z</updated>
     
-    <content type="html"><![CDATA[<p>  开始学习pb了，来些总结吧！<br><a id="more"></a><br>本人项目源码地址：<a href="https://github.com/haofangyuan/springboot-protobuf" target="_blank" rel="external">https://github.com/haofangyuan/springboot-protobuf</a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.csdn.net/u010939285/article/details/78538927" target="_blank" rel="external">protobuf 和 intellij 配置使用</a><br><a href="http://colobu.com/2015/01/07/Protobuf-language-guide/" target="_blank" rel="external">Protobuf 语法指南</a><br><a href="http://blog.csdn.net/z69183787/article/details/52610138" target="_blank" rel="external">httpclient ＋protobuf 实现数据传输</a></p>
+    <content type="html"><![CDATA[<p><a href="http://jz.faisco.com/pro11.html?_ta=104&amp;kw=21404" target="_blank" rel="external">http://jz.faisco.com/pro11.html?_ta=104&amp;kw=21404</a><br><a href="http://blog.csdn.net/u010028869/article/details/43852799" target="_blank" rel="external">http://blog.csdn.net/u010028869/article/details/43852799</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;  开始学习pb了，来些总结吧！&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;http://jz.faisco.com/pro11.html?_ta=104&amp;amp;kw=21404&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://jz.faisco.com/pro11.html?_ta=104&amp;amp
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>springboot源码学习</title>
+    <link href="https://haofangyuan.github.io/2017/11/20/springboot-source/"/>
+    <id>https://haofangyuan.github.io/2017/11/20/springboot-source/</id>
+    <published>2017-11-20T12:37:11.000Z</published>
+    <updated>2017-11-21T02:41:26.239Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　springboot源码学习<br><a id="more"></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://zhaox.github.io/java/2016/03/22/spring-boot-start-flow" target="_blank" rel="external">http://zhaox.github.io/java/2016/03/22/spring-boot-start-flow</a><br><a href="http://www.cnblogs.com/davidwang456/p/5846513.html" target="_blank" rel="external">http://www.cnblogs.com/davidwang456/p/5846513.html</a><br><a href="http://www.majunwei.com/view/201708262210563675.html" target="_blank" rel="external">http://www.majunwei.com/view/201708262210563675.html</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　springboot源码学习&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>protobuf的学习</title>
+    <link href="https://haofangyuan.github.io/2017/11/16/protobuf/"/>
+    <id>https://haofangyuan.github.io/2017/11/16/protobuf/</id>
+    <published>2017-11-16T10:56:11.000Z</published>
+    <updated>2017-11-20T06:42:47.076Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　开始学习pb了，来些总结吧！<br><a id="more"></a><br>本人github上本内容相关的项目：<br>　　springboot+protobuf<br>　　springboot+protobuf+websocket  </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://blog.csdn.net/u010939285/article/details/78538927" target="_blank" rel="external">protobuf 和 intellij 配置使用</a><br><a href="http://colobu.com/2015/01/07/Protobuf-language-guide/" target="_blank" rel="external">Protobuf 语法指南</a><br><a href="http://blog.csdn.net/z69183787/article/details/52610138" target="_blank" rel="external">httpclient ＋protobuf 实现数据传输</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　开始学习pb了，来些总结吧！&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -66,37 +109,6 @@
   </entry>
   
   <entry>
-    <title>websocket相关问题</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/websocket/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/websocket/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2017-11-15T10:04:46.812Z</updated>
-    
-    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a></p>
-<h2 id="UnresolvedAddressException"><a href="#UnresolvedAddressException" class="headerlink" title="UnresolvedAddressException"></a>UnresolvedAddressException</h2><p>　　连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，<br>结果出现异常：UnresolvedAddressException  </p>
-<p>　　检测发现dns配置正确。后来原因是：服务器连接数已达到上限  </p>
-<h2 id="TXT-PRIVATE-XX"><a href="#TXT-PRIVATE-XX" class="headerlink" title="TXT_PRIVATE_XX"></a>TXT_PRIVATE_XX</h2><p>　　此问题的原因是：session已经关闭了，却还在使用session发送消息。</p>
-<h2 id="timeoutException"><a href="#timeoutException" class="headerlink" title="timeoutException"></a>timeoutException</h2><p>　　同时发现会报错：WritePendingException<br>　　这种问题在服务端处理的比较慢的时候出现。<br>　　为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。<br>　　因为：很多数据存储在缓存中，无法继续写入，超时。<br>　　至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。</p>
-<h2 id="超时断开"><a href="#超时断开" class="headerlink" title="超时断开"></a>超时断开</h2><p>　　两个session间，如果不长时间进行通信，会自动断开。还有路由等原因会在短时间内断开，察觉不到。一端认为还在，另一端已经断开了。<br>解决办法：<br>　　发送心跳包</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html" target="_blank" rel="external">http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html</a><br><a href="https://my.oschina.net/ldl123292/blog/304360" target="_blank" rel="external">https://my.oschina.net/ldl123292/blog/304360</a></p>
-<p>Spring Websocket Session共享解决思路（背景）<a href="http://www.sojson.com/blog/238.html" target="_blank" rel="external">http://www.sojson.com/blog/238.html</a><br>看完让你彻底搞懂Websocket原理 <a href="http://blog.csdn.net/frank_good/article/details/50856585" target="_blank" rel="external">http://blog.csdn.net/frank_good/article/details/50856585</a><br>webSocket中并发的策略 <a href="http://blog.csdn.net/heshuangyuan123/article/details/39023569" target="_blank" rel="external">http://blog.csdn.net/heshuangyuan123/article/details/39023569</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springboot一些额外的知识</title>
     <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
     <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
@@ -114,6 +126,45 @@
     <summary type="html">
     
       &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+    
+    
+      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>websocket相关问题</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/websocket/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/websocket/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2017-11-29T09:43:39.286Z</updated>
+    
+    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a></p>
+<h2 id="UnresolvedAddressException"><a href="#UnresolvedAddressException" class="headerlink" title="UnresolvedAddressException"></a>UnresolvedAddressException</h2><p>　　连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，<br>结果出现异常：UnresolvedAddressException  </p>
+<p>　　检测发现dns配置正确。后来原因是：服务器连接数已达到上限  </p>
+<h2 id="BINARY-PARTIAL-WRITING"><a href="#BINARY-PARTIAL-WRITING" class="headerlink" title="BINARY_PARTIAL_WRITING"></a>BINARY_PARTIAL_WRITING</h2><p>　　此问题的原因是：多线程在同时发送消息。需要加锁。<br>以下是错误代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    Thread.sleep(1 * 1000);</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        session.sendMessage(message);</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://or8a8is80.bkt.clouddn.com/BINARY_PARTIAL_WRITING.png" alt=""></p>
+<h2 id="强制关闭现有连接"><a href="#强制关闭现有连接" class="headerlink" title="强制关闭现有连接"></a>强制关闭现有连接</h2><p>　　对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。<br>　　session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    Thread.sleep(1 * 1000);</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        if (session.isOpen()) &#123;</div><div class="line">            session.sendMessage(message);</div><div class="line">        &#125;</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://or8a8is80.bkt.clouddn.com/IOException.png" alt=""></p>
+<h2 id="timeoutException"><a href="#timeoutException" class="headerlink" title="timeoutException"></a>timeoutException</h2><p>　　同时发现会报错：WritePendingException<br>　　这种问题在服务端处理的比较慢的时候出现。<br>　　为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。<br>　　因为：很多数据存储在缓存中，无法继续写入，超时。<br>　　至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。<br><img src="http://or8a8is80.bkt.clouddn.com/TimeoutException.png" alt=""></p>
+<h2 id="websocket超时断开"><a href="#websocket超时断开" class="headerlink" title="websocket超时断开"></a>websocket超时断开</h2><p>　　两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。<br>解决办法：<br>　　发送心跳包</p>
+<h2 id="IOException-Too-many-open-files"><a href="#IOException-Too-many-open-files" class="headerlink" title="IOException:Too many open files"></a>IOException:Too many open files</h2><p>服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">java.nio.channels.UnresolvedAddressException: null</div><div class="line">	at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101]</div><div class="line">	at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101]</div><div class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101]</div></pre></td></tr></table></figure></p>
+<p>没有联网，报错正常，但是运行一段时间后，报了以下错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">2017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failed</div><div class="line">java.io.IOException: Too many open files</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101]</div><div class="line">    at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4]</div><div class="line">    at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101]</div></pre></td></tr></table></figure></p>
+<p>查看进程号：<code>ps -ef | grep java</code> 再用命令<code>lsof -p 进程号 | wc -l</code>发现打开的文件数量很多。<code>lsof -p 进程号</code>则发现有大量类似的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java    13597 root   51u  sock                0,6      0t0  185981 can&apos;t identify protocol</div></pre></td></tr></table></figure></p>
+<p>What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">StandardWebSocketClient client = new StandardWebSocketClient();</div><div class="line">WebSocketConnectionManager manager = new WebSocketConnectionManager(</div><div class="line">                client, handler, WS_URI);</div><div class="line">manager.setOrigin(ORIGIN);</div><div class="line">manager.start();</div></pre></td></tr></table></figure></p>
+<p>不明白，查看源码，追踪到WsWebSocketContainer中，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public Session connectToServer(Endpoint endpoint,</div><div class="line">            ClientEndpointConfig clientEndpointConfiguration, URI path)</div><div class="line">            throws DeploymentException &#123;</div><div class="line">	// ......</div><div class="line"></div><div class="line">	// Open the connection</div><div class="line">	Future&lt;Void&gt; fConnect = socketChannel.connect(sa);</div><div class="line">	AsyncChannelWrapper channel = null;</div><div class="line"></div><div class="line">	// ......</div><div class="line"></div><div class="line">  if (secure) &#123;</div><div class="line">      SSLEngine sslEngine = createSSLEngine(userProperties);</div><div class="line">      channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine);</div><div class="line">  &#125; else if (channel == null) &#123;</div><div class="line">      channel = new AsyncChannelWrapperNonSecure(socketChannel);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">	try &#123;</div><div class="line">		// ......</div><div class="line">	&#125; catch (ExecutionException | InterruptedException | SSLException |</div><div class="line">			EOFException | TimeoutException | URISyntaxException e) &#123;</div><div class="line">		throw new DeploymentException(</div><div class="line">				sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e);</div><div class="line">	&#125; finally &#123;</div><div class="line">		if (!success) &#123;</div><div class="line">			channel.close();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// ......</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。<br>解决：</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>　　请前往本人的github。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html" target="_blank" rel="external">http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html</a><br><a href="https://my.oschina.net/ldl123292/blog/304360" target="_blank" rel="external">https://my.oschina.net/ldl123292/blog/304360</a><br>Spring Websocket Session共享解决思路（背景）<a href="http://www.sojson.com/blog/238.html" target="_blank" rel="external">http://www.sojson.com/blog/238.html</a><br>看完让你彻底搞懂Websocket原理 <a href="http://blog.csdn.net/frank_good/article/details/50856585" target="_blank" rel="external">http://blog.csdn.net/frank_good/article/details/50856585</a><br>webSocket中并发的策略 <a href="http://blog.csdn.net/heshuangyuan123/article/details/39023569" target="_blank" rel="external">http://blog.csdn.net/heshuangyuan123/article/details/39023569</a><br>tcp socket文件句柄泄漏<br><a href="http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/" target="_blank" rel="external">http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -189,30 +240,6 @@
   </entry>
   
   <entry>
-    <title>java中的HashMap</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2017-11-15T10:04:46.747Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>了解负载均衡 会话保持 session同步(转)</title>
     <link href="https://haofangyuan.github.io/2017/10/16/java_nginx/"/>
     <id>https://haofangyuan.github.io/2017/10/16/java_nginx/</id>
@@ -237,6 +264,30 @@
     <summary type="html">
     
       &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java中的HashMap</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2017-11-15T10:04:46.747Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　hashMap的那些事<br><a id="more"></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="!http://www.infoq.com/cn/articles/ConcurrentHashMap">深入分析ConcurrentHashMap</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　hashMap的那些事&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -352,6 +403,30 @@
   </entry>
   
   <entry>
+    <title>springboot中的jar和dll</title>
+    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jar/"/>
+    <id>https://haofangyuan.github.io/2017/07/01/springboot-jar/</id>
+    <published>2017-07-01T07:03:11.000Z</published>
+    <updated>2017-11-15T10:04:46.798Z</updated>
+    
+    <content type="html"><![CDATA[<p>  参考<br><a id="more"></a>  </p>
+<p>主要参考以下链接：<br><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code><br><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  参考&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot中的jsp</title>
     <link href="https://haofangyuan.github.io/2017/07/01/springboot-jsp/"/>
     <id>https://haofangyuan.github.io/2017/07/01/springboot-jsp/</id>
@@ -368,30 +443,6 @@
     <summary type="html">
     
       &lt;p&gt;主要参考以下链接：&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot中的jar和dll</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jar/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-jar/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-11-15T10:04:46.798Z</updated>
-    
-    <content type="html"><![CDATA[<p>  参考<br><a id="more"></a>  </p>
-<p>主要参考以下链接：<br><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code><br><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  参考&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -489,38 +540,6 @@
   </entry>
   
   <entry>
-    <title>网页转图片</title>
-    <link href="https://haofangyuan.github.io/2017/06/02/java-html-img/"/>
-    <id>https://haofangyuan.github.io/2017/06/02/java-html-img/</id>
-    <published>2017-06-02T05:56:59.000Z</published>
-    <updated>2017-11-15T10:04:46.750Z</updated>
-    
-    <content type="html"><![CDATA[<p>  一些总结<br><a id="more"></a></p>
-<h2 id="html2image"><a href="#html2image" class="headerlink" title="html2image"></a>html2image</h2><p>示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HtmlImageGenerator imageGenerator = new HtmlImageGenerator();</div><div class="line">String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;</div><div class="line">imageGenerator.loadHtml(htmlstr);</div><div class="line">imageGenerator.getBufferedImage();</div><div class="line">imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);</div><div class="line">imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;);</div></pre></td></tr></table></figure></p>
-<p>maven:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;html2image&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.1.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
-<p>放弃的原因：<br>1、css样式不能写在<code>&lt;style&gt;</code>标签中，不能引用其他css文件，只能写在style属性中。<br>2、对css的支持不好。</p>
-<h2 id="cssbox"><a href="#cssbox" class="headerlink" title="cssbox"></a>cssbox</h2><p>官网：<a href="http://cssbox.sourceforge.net/" target="_blank" rel="external">http://cssbox.sourceforge.net/</a><br>示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ImageRenderer render = new ImageRenderer();</div><div class="line">String url = &quot;&quot;;</div><div class="line">FileOutputStream out = new FileOutputStream(new File(filePath));</div><div class="line">render.setWindowSize(new Dimension(1080,1920), false);</div><div class="line">render.renderURL(url, out, ImageRenderer.Type.PNG);</div><div class="line">out.close();</div></pre></td></tr></table></figure></p>
-<p>maven:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> &lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;cssbox&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;4.12&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
-<p>优点：调用非常简单，能支持较多的css。  </p>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。<br>原因：不支持中文字体。（安装字体请看：<a href="https://haofangyuan.github.io/2017/05/11/linux-command/">linux相关知识</a>）</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
-    
-  </entry>
-  
-  <entry>
     <title>工具类</title>
     <link href="https://haofangyuan.github.io/2017/06/02/java-util/"/>
     <id>https://haofangyuan.github.io/2017/06/02/java-util/</id>
@@ -542,36 +561,6 @@
     
     
       <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>git常用命令</title>
-    <link href="https://haofangyuan.github.io/2017/05/24/git/"/>
-    <id>https://haofangyuan.github.io/2017/05/24/git/</id>
-    <published>2017-05-24T12:37:11.000Z</published>
-    <updated>2017-11-17T08:59:37.971Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　git常用命令<br><a id="more"></a></p>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">1、克隆代码  </div><div class="line">	git clone 地址</div><div class="line">2、查看当前状态</div><div class="line">	git status</div><div class="line">	  状态分为 	</div><div class="line">			&quot;未跟踪&quot; 	Untracked	 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。</div><div class="line">			&quot;已经修改&quot;	modified	执行commit才会保存到版本库中。</div><div class="line">			&quot;已经删除&quot;	deleted		本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]</div><div class="line">3、添加未跟踪文件</div><div class="line">	git add [文件名]</div><div class="line">  	注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add *</div><div class="line">		使用 `git add *.java, *.jsp`</div><div class="line">4、提交代码</div><div class="line">	git commit [文件名] -m &quot;注释&quot;			</div><div class="line">5、从版本库拉代码</div><div class="line">	git pull</div><div class="line">6、代码提交到版本库</div><div class="line">	git push</div><div class="line"></div><div class="line">7、查看文件修改情况</div><div class="line">		git diff [文件名]	如果不加文件名，会将所有已经修改的文件与版本库进行比较</div><div class="line"></div><div class="line">8、回滚</div><div class="line">	git reset [--hard] [--mixed]</div><div class="line">	[--hard] 是强制抹除修改，未提交的修改会丢失。	git reset --hard #######慎重使用#####</div><div class="line">	[--mixed] 是保存修改，相当于重新提交。</div><div class="line"></div><div class="line">9、rebase</div><div class="line">	git rebase [分支名]  //一般基于origin/master rebase 	即 git rebase origin/master</div><div class="line">	本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。</div><div class="line">		出现冲突时，</div><div class="line">		1、查看那些文件冲突： git status</div><div class="line">		2、修改：</div><div class="line">		3、将冲突文件修改后添加：git add 文件名</div><div class="line">		4、git rebase --continue</div><div class="line"></div><div class="line">10、图形界面工具</div><div class="line">	gitk --all</div></pre></td></tr></table></figure>
-<h2 id="修改撤回"><a href="#修改撤回" class="headerlink" title="修改撤回"></a>修改撤回</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git diff &gt; tmp.diff			//修改内容暂存置tmp.diff</div><div class="line">git reset --hard			  //去除修改</div><div class="line">rm -f tmp.diff				  //删除tmp.diff</div></pre></td></tr></table></figure>
-<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">1、查看本地分支</div><div class="line">		git branch  </div><div class="line">		* dev  </div><div class="line">		  master  </div><div class="line">		*代表当前位于dev分支</div><div class="line"></div><div class="line">2、查看远程分支</div><div class="line">		git branch -r</div><div class="line">		  origin/dev  </div><div class="line">		  origin/master  </div><div class="line"></div><div class="line">3、查看本地和远程分支</div><div class="line">		git branch -a</div><div class="line"></div><div class="line">4、创建分支</div><div class="line">		git checkout -b new_branch  </div><div class="line">		注意，new_branch的代码来自于当前分支</div><div class="line"></div><div class="line">5、切换分支</div><div class="line">		git checkout another_branch  </div><div class="line">		和创建分支就差-b参数</div><div class="line"></div><div class="line">6、push本地分支代码到远端服务器</div><div class="line">		git push origin branch_name  </div><div class="line">		如果远端服务器没有该分支，将会自动创建</div><div class="line"></div><div class="line">7、pull远端分支代码到本地对应分支</div><div class="line">		git pull origin branch_name  </div><div class="line"></div><div class="line">8、删除本地分支,首先切换到别的分支,然后才能删除某个分支</div><div class="line">		git checkout b  </div><div class="line">		git branch -d a  </div><div class="line"></div><div class="line">9、删除远程分支</div><div class="line">		git push origin --delete branch_name  </div><div class="line"></div><div class="line">10、合并本地分支b4.5到master上：</div><div class="line">		git checkout master</div><div class="line">		git merger b4.5     将本地的b4.5分支代码合并到当前分支master中</div><div class="line">		出现冲突:</div><div class="line">			1、修改冲突文件</div><div class="line">			2、git add             </div><div class="line">			3、git commit</div><div class="line"></div><div class="line">11、合并远程分支，和前面的几乎一样，</div><div class="line">		git merge origin/b  </div><div class="line">		远程分支b被合并到本地当前分支dev中了。</div><div class="line"></div><div class="line">12、重命名分支：</div><div class="line">		git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖)</div></pre></td></tr></table></figure>
-<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">1、查看本地标签：</div><div class="line">		git tag</div><div class="line"></div><div class="line">2、推送所有标签：</div><div class="line">		git push --tags</div><div class="line"></div><div class="line">3、删除本地标签：</div><div class="line">		git tag -d 标签名</div><div class="line"></div><div class="line">4、删除远程标签：</div><div class="line">		git push origin --delete tag 标签名</div></pre></td></tr></table></figure>
-<h2 id="文件追踪问题"><a href="#文件追踪问题" class="headerlink" title="文件追踪问题"></a>文件追踪问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？</div><div class="line">使用 git update-index 即可。</div><div class="line">不想继续追踪某个文件</div><div class="line">git update-index --assume-unchanged your_file_path</div><div class="line">如果想再次继续跟踪某个文件</div><div class="line">git update-index --no-assume-unchanged your_file_path</div></pre></td></tr></table></figure>
-<h2 id="windows-gitk-乱码"><a href="#windows-gitk-乱码" class="headerlink" title="windows gitk 乱码"></a>windows gitk 乱码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件</div><div class="line">在文件末尾加上：</div><div class="line">[gui]</div><div class="line">    encoding = utf-8</div></pre></td></tr></table></figure>
-<h2 id="某次提交合并到分支上"><a href="#某次提交合并到分支上" class="headerlink" title="某次提交合并到分支上"></a>某次提交合并到分支上</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">将分支b2上的某次提交合并到分支b1上。</div><div class="line">1、b2分支上：查看commit号</div><div class="line">		git log</div><div class="line">2、切换到b1分支</div><div class="line">		git checkout b1</div><div class="line">		git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e2</div><div class="line">3、出现冲突，解决后使用</div><div class="line">		git cherry-pick --continue</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　git常用命令&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="git" scheme="https://haofangyuan.github.io/categories/git/"/>
-    
-    
-      <category term="git" scheme="https://haofangyuan.github.io/tags/git/"/>
     
   </entry>
   
