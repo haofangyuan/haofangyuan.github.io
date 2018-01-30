@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[TCP/IP TIME_WAIT过多]]></title>
+    <url>%2F2018%2F01%2F12%2Ftime_wait%2F</url>
+    <content type="text"><![CDATA[TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。分解：http://lib.csdn.net/article/computernetworks/17275http://blog.csdn.net/bk_guo/article/details/53995399windows下解决：http://www.cnblogs.com/doNetTom/p/5160709.html]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>exception</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[wrapper的使用]]></title>
+    <url>%2F2018%2F01%2F12%2Fwrapper%2F</url>
+    <content type="text"><![CDATA[windows平台下，jar包开机自启动好配置，可会有命令行窗口运行在界面上，容易不小心关闭。wrapper可以实现。Wrapper配置详解及高级应用]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>exception</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[thrift学习]]></title>
+    <url>%2F2017%2F12%2F06%2Fthrift%2F</url>
+    <content type="text"><![CDATA[自己一些总结 简介Thrift是Facebook的一个开源项目，用于RPC通信，C/S结构，跨语言的IDL（Interface Description Language）。 Thrift安装1、windows安装：从 http://thrift.apache.org/download 下载thrift-0.10.0.exe，然后重命名为thrift.exe,放到任意目录下（如：E:\thrift\0.10.0）,将目录添加到环境变量中。cmd中执行thrift -version。2、IDEA安装插件：插件安装完成，打开File-&gt;settings-&gt;Thrift compiler，(1)填写Thrift executable: thrift,(2)勾选Allow negative field keys。3、maven项目：打开File-&gt;Project Structure-&gt;Facets,添加Thrift，右边添加java，设置输出目录。参考：http://blog.csdn.net/haluoluo211/article/details/53786381 实例1、Apache Thrift - 可伸缩的跨语言服务开发框架2、Thrift入门及Java实例演示 阻塞式： 服务端：（单线程TSimpleServer、多线程TThreadPoolServer）非阻塞式： 服务端服务模型：（TNonblockingServer、半同步半异步THsHaServer） 客户端还支持：异步客户端 服务端和客户端需要指定 TFramedTransport 数据传输的方式 进阶连接池Thrift客户端连接池设计实现Thrift客户端连接池thrift无法判断连接失效的原因与解决方案 [Thrift连接池，spring配置化，透明化调用（优化2）]http://blog.csdn.net/zjs40/article/details/63265407 双向通信[双向异步远程调用]http://blog.csdn.net/qq_27989757/article/details/50725973http://www.bkjia.com/Javabc/1173043.html http://blog.csdn.net/june905206961/article/details/54890460 参考你应该知道的 RPC 原理 http://m.blog.csdn.net/dream_lixiang/article/details/54603374]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>thrift</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[bootstrap]]></title>
     <url>%2F2017%2F11%2F26%2Fbootstrap%2F</url>
-    <content type="text"><![CDATA[这里主要记录前端页面的问题。 没想到，我这搞后台的要写个官网，好吧，此处简单记录下。]]></content>
+    <content type="text"><![CDATA[这里主要记录前端页面的问题。 要写个官网，好吧，此处简单记录下。 简单css1、透明：rgba(255, 135, 36, 0.9)2、垂直居中：12345.center-vertical &#123; position: relative; top: 50%; transform: translateY(-50%);&#125; 3、背景图片：12345678.bg-img &#123; background: url(../images/banner-about.png); background-position: center 0; /*屏小，背景居中*/ background-repeat: no-repeat; /*背景图像将仅显示一次，不重复*/ background-attachment: fixed; /*设置固定的背景图像*/ background-size: cover; -webkit-background-size: cover;&#125; 4、公司发展历程（台阶上坡式）：使用bootstrap的列偏移：http://v3.bootcss.com/css/ 滚动翻页整个界面分N屏，垂直滚动。示例：http://www.swiper.com.cn/demo/090-vertical.html ， 使用的是swiper4：http://www.swiper.com.cn/1234var mySwiper = new Swiper(&apos;.swiper-container&apos;, &#123; direction: &apos;vertical&apos;, mousewheel: true,&#125;) 返回顶部1234567&lt;!-- 第一种 --&gt;&lt;a href=&quot;javascript:void(0);&quot; onclick=&quot;slideToTop();&quot;&gt;&lt;i class=&quot;fa fa-arrow-up&quot;&gt;&lt;/i&gt;&lt;/a&gt;function slideToTop() &#123; mySwiper.slideTo(0, 1000, false); //切换到第一个slide，速度为1秒&#125;&lt;!-- 第二种 --&gt;&lt;a href=&quot;javascript:scroll(0,0)&quot;&gt;&lt;i class=&quot;fa fa-arrow-up&quot;&gt;&lt;/i&gt;&lt;/a&gt; 图片动态1、鼠标移至图片上，下方展开内容。使用slideUp()，slideDown();2、图片底部透明遮罩文字标题效果：http://www.qdxw.net/xwhtml/559.html 背景图满屏12345678910111213141516171819202122232425262728&lt;html&gt;&lt;meta charset=&quot;UTF-8&quot; http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;&lt;title&gt;背景图宽度高度满屏&lt;/title&gt;&lt;style&gt;.index_bgimg&#123; width: 100%; height: 100%; /*height: 1079px;*/ background: url(../img/bg_img.png); background-position: center 0; /*屏小，背景居中*/ background-repeat: no-repeat; /*背景图像将仅显示一次，不重复*/ background-attachment: fixed; /*设置固定的背景图像*/ background-size: cover; -webkit-background-size: cover;&#125;&lt;/style&gt;&lt;body&gt; &lt;!-- &lt;div id=&quot;Layer1&quot; style=&quot;position:absolute; left:0px; top:0px; width:100%; height:100%&quot;&gt; &lt;img src=&quot;1.png&quot; width=&quot;100%&quot; height=&quot;100%&quot;/&gt; &lt;/div&gt; --&gt; &lt;div id=&quot;Layer1&quot; style=&quot;position:absolute; left:0px; top:0px; width:100%; height:100%&quot;&gt; &lt;div class=&quot;index_bgimg&quot; width=&quot;100%&quot; height=&quot;100%&quot;&gt; &lt;/div&gt;&lt;/div&gt; &lt;/body&gt; &lt;/html&gt; 滚动条样式1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950*&#123; scrollbar-face-color:rgba(0,0,0,0.2); !*面子*! scrollbar-arrow-color:rgba(0,0,0,0.2); !*箭头*! scrollbar-3dlight-color:rgba(0,0,0,0.2); !*最外左*! scrollbar-highlight-color:rgba(0,0,0,0.2); !*左二*! scrollbar-shadow-color:rgba(0,0,0,0.2); !*右二*! scrollbar-darkshadow-color:rgba(0,0,0,0.2); !*右一*! scrollbar-track-color:rgba(0,0,0,0.2); !*滑道*!&#125;!*滚动条整体*!::-webkit-scrollbar&#123; width: 4px; !*高宽分别对应横竖滚动条的尺寸*! height: 4px;&#125;!*滚动条按钮*!::-webkit-scrollbar-button &#123;&#125;::-webkit-scrollbar-track&#123; -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2); border-radius: 0; background: rgba(0,0,0,0.2);&#125;::-webkit-scrollbar-track-piece&#123; background-color:rgba(0,0,0,0.2); !*滑道*! -webkit-border-radius:4px; !*滑道圆角宽度*!&#125;::-webkit-scrollbar-thumb&#123; border-radius: 5px; -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2); background: rgba(0,0,0,0.2); !*background-color:#F3F3F3; !*滑动条表面*!*! !*border:solid 1px #C0C0C0; !*滑动条边框*!*! !*border-radius:4px; !*滑动条圆角宽度*!*!&#125;!*横竖滚动条交角*!::-webkit-scrollbar-corner &#123; background-color: rgba(0,0,0,0.2);&#125;!*横竖滚动条交角图案*!::-webkit-resizer &#123; !*background-image: url(/public/img/resizer-inactive.png);*! background-repeat: no-repeat; background-position: bottom right;&#125;!*鼠标滑过滑动条*!::-webkit-scrollbar-thumb:hover&#123; background-color:rgba(0,0,0,0.2);&#125;]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -25,7 +58,7 @@
   <entry>
     <title><![CDATA[protobuf的学习]]></title>
     <url>%2F2017%2F11%2F16%2Fprotobuf%2F</url>
-    <content type="text"><![CDATA[开始学习pb了，来些总结吧！本人github上本内容相关的项目： springboot+protobuf springboot+protobuf+websocket 参考protobuf 和 intellij 配置使用Protobuf 语法指南httpclient ＋protobuf 实现数据传输]]></content>
+    <content type="text"><![CDATA[开始学习pb了，来些总结吧！本人github上本内容相关的项目： springboot+protobuf springboot+protobuf+websocket接口设计： 我的Protobuf消息设计原则 https://my.oschina.net/cxh3905/blog/159122 我的Protobuf消息设计原则(续)–实践 https://my.oschina.net/cxh3905/blog/293000 Json转换protobuf转json123456789101112131415161718192021222324252627import com.google.protobuf.Descriptors;import com.googlecode.protobuf.format.JsonFormat;import java.io.IOException;/** * JsonFormat的子类，不打印图片数据 * * 直接使用com.googlecode.protobuf.format.JsonFormat的方法： * new JsonFormat().printToString(message); * 来打印，会将图片也打印出来，下面方法过滤了图片数据。 * new MyJsonFormat().printToString(message); * * Created by hfy on 2018/1/5. */public class MyJsonFormat extends JsonFormat &#123; @Override public void printField(Descriptors.FieldDescriptor field, Object value, JsonGenerator generator) throws IOException &#123; if (field.getType() == Descriptors.FieldDescriptor.Type.BYTES) &#123; generator.print(&quot;\&quot;&quot;); generator.print(&quot;image data...&quot;); generator.print(&quot;\&quot;&quot;); &#125; else &#123; super.printField(field, value, generator); &#125; &#125;&#125; 参考protobuf 和 intellij 配置使用Protobuf 语法指南httpclient ＋protobuf 实现数据传输]]></content>
       <categories>
         <category>protobuf</category>
       </categories>
@@ -58,7 +91,7 @@
   <entry>
     <title><![CDATA[websocket相关问题]]></title>
     <url>%2F2017%2F10%2F26%2Fwebsocket%2F</url>
-    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。12345678910111213@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
+    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。123456789101112@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -145,14 +178,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot + mybatis + 多数据源]]></title>
-    <url>%2F2017%2F07%2F01%2Fspringboot-mybatis-datasource%2F</url>
-    <content type="text"><![CDATA[springboot + mybatis + 多数据源 http://www.cnblogs.com/java-zhao/p/5413845.html]]></content>
+    <title><![CDATA[springboot中的jar和dll]]></title>
+    <url>%2F2017%2F07%2F01%2Fspringboot-jar%2F</url>
+    <content type="text"><![CDATA[参考 主要参考以下链接：maven安装本地jarmvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jarSpring Boot引用本地jar包springboot加载dll]]></content>
       <categories>
         <category>springboot</category>
       </categories>
       <tags>
-        <tag>mybatis</tag>
         <tag>springboot</tag>
       </tags>
   </entry>
@@ -168,13 +200,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot中的jar和dll]]></title>
-    <url>%2F2017%2F07%2F01%2Fspringboot-jar%2F</url>
-    <content type="text"><![CDATA[参考 主要参考以下链接：maven安装本地jarmvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jarSpring Boot引用本地jar包springboot加载dll]]></content>
+    <title><![CDATA[springboot + mybatis + 多数据源]]></title>
+    <url>%2F2017%2F07%2F01%2Fspringboot-mybatis-datasource%2F</url>
+    <content type="text"><![CDATA[springboot + mybatis + 多数据源 http://www.cnblogs.com/java-zhao/p/5413845.html]]></content>
       <categories>
         <category>springboot</category>
       </categories>
       <tags>
+        <tag>mybatis</tag>
         <tag>springboot</tag>
       </tags>
   </entry>
@@ -202,18 +235,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ArrayList的线程安全问题]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
-    <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>thread</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[网页转图片]]></title>
     <url>%2F2017%2F06%2F02%2Fjava-html-img%2F</url>
     <content type="text"><![CDATA[一些总结 html2image示例代码如下：123456HtmlImageGenerator imageGenerator = new HtmlImageGenerator();String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;imageGenerator.loadHtml(htmlstr);imageGenerator.getBufferedImage();imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;); maven:12345&lt;dependency&gt; &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt; &lt;artifactId&gt;html2image&lt;/artifactId&gt; &lt;version&gt;0.1.0&lt;/version&gt;&lt;/dependency&gt; 放弃的原因：1、css样式不能写在&lt;style&gt;标签中，不能引用其他css文件，只能写在style属性中。2、对css的支持不好。 cssbox官网：http://cssbox.sourceforge.net/示例代码如下：123456ImageRenderer render = new ImageRenderer();String url = &quot;&quot;;FileOutputStream out = new FileOutputStream(new File(filePath));render.setWindowSize(new Dimension(1080,1920), false);render.renderURL(url, out, ImageRenderer.Type.PNG);out.close(); maven:12345 &lt;dependency&gt; &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt; &lt;artifactId&gt;cssbox&lt;/artifactId&gt; &lt;version&gt;4.12&lt;/version&gt;&lt;/dependency&gt; 优点：调用非常简单，能支持较多的css。 遇到的问题1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。原因：不支持中文字体。（安装字体请看：linux相关知识）]]></content>
@@ -221,8 +242,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>html</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -237,25 +258,37 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[ajax常见问题]]></title>
-    <url>%2F2017%2F05%2F24%2Fhtml-ajax%2F</url>
-    <content type="text"><![CDATA[这里主要记录用ajax时遇到的问题。 获取ajax返回结果 ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。1234567891011121314151617181920212223242526var rspTxt = $.ajax(&#123; async:false, cache:false, type : &quot;POST&quot;, url : &quot;&lt;%=basePath%&gt;test.action&quot;, data : &#123; id: $(&quot;#id&quot;).val() &#125;, success : function(data) &#123; var status = data.status; if(&apos;success&apos; == status)&#123; alert(&quot;成功！&quot;); &#125;else&#123; &#125; &#125;, error:function()&#123; alert(&quot;失败！&quot;); &#125;&#125;).responseText;if(typeof(rspTxt) != &quot;undefined&quot;) &#123; var obj = JSON.parse(rspTxt); if(obj.status == &apos;success&apos;) &#123; // 业务处理 &#125;&#125; access-origin ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置 以下是springmvc项目的处理方式：123456789101112131415public class SimpleCORSFilter implements Filter &#123; public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse) res; response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;); response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;); response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;); chain.doFilter(req, res); &#125; public void init(FilterConfig filterConfig) &#123;&#125; public void destroy() &#123;&#125;&#125; 以下是springboot项目的处理方式：1234567@RestController@Api(&quot;测试ajax跨域&quot;)@RequestMapping(&quot;ajaxdemo&quot;)@CrossOriginpublic class TestHttpController &#123; // ...&#125; ajax请求页面刷新 ajax请求，发现页面闪烁以下，刷新。可以配置global: false来解决123456789101112$.ajax(&#123; global: false, type : &quot;POST&quot;, url : &quot;&quot;, data : &#123; &#125;, dataType : &quot;json&quot;, success : function(data) &#123; &#125;, error : function() &#123; &#125;&#125;); 参考：spring mvc 跨域请求处理——spring 4.2 以上玩转spring boot——ajax跨域]]></content>
+    <title><![CDATA[ArrayList的线程安全问题]]></title>
+    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
+    <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
       <categories>
-        <category>前端</category>
+        <category>java</category>
       </categories>
       <tags>
-        <tag>ajax</tag>
+        <tag>java</tag>
+        <tag>thread</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[git常用命令]]></title>
     <url>%2F2017%2F05%2F24%2Fgit%2F</url>
-    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上12345678将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git cherry-pick --continue]]></content>
+    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上12345678将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git cherry-pick --continue git绑定两个远程仓库http://www.cnblogs.com/beileixinqing/p/7493302.html]]></content>
       <categories>
         <category>git</category>
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ajax常见问题]]></title>
+    <url>%2F2017%2F05%2F24%2Fhtml-ajax%2F</url>
+    <content type="text"><![CDATA[这里主要记录用ajax时遇到的问题。 获取ajax返回结果 ajax是异步的。通常我们在succee、error中获取到后台返回的数据。如果我们想在外面获取呢？这时就需要使用responseText了。1234567891011121314151617181920212223242526var rspTxt = $.ajax(&#123; async:false, cache:false, type : &quot;POST&quot;, url : &quot;&lt;%=basePath%&gt;test.action&quot;, data : &#123; id: $(&quot;#id&quot;).val() &#125;, success : function(data) &#123; var status = data.status; if(&apos;success&apos; == status)&#123; alert(&quot;成功！&quot;); &#125;else&#123; &#125; &#125;, error:function()&#123; alert(&quot;失败！&quot;); &#125;&#125;).responseText;if(typeof(rspTxt) != &quot;undefined&quot;) &#123; var obj = JSON.parse(rspTxt); if(obj.status == &apos;success&apos;) &#123; // 业务处理 &#125;&#125; access-origin ajax如果跨域请求，会报错。即：相同主机不同端口、不同主机的访问。此种问题我们需要在服务器端进行配置 以下是springmvc项目的处理方式：123456789101112131415public class SimpleCORSFilter implements Filter &#123; public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse) res; response.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;POST, GET, OPTIONS, DELETE&quot;); response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;); response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;x-requested-with&quot;); chain.doFilter(req, res); &#125; public void init(FilterConfig filterConfig) &#123;&#125; public void destroy() &#123;&#125;&#125; 以下是springboot项目的处理方式：12345678// 方式一@RestController@Api(&quot;测试ajax跨域&quot;)@RequestMapping(&quot;ajaxdemo&quot;)@CrossOriginpublic class TestHttpController &#123; // ...&#125; 123456789101112131415// 方式二import org.springframework.web.bind.annotation.ControllerAdvice;import org.springframework.web.servlet.mvc.method.annotation.AbstractJsonpResponseBodyAdvice;/** * Created by Tony on 2017/8/1. * Spring Boot支持跨域请求的JSONP数据. */@ControllerAdvice(basePackages = &#123;&quot;com.cyf.uicomm&quot;&#125;)public class JSONPConfiguration extends AbstractJsonpResponseBodyAdvice &#123; public JSONPConfiguration() &#123; super(&quot;callback&quot;, &quot;jsonp&quot;); &#125;&#125; ajax请求页面刷新 ajax请求，发现页面闪烁以下，刷新。可以配置global: false来解决123456789101112$.ajax(&#123; global: false, type : &quot;POST&quot;, url : &quot;&quot;, data : &#123; &#125;, dataType : &quot;json&quot;, success : function(data) &#123; &#125;, error : function() &#123; &#125;&#125;); 参考：spring mvc 跨域请求处理——spring 4.2 以上玩转spring boot——ajax跨域]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>ajax</tag>
       </tags>
   </entry>
   <entry>
@@ -307,7 +340,7 @@
   <entry>
     <title><![CDATA[springboot的文件上传]]></title>
     <url>%2F2017%2F05%2F15%2Fspringboot-file-upload%2F</url>
-    <content type="text"><![CDATA[待总结]]></content>
+    <content type="text"><![CDATA[待总结解决异常：The temporary upload location is not valid123456789101112131415161718192021222324/** * 解决异常：The temporary upload location is not valid * http://wuzhaoyang.me/2017/06/07/spring-multipartexception-location-not-valid.html * 前端Ajax上传一张图片，服务端将文件流临时保存在文件夹里(这个文件夹由spring boot在启动的时候新建)。 * /tmp文件夹的有自动cleanup机制，/tmp文件夹的文件10天未更新会被移除，/var/tmp文件夹的文件是30天。 * 思路：指定目录，将防止文件夹被自动删除。 * @return */ @Bean MultipartConfigElement multipartConfigElement() &#123; MultipartConfigFactory factory = new MultipartConfigFactory(); String absolutePath = new File(&quot;&quot;).getAbsolutePath(); logger.info(&quot;absolutePath ===== &#123;&#125;&quot;, absolutePath); String location = absolutePath + &quot;/data/tmp&quot;; File file = new File(location); if (!file.exists()) &#123; boolean mkdirs = file.mkdirs(); logger.info(&quot;创建文件夹(&#123;&#125;)：&#123;&#125;&quot;, location, mkdirs); &#125; else &#123; logger.info(&quot;SpringBoot内置Tomcat缓存文件目录：&#123;&#125;&quot;, location); &#125; factory.setLocation(location); return factory.createMultipartConfig(); &#125;]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -351,21 +384,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[页面中json相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-json%2F</url>
-    <content type="text"><![CDATA[json与其他类型之间的转换 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-        <tag>json</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[linux相关知识]]></title>
     <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redis安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列）6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l9、修改IP地址： 编辑：vi /etc/sysconfig/network-scripts/ifcfg-eth0，完成后，service network restart或/etc/init.d/network restart重启网络服务，然后ping网关，ping外网进行测试。都能ping通表示网络正常。详细参考：https://jingyan.baidu.com/article/ca2d939d2cf1aceb6c31ce0a.html 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git（软连接相当于windows的快捷方式） mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redis安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
       <categories>
         <category>linux</category>
       </categories>
@@ -374,47 +395,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[linux命令expect]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
-    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
+    <title><![CDATA[一些好的插件]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-plugins%2F</url>
+    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
       <categories>
         <category>linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[mysql相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
-    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[jdk生成https证书]]></title>
-    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
-    <content type="text"><![CDATA[待总结]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[微信支付]]></title>
-    <url>%2F2017%2F05%2F11%2Fpay_wechat%2F</url>
-    <content type="text"><![CDATA[微信支付自己一些总结 一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
-      <categories>
-        <category>pay</category>
-      </categories>
-      <tags>
-        <tag>pay</tag>
       </tags>
   </entry>
   <entry>
@@ -429,43 +417,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[windows常用命令]]></title>
-    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
-    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
-      <categories>
-        <category>windows</category>
-      </categories>
-      <tags>
-        <tag>windows</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springboot与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
-    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。]]></content>
-      <categories>
-        <category>springboot</category>
-      </categories>
-      <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
-    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
+    <title><![CDATA[js获得get传过来的参数]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
+    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -474,25 +428,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些好的插件]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-devtools%2F</url>
-    <content type="text"><![CDATA[一些好的插件 spring-boot-devtoolsmaven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器]]></content>
+    <title><![CDATA[jdk生成https证书]]></title>
+    <url>%2F2017%2F05%2F11%2Fjava-https-cert%2F</url>
+    <content type="text"><![CDATA[待总结]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[linux命令expect]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
+    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
       <categories>
         <category>linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[JQuery WEUI的分页加载]]></title>
-    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
-    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>jquery WEUI</tag>
       </tags>
   </entry>
   <entry>
@@ -507,14 +461,72 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot的测试]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-test%2F</url>
-    <content type="text"><![CDATA[测试代码以下是1.3版本的测试12345678import org.junit.runner.RunWith;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.test.context.junit4.SpringRunner;@RunWith(SpringRunner.class)@SpringBootTest(classes = OpenApiSvrApp.class)public class BaseTest &#123;&#125; 以下是1.4.0 版本的测试123456789101112import org.junit.runner.RunWith;import org.springframework.boot.test.SpringApplicationConfiguration;import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;import org.springframework.test.context.web.WebAppConfiguration;import javax.servlet.ServletContext;@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！@SpringApplicationConfiguration(classes = PmCloudSvrApp.class) // 指定我们SpringBoot工程的Application启动类@WebAppConfigurationpublic class BaseTest &#123;&#125;]]></content>
+    <title><![CDATA[html中的那些事]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml%2F</url>
+    <content type="text"><![CDATA[json与其他类型之间的转换，推送消息 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符 好的文章HTML5服务器推送消息的各种解决办法]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>json</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot中事务]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-transaction%2F</url>
+    <content type="text"><![CDATA[测试代码12345678@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan@EnableTransactionManagement // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;@MapperScan(&quot;com.hfy.db.mapper&quot;)public class App &#123; public static void main(String[] args) &#123; SpringApplication.run(App.class, args); &#125;&#125;]]></content>
       <categories>
         <category>springboot</category>
       </categories>
       <tags>
         <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot接口参数校验]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-validation%2F</url>
+    <content type="text"><![CDATA[RestFul Api 接口参数校验及前后端交互校验 https://zhuanlan.zhihu.com/p/28399903]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JQuery WEUI的分页加载]]></title>
+    <url>%2F2017%2F05%2F11%2Fjquery-weui-page%2F</url>
+    <content type="text"><![CDATA[主要记录，分页加载12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;!-- 省略 --&gt; &lt;!-- head 中 --&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/weui/0.4.3/style/weui.min.css&quot;&gt; &lt;link rel=&quot;stylesheet&quot; href=&quot;//cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css&quot;&gt; &lt;/head&gt; &lt;body ontouchstart&gt; &lt;div class=&quot;weui_cells&quot; id=&quot;list&quot;&gt; &lt;/div&gt; &lt;div class=&quot;weui-infinite-scroll&quot; id=&quot;scroll&quot;&gt; &lt;div class=&quot;infinite-preloader&quot;&gt;&lt;/div&gt; 正在加载... &lt;/div&gt; &lt;!-- body 最后 --&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.0/jquery.min.js&quot;&gt;&lt;/script&gt; &lt;script src=&quot;http://cdn.bootcss.com/jquery-weui/0.8.0/js/jquery-weui.min.js&quot;&gt;&lt;/script&gt; &lt;/body&gt; &lt;script type=&quot;text/javascript&quot; &gt; var records = []; var havaData = false; var count = -1; var jsonData = &#123;&#125;; function getData(jsonData)&#123; $.get(&quot;http://xx&quot;,jsonData,function(data)&#123; console.log(data); if (data.result == &apos;success&apos;) &#123; records = data.list; count = data.count; // 数据总条数 if(records.length == 0 &amp;&amp; !havaData)&#123; $(&quot;#scroll&quot;).hide(); $.alert(&quot;没有记录！&quot;); &#125;else&#123; havaData = true; &#125; // 显示数据 showData(records); &#125; else &#123; $.alert(&quot;加载数据失败!&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); &#125; &#125;,&quot;json&quot;); &#125; // 页面一进来就获取数据 getData(jsonData); function showData(records)&#123; var length = records.length; for(var i = 0; i &lt; length; i++)&#123; var div = document.getElementById(&quot;list&quot;); var str= &quot;显示数据&lt;br&gt;&quot;; div.innerHTML =div.innerHTML+str; &#125; if(length == 0)&#123; $(&quot;#scroll&quot;).hide(); &#125; &#125; // 滚动条滑动到离底部100，多显示一条数据。 显示后不会消失。 $(document.body).infinite(100); var loading = false; //状态标记 否则一直循环刷新 $(document.body).infinite().on(&quot;infinite&quot;, function() &#123; if(loading) return; loading = true; setTimeout(function() &#123; var length = records.length; if(length &gt; 0 &amp;&amp; havaData)&#123; // 还有数据，继续加载 start = start + 5; var jsonData = &#123;&#125;; getData(jsonData); &#125;else&#123; havaData = false; $.alert(&quot;全部数据已经加载完成！&quot;); $(document.body).destroyInfinite(); $(&quot;#scroll&quot;).hide(); return; &#125; loading = false; &#125;,50); //模拟延迟 &#125;); &lt;/script&gt;&lt;/html&gt;]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>jquery WEUI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springboot与swagger]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-swagger%2F</url>
+    <content type="text"><![CDATA[springboot项目中使用swagger，快速生成api pom中引入1234567891011&lt;!-- swagger --&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt;&lt;/dependency&gt; swagger配置 支持在配置文件中配置是否显示api，需要显示api的接口uri。(此处使用到了在springboot中读取配置文件信息的知识。springboot读取配置文件)12345678910111213141516171819202122232425262728293031323334353637@EnableSwagger2@Componentpublic class Swagger2 &#123; @Autowired private BasicProperties basicProperties; @Bean public Docket createRestApi() &#123; return new Docket(DocumentationType.SWAGGER_2) .enable(basicProperties.getSwaggerShow()) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage(&quot;com.hfy&quot;))// .paths(PathSelectors.any()) //.paths(PathSelectors.regex(&quot;/ab/*&quot;)) .paths(path()) .build(); &#125; private Predicate&lt;String&gt; path() &#123; List&lt;Predicate&lt;String&gt;&gt; list = new ArrayList&lt;&gt;(); for (String pattern : basicProperties.getSwaggerPatterns()) &#123; list.add(PathSelectors.regex(pattern)); &#125; return Predicates.or(list); &#125; private ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title(&quot;APIs&quot;) .contact(&quot;hfy&quot;) .version(&quot;1.0&quot;) .build(); &#125;&#125; 待完成 暂时没做到：swagger中搜索不可用。 参考Spring Boot中使用Swagger2构建强大的RESTful API文档SpringBoot项目生成RESTfull API的文档]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>swagger</tag>
       </tags>
   </entry>
   <entry>
@@ -532,7 +544,7 @@
   <entry>
     <title><![CDATA[springmvc与swagger]]></title>
     <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[]]></content>
       <categories>
         <category>springmvc</category>
       </categories>
@@ -553,9 +565,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[js获得get传过来的参数]]></title>
-    <url>%2F2017%2F05%2F11%2Fhtml-get-reqparam%2F</url>
-    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
+    <title><![CDATA[springboot的测试]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-test%2F</url>
+    <content type="text"><![CDATA[测试代码以下是1.3版本的测试12345678import org.junit.runner.RunWith;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.test.context.junit4.SpringRunner;@RunWith(SpringRunner.class)@SpringBootTest(classes = App.class)public class BaseTest &#123;&#125; 以下是1.4.0 版本的测试123456789101112import org.junit.runner.RunWith;import org.springframework.boot.test.SpringApplicationConfiguration;import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;import org.springframework.test.context.web.WebAppConfiguration;import javax.servlet.ServletContext;@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！@SpringApplicationConfiguration(classes = App.class) // 指定我们SpringBoot工程的Application启动类@WebAppConfigurationpublic class BaseTest &#123;&#125; MockMVC测试调用方法之前，获取登录后session。12345678910111213141516171819202122232425262728293031323334353637@Autowiredprivate WebApplicationContext context;private MockMvc mockMvc;private MockHttpSession session;@Beforepublic void setupMockMvc() throws Exception &#123; mockMvc = MockMvcBuilders.webAppContextSetup(context).build(); getLoginSession(&quot;hfy&quot;, &quot;111111&quot;);&#125;// 获取登入信息sessionprivate void getLoginSession(String name, String pwd) throws Exception &#123; MvcResult result = this.mockMvc .perform(post(&quot;/index.action&quot;) .contentType(MediaType.APPLICATION_FORM_URLENCODED) .param(&quot;loginname&quot;, name) .param(&quot;password&quot;, pwd)) .andReturn(); Assert.assertEquals(&quot;main/index&quot;, result.getModelAndView().getViewName()); this.session = (MockHttpSession) result.getRequest().getSession();&#125;@Testpublic void testPerson() throws Exception &#123; MockHttpServletRequestBuilder builder = post(&quot;/person/editPerson.action&quot;) .param(&quot;personId&quot;, &quot;1&quot;) .param(&quot;name&quot;, &quot;xx&quot;).session(session); MvcResult mvcResult = mockMvc.perform(builder).andReturn(); System.out.println(mvcResult.getResponse().getContentAsString()); Map map = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Map.class); Assert.assertEquals(&quot;success&quot;, map.get(&quot;result&quot;));&#125; 参考Spring Boot应用的测试——MockitoSpring MVC 测试 | 模拟提交表单Junit测试Controller（MockMVC使用），传输@RequestBody数据解决办法sonar + jacoco + mockMvc 模拟session 用户登录 配合SpringSecurity 权限 快速测试代码覆盖率]]></content>
+      <categories>
+        <category>springboot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fhtml-date%2F</url>
+    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -564,26 +587,36 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot接口参数校验]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-validation%2F</url>
-    <content type="text"><![CDATA[RestFul Api 接口参数校验及前后端交互校验 https://zhuanlan.zhihu.com/p/28399903]]></content>
+    <title><![CDATA[mysql相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Fmysql%2F</url>
+    <content type="text"><![CDATA[更改数据库密码，触发器，数据插入，备份数据等 更改数据库密码12update mysql.user set password=password(&apos;123456&apos;);flush privileges; 触发器MYSQL触发器自己更新自己错误 一个表的数据插入另一个表mysql从一个表中查数据，插入另一个表1、 数据一致，想全部插入： INSERT INTO 目标表 SELECT * FROM 来源表 ;2、 导入部分数据： INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表 ; insert into local_image(createdDate, data) SELECT &#39;2016-10-10&#39; createdDate,data FROM local_image; 其他知识1`SELECT * FROM information_schema.`PROCESSLIST` t WHERE t.`COMMAND` != &apos;Sleep&apos;; show processlist结果筛选 https://www.2cto.com/database/201309/246586.html 导出库1、导出结构不导出数据 mysqldump -d 数据库名 -uroot -p &gt; xxx.sql2、导出数据不导出结构 mysqldump -t 数据库名 -uroot -p &gt; xxx.sql3、导出数据和表结构 mysqldump 数据库名 -uroot -p &gt; xxx.sql4、导出特定表的结构 mysqldump -u root -p 数据库名 –table 表名 &gt; xxx.sql mysqldump参数1、备份出test库表中表的结构和数据（除了image表）1D:\mysql\bin&gt;mysqldump --single-transaction --ignore-table=test.image -u root -p test &gt; bak.sql 2、备份出test库表中表image的结构和数据（数据的条件是id &gt; 2） mysqldump -u用户名 -p密码 数据库名 表名 –where=”筛选条件” &gt; 导出文件路径1D:\mysql\bin&gt;mysqldump -u root -p test image --where=&quot; id &gt; 2 &quot; &gt; image.sql 具体参数详情：MYSQL使用mysqldump导出某个表的部分数据 导入数据mysql 数据库名 &lt; 文件名source /tmp/xxx.sql group_concatMySQL中group_concat函数,连接字段，多个值显示为一行 事务truncate,drop是ddl, 操作立即生效,原数据不放到rollback segment中,不能回滚. 操作不触发trigger.SQL中truncate table和delete的区别]]></content>
       <categories>
-        <category>springboot</category>
+        <category>mysql</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
-        <tag>swagger</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[hexo+github搭建自己的网站]]></title>
-    <url>%2F2017%2F03%2F25%2Fhexo-github%2F</url>
-    <content type="text"><![CDATA[搭建博客简单介绍 安装nodejs(官网下载安装包安装即可) 点击进入node.js官网,下载完成后安装即可 安装git 进入官网下载，安装 安装hexo 1、首先，创建文件夹用来存放你的本地博客。本人的博客存放在d:/blog文件夹下2、打开git窗口3、输入以下命令，进入到d:/blog cd d: cd blog 其中，cd 文件夹 的意思便是进入到某个文件夹4、一次性安装完hexo所需的所有东西1234npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save npm install 安装速度慢，可以使用淘宝镜像：1 npm install cnpm -g --registry=https://registry.npm.taobao.org 5、安装完成，我们可以看到文件夹下已经生成了很多东西，依次在git中执行以下命令：123 hexo clean hexo g hexo s 此时命令行会提示http://localhost:4000/，我们在浏览器中打开该链接，一个hello的博客就完成了。(#^.^#) 博客使用创建新文章打开hexo安装目录\source\文件夹，发现只有_posts一个文件夹，创建分类和标签。1、执行命令hexo new categories，修改hexo安装目录\source\categories下的index.md文件：123456---title: 分类date: 2016-07-16 04:36:09type: &quot;categories&quot;comments: false--- 2、执行命令hexo new tags,hexo安装目录\source\tags下的index.md文件：123456---title: 标签云date: 2016-07-16 04:32:03type: &quot;tags&quot;comments: false--- 3、执行命令hexo new “first blog”，创建博客（或者直接在hexo安装目录\source_posts创建一个.md文件，里面写入以下内容）123456---title: 本人创建的第一篇 date: 2017-03-25 13:53:30 tags: 写作 categories: 随笔 --- 博客主题 hexo有很多主题，找到自己喜欢的，点击图片预览博客样子，点击名称会进入github中。在github中将源码下载下来，解压放入themes文件夹中，修改_config.yml：theme: yelee 表示使用themes文件夹下yelee文件夹中的主题。 使用next主题（网上很多，此处记下可能遇到的问题）(1) 使用中文语言： 修改（hexo安装目录_config.yml）文件：(不是themes\next_config.yml) language: zh-Hans(3) 部署到github上js、css找不到 修改（hexo安装目录_config.yml）文件： root: /blog/ #blog是你github上面的仓库名称 部署到github当前，首先得在github上注册一个账号，然后，1、github上创建一个仓库 仓库名称(Repository name)可以写成blog。github自动生成的网址会是：https://账户名称.github.io/仓库名称/ ，此时，如果仓库名称写成账户名称.github.io,那么，github自动生成的网址会是：https://账户名称.github.io/ （记得勾选Initialize this repository with a README） 在项目的settings中，GitHub Pages中选择master branch，save后，会生成url。之后将本地的博客部署到这里，访问该网址，便ok啦！2、使用git部署hexo到github:(1)设置git git使用hexo deploy部署的时候，保证user.name和github账上上的账户名一致。 查看用户名 ：git config --list 如果首次安装，没有设置，可以使用下面命令：12git config --global user.name &quot;ff&quot; git config --global user.email &quot;liuchao102@163.com&quot; 如果已经设置好了，向修改：vi ~/.gitconfig 按下i键，修改，dd删除一行，esc退出编辑。按住shift，wq保存(2)生成ssh秘钥 要部署到github上，本地要有权限。在git中生成秘钥1ssh-keygen -t rsa -C &quot;xxx@163.com&quot; 生成完秘钥之后会在 C:\Users\Administrator\.ssh 目录下生成 id_rsa和id_rsa.pub两个文件 拷贝id_rsa.pub文件内容到 github上就可以了(Settings-&gt;SSH and GPG keys-&gt;new SSH Key -&gt; 输入文件内容 -&gt; 保存完成)(3)执行以下命令部署：1hexo deploy 使用atom实现预览编辑文档 atom安装插件atom-hexo，速度很慢，可以使用本地安装： 在github上下载好后解压到C:\Users\cage.atom\packages，cmd打开命令行输入：apm install安装即可。 如果apm命令找不到，在环境变量中加入: C:\Users\hfyuser\AppData\Local\atom\bin atom自带markdown preview，编写md可以实时浏览。 参考置顶文章20分钟教你使用hexo搭建github博客Gitment：使用 GitHub Issues 搭建评论系统]]></content>
+    <title><![CDATA[windows常用命令]]></title>
+    <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
+    <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
       <categories>
-        <category>hexo</category>
+        <category>windows</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[支付]]></title>
+    <url>%2F2017%2F05%2F11%2Fpay%2F</url>
+    <content type="text"><![CDATA[支付宝、微信支付自己一些总结 支付宝异步通知签名失败app支付，app端可以调起支付，支付成功后异步通知，签名校验失败，原因是：使用的是“应用公钥”，应该用“支付宝公钥”。查看地址：https://openhome.alipay.com/platform/keyManage.htm 微信一个二维码支付一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
+      <categories>
+        <category>pay</category>
+      </categories>
+      <tags>
+        <tag>pay</tag>
       </tags>
   </entry>
   <entry>
@@ -595,6 +628,17 @@
       </categories>
       <tags>
         <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo+github搭建自己的网站]]></title>
+    <url>%2F2017%2F03%2F25%2Fhexo-github%2F</url>
+    <content type="text"><![CDATA[搭建博客简单介绍 安装nodejs(官网下载安装包安装即可) 点击进入node.js官网,下载完成后安装即可 安装git 进入官网下载，安装 安装hexo 1、首先，创建文件夹用来存放你的本地博客。本人的博客存放在d:/blog文件夹下2、打开git窗口3、输入以下命令，进入到d:/blog cd d: cd blog 其中，cd 文件夹 的意思便是进入到某个文件夹4、一次性安装完hexo所需的所有东西1234npm install hexo-cli -g npm install hexo --save npm install hexo-deployer-git --save npm install 安装速度慢，可以使用淘宝镜像：1 npm install cnpm -g --registry=https://registry.npm.taobao.org 5、安装完成，我们可以看到文件夹下已经生成了很多东西，依次在git中执行以下命令：123 hexo clean hexo g hexo s 此时命令行会提示http://localhost:4000/，我们在浏览器中打开该链接，一个hello的博客就完成了。(#^.^#) 博客使用创建新文章打开hexo安装目录\source\文件夹，发现只有_posts一个文件夹，创建分类和标签。1、执行命令hexo new categories，修改hexo安装目录\source\categories下的index.md文件：123456---title: 分类date: 2016-07-16 04:36:09type: &quot;categories&quot;comments: false--- 2、执行命令hexo new tags,hexo安装目录\source\tags下的index.md文件：123456---title: 标签云date: 2016-07-16 04:32:03type: &quot;tags&quot;comments: false--- 3、执行命令hexo new “first blog”，创建博客（或者直接在hexo安装目录\source_posts创建一个.md文件，里面写入以下内容）123456---title: 本人创建的第一篇 date: 2017-03-25 13:53:30 tags: 写作 categories: 随笔 --- 博客主题 hexo有很多主题，找到自己喜欢的，点击图片预览博客样子，点击名称会进入github中。在github中将源码下载下来，解压放入themes文件夹中，修改_config.yml：theme: yelee 表示使用themes文件夹下yelee文件夹中的主题。 使用next主题（网上很多，此处记下可能遇到的问题）(1) 使用中文语言： 修改（hexo安装目录_config.yml）文件：(不是themes\next_config.yml) language: zh-Hans(3) 部署到github上js、css找不到 修改（hexo安装目录_config.yml）文件： root: /blog/ #blog是你github上面的仓库名称 部署到github当前，首先得在github上注册一个账号，然后，1、github上创建一个仓库 仓库名称(Repository name)可以写成blog。github自动生成的网址会是：https://账户名称.github.io/仓库名称/ ，此时，如果仓库名称写成账户名称.github.io,那么，github自动生成的网址会是：https://账户名称.github.io/ （记得勾选Initialize this repository with a README） 在项目的settings中，GitHub Pages中选择master branch，save后，会生成url。之后将本地的博客部署到这里，访问该网址，便ok啦！2、使用git部署hexo到github:(1)设置git git使用hexo deploy部署的时候，保证user.name和github账上上的账户名一致。 查看用户名 ：git config --list 如果首次安装，没有设置，可以使用下面命令：12git config --global user.name &quot;ff&quot; git config --global user.email &quot;liuchao102@163.com&quot; 如果已经设置好了，向修改：vi ~/.gitconfig 按下i键，修改，dd删除一行，esc退出编辑。按住shift，wq保存(2)生成ssh秘钥 要部署到github上，本地要有权限。在git中生成秘钥1ssh-keygen -t rsa -C &quot;xxx@163.com&quot; 生成完秘钥之后会在 C:\Users\Administrator\.ssh 目录下生成 id_rsa和id_rsa.pub两个文件 拷贝id_rsa.pub文件内容到 github上就可以了(Settings-&gt;SSH and GPG keys-&gt;new SSH Key -&gt; 输入文件内容 -&gt; 保存完成)(3)执行以下命令部署：1hexo deploy 使用atom实现预览编辑文档 atom安装插件atom-hexo，速度很慢，可以使用本地安装： 在github上下载好后解压到C:\Users\cage.atom\packages，cmd打开命令行输入：apm install安装即可。 如果apm命令找不到，在环境变量中加入: C:\Users\hfyuser\AppData\Local\atom\bin atom自带markdown preview，编写md可以实时浏览。 参考置顶文章20分钟教你使用hexo搭建github博客Gitment：使用 GitHub Issues 搭建评论系统]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
