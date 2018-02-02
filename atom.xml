@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haofangyuan.github.io/"/>
-  <updated>2018-01-12T03:44:22.206Z</updated>
+  <updated>2018-02-01T07:28:40.189Z</updated>
   <id>https://haofangyuan.github.io/</id>
   
   <author>
@@ -20,37 +20,14 @@
     <link href="https://haofangyuan.github.io/2018/01/12/time_wait/"/>
     <id>https://haofangyuan.github.io/2018/01/12/time_wait/</id>
     <published>2018-01-12T10:37:11.000Z</published>
-    <updated>2018-01-12T03:44:22.206Z</updated>
+    <updated>2018-02-01T07:28:40.189Z</updated>
     
-    <content type="html"><![CDATA[<p>  TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。<br><a id="more"></a><br>分解：<br><a href="http://lib.csdn.net/article/computernetworks/17275" target="_blank" rel="external">http://lib.csdn.net/article/computernetworks/17275</a><br><a href="http://blog.csdn.net/bk_guo/article/details/53995399" target="_blank" rel="external">http://blog.csdn.net/bk_guo/article/details/53995399</a><br>windows下解决：<br><a href="http://www.cnblogs.com/doNetTom/p/5160709.html" target="_blank" rel="external">http://www.cnblogs.com/doNetTom/p/5160709.html</a></p>
+    <content type="html"><![CDATA[<p>  TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。<br><a id="more"></a><br>分析：<br><a href="http://lib.csdn.net/article/computernetworks/17275" target="_blank" rel="external">http://lib.csdn.net/article/computernetworks/17275</a><br><a href="http://blog.csdn.net/bk_guo/article/details/53995399" target="_blank" rel="external">http://blog.csdn.net/bk_guo/article/details/53995399</a><br>windows下解决：<br><a href="http://www.cnblogs.com/doNetTom/p/5160709.html" target="_blank" rel="external">http://www.cnblogs.com/doNetTom/p/5160709.html</a></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;p&gt;  TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="exception" scheme="https://haofangyuan.github.io/tags/exception/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>wrapper的使用</title>
-    <link href="https://haofangyuan.github.io/2018/01/12/wrapper/"/>
-    <id>https://haofangyuan.github.io/2018/01/12/wrapper/</id>
-    <published>2018-01-12T10:37:11.000Z</published>
-    <updated>2018-01-12T03:46:19.593Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　windows平台下，jar包开机自启动好配置，可会有命令行窗口运行在界面上，容易不小心关闭。wrapper可以实现。<br><a id="more"></a><br><a href="Wrapper配置详解及高级应用">Wrapper配置详解及高级应用</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　windows平台下，jar包开机自启动好配置，可会有命令行窗口运行在界面上，容易不小心关闭。wrapper可以实现。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -201,17 +178,30 @@
   </entry>
   
   <entry>
-    <title>springboot一些额外的知识</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/springboot_extra/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/springboot_extra/</id>
+    <title>springboot学习收获</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot/</id>
     <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2017-11-17T08:59:37.994Z</updated>
+    <updated>2018-02-01T07:27:11.855Z</updated>
     
     <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
 <h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
 <h2 id="启动彩蛋"><a href="#启动彩蛋" class="headerlink" title="启动彩蛋"></a>启动彩蛋</h2><p>springboot项目启动总会打印一下内容，想要更换怎么办？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.   ____          _            __ _ _</div><div class="line">/\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line">\\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">&apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line">=========|_|==============|___/=/_/_/_/</div><div class="line">:: Spring Boot ::        (v1.4.0.RELEASE)</div></pre></td></tr></table></figure></p>
 <p>1、在<code>resource</code>目录下面放入一个<code>banner.txt</code>文件，Spring Boot启动项目的时候就会优先启动这个文件中的内容；<br>2、在里面存放要打印的内容；<br>3、文件中：Spring Boot提供了一个枚举类AnsiColor，通过<code>${AnsiColor.BRIGHT_YELLOW}</code>来控制文件中字符的颜色，<code>${spring-boot.version}</code>这个是springboot的版本号；<br>4、ok啦啦啦……  </p>
-<h3 id="额外："><a href="#额外：" class="headerlink" title="额外："></a>额外：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
+<h3 id="额外"><a href="#额外" class="headerlink" title="额外"></a>额外</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$&#123;application.version&#125;           这个是MANIFEST.MF文件中的版本号  </div><div class="line">$&#123;application.formatted-version&#125; 这个是上面的的版本号前面加v后上括号  </div><div class="line">$&#123;spring-boot.version&#125;           这个是springboot的版本号  </div><div class="line">$&#123;spring-boot.formatted-version&#125; 同上</div></pre></td></tr></table></figure>
+<h2 id="统一异常处理"><a href="#统一异常处理" class="headerlink" title="统一异常处理"></a>统一异常处理</h2><h3 id="404等错误"><a href="#404等错误" class="headerlink" title="404等错误"></a>404等错误</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;</div><div class="line">import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;</div><div class="line">import org.springframework.boot.web.servlet.ErrorPage;</div><div class="line">import org.springframework.context.annotation.Bean;</div><div class="line">import org.springframework.context.annotation.Configuration;</div><div class="line">import org.springframework.http.HttpStatus;</div><div class="line"></div><div class="line">@Configuration</div><div class="line">public class WebConfiguration &#123;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public EmbeddedServletContainerCustomizer proEmbeddedServletContainerCustomizer() &#123;</div><div class="line">        return new EmbeddedServletContainerCustomizer() &#123;</div><div class="line">            @Override</div><div class="line">            public void customize(ConfigurableEmbeddedServletContainer container) &#123;</div><div class="line">                //如果是静态页面的异常处理，如404错误，此方式不能传递异常具体信息</div><div class="line">                //错误页面需要放在Spring Boot web应用的static内容目录下，它的默认位置是：src/main/resources/static，</div><div class="line">                container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, &quot;/error/404.action&quot;));</div><div class="line">                container.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, &quot;/error/500.action&quot;));</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">import org.springframework.http.HttpStatus;</div><div class="line">import org.springframework.stereotype.Controller;</div><div class="line">import org.springframework.web.bind.annotation.RequestMapping;</div><div class="line">import org.springframework.web.bind.annotation.ResponseStatus;</div><div class="line"></div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">@Controller</div><div class="line">public class ErrorController &#123;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/error/404.action&quot;)</div><div class="line">    @ResponseStatus( HttpStatus.OK )</div><div class="line">    public String pageNotFound(HttpServletRequest req, HttpServletRequest response) &#123;</div><div class="line">        req.setAttribute(&quot;errorMsg&quot;, &quot;哎呀，被外星人抓走了！&quot;);</div><div class="line">        return &quot;error/error&quot;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @RequestMapping(value = &quot;/error/500.action&quot;)</div><div class="line">    @ResponseStatus( HttpStatus.OK )</div><div class="line">    public String error(HttpServletRequest req, HttpServletRequest response) &#123;</div><div class="line">        req.setAttribute(&quot;errorMsg&quot;, &quot;受伤啦啦啦！&quot;);</div><div class="line">        return &quot;error/error&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="json统一异常处理"><a href="#json统一异常处理" class="headerlink" title="json统一异常处理"></a>json统一异常处理</h3><p>1、参考：<a href="http://blog.didispace.com/springbootexception/" target="_blank" rel="external">http://blog.didispace.com/springbootexception/</a><br>2、在aop中对调用方法进行try catch，出现异常返回</p>
+<h2 id="邮件发送"><a href="#邮件发送" class="headerlink" title="邮件发送"></a>邮件发送</h2><p>参考：<a href="http://blog.didispace.com/springbootmailsender/" target="_blank" rel="external">http://blog.didispace.com/springbootmailsender/</a></p>
+<h2 id="禁用依赖"><a href="#禁用依赖" class="headerlink" title="禁用依赖"></a>禁用依赖</h2><p>参考：<a href="http://blog.didispace.com/spring-boot-disable-autoconfig/" target="_blank" rel="external">http://blog.didispace.com/spring-boot-disable-autoconfig/</a></p>
+<h2 id="接口参数校验"><a href="#接口参数校验" class="headerlink" title="接口参数校验"></a>接口参数校验</h2><p>Hibernate 的 Validator 做传入参数的校验。<br>RestFul Api 接口参数校验及前后端交互校验 <a href="https://zhuanlan.zhihu.com/p/28399903" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/28399903</a></p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan</div><div class="line">@EnableTransactionManagement // 启注解事务管理，等同于xml配置方式的 &lt;tx:annotation-driven /&gt;</div><div class="line">@MapperScan(&quot;com.hfy.db.mapper&quot;)</div><div class="line">public class App &#123;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SpringApplication.run(App.class, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="jar和dll"><a href="#jar和dll" class="headerlink" title="jar和dll"></a>jar和dll</h2><h3 id="maven安装本地jar"><a href="#maven安装本地jar" class="headerlink" title="maven安装本地jar"></a>maven安装本地jar</h3><p><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code>  </p>
+<p><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><p>1、spring-boot-devtools<br><a href="http://blog.csdn.net/zhoujinyu0713/article/details/46843115" target="_blank" rel="external">maven工程使用spring-boot-devtools进行热部署，更改代码避免重启web容器</a></p>
+<h2 id="多数据源"><a href="#多数据源" class="headerlink" title="多数据源"></a>多数据源</h2><p>springboot + mybatis + 多数据源 <a href="http://www.cnblogs.com/java-zhao/p/5413845.html" target="_blank" rel="external">http://www.cnblogs.com/java-zhao/p/5413845.html</a></p>
+<h2 id="后台配置"><a href="#后台配置" class="headerlink" title="后台配置"></a>后台配置</h2><h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>windows平台下，jar包开机自启动好配置，可会有命令行窗口运行在界面上，容易不小心关闭。<br>1、wrapper可以实现<br>2、使用AlwaysUp软件  </p>
+<h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><p>看文章：linux相关知识<br>参考：<br>　　<a href="http://blog.didispace.com/spring-boot-run-backend/" target="_blank" rel="external">http://blog.didispace.com/spring-boot-run-backend/</a><br>　　Wrapper配置详解及高级应用</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
 ]]></content>
     
@@ -221,10 +211,10 @@
     
     </summary>
     
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
     
     
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -263,6 +253,30 @@
     
     
       <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot shiro权限控制</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot_shiro/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot_shiro/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2018-02-01T07:33:37.973Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　用户权限<br><a id="more"></a></p>
+<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，我们称之为Apache Shiro。它是一个很易用与Java项目的的安全框架，提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　用户权限&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -471,82 +485,6 @@
   </entry>
   
   <entry>
-    <title>springboot中的jsp</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jsp/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-jsp/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-11-15T10:04:46.800Z</updated>
-    
-    <content type="html"><![CDATA[<p>主要参考以下链接：<br><a id="more"></a>    </p>
-<p>主要参考以下链接：<br><a href="http://www.cnblogs.com/softidea/p/6071630.html" target="_blank" rel="external">Spring boot —- java.lang.NoClassDefFoundError: javax/servlet/ServletContext</a><br><a href="https://github.com/luowei/spring-boot-demo-web-jsp" target="_blank" rel="external">https://github.com/luowei/spring-boot-demo-web-jsp</a></p>
-<p><a href="http://blog.csdn.net/alan666156/article/details/52168450" target="_blank" rel="external">http://blog.csdn.net/alan666156/article/details/52168450</a></p>
-<p><a href="https://segmentfault.com/a/1190000009726106" target="_blank" rel="external">https://segmentfault.com/a/1190000009726106</a></p>
-<p><a href="https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp" target="_blank" rel="external">https://stackoverflow.com/questions/41983864/spring-boot-1-5-1-caches-jsp</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;主要参考以下链接：&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot中的jar和dll</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-jar/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-jar/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-11-15T10:04:46.798Z</updated>
-    
-    <content type="html"><![CDATA[<p>  参考<br><a id="more"></a>  </p>
-<p>主要参考以下链接：<br><a href="http://www.blogjava.net/fancydeepin/archive/2012/06/12/380605.html" target="_blank" rel="external">maven安装本地jar</a><br><code>mvn install:install-file -Dfile=C:/Users/hfy/Desktop/sigar-1.6.5.132.jar -DgroupId=org.hyperic -DartifactId=sigar -Dversion=1.6.5.132 -Dpackaging=jar</code><br><a href="http://blog.csdn.net/mayp1/article/details/53996402" target="_blank" rel="external">Spring Boot引用本地jar包</a><br><a href="https://stackoverflow.com/questions/39513467/spring-boot-executable-tomcat-with-dll" target="_blank" rel="external">springboot加载dll</a>  </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  参考&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot + mybatis + 多数据源</title>
-    <link href="https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/"/>
-    <id>https://haofangyuan.github.io/2017/07/01/springboot-mybatis-datasource/</id>
-    <published>2017-07-01T07:03:11.000Z</published>
-    <updated>2017-07-01T07:03:34.550Z</updated>
-    
-    <content type="html"><![CDATA[<p> springboot + mybatis + 多数据源 <a href="http://www.cnblogs.com/java-zhao/p/5413845.html" target="_blank" rel="external">http://www.cnblogs.com/java-zhao/p/5413845.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt; springboot + mybatis + 多数据源 &lt;a href=&quot;http://www.cnblogs.com/java-zhao/p/5413845.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.cnblogs.
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="mybatis" scheme="https://haofangyuan.github.io/tags/mybatis/"/>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
     <title>objectMapper中自定义类型转换</title>
     <link href="https://haofangyuan.github.io/2017/06/30/java-objectMapper/"/>
     <id>https://haofangyuan.github.io/2017/06/30/java-objectMapper/</id>
@@ -570,6 +508,94 @@
     
     
       <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot中的过滤器</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/springboot-filter/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/springboot-filter/</id>
+    <published>2017-06-02T09:52:59.000Z</published>
+    <updated>2017-11-17T08:59:37.993Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。<br><a id="more"></a></p>
+<h2 id="springboot中使用filter"><a href="#springboot中使用filter" class="headerlink" title="springboot中使用filter  "></a>springboot中使用filter  </h2><p>　　在springboot项目中使用filter，需要注入bean：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan</div><div class="line">public class SpringbootFilterDemoApp &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SpringApplication.run(SpringbootFilterDemoApp.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public FilterRegistrationBean filterRegistrationBean() &#123;</div><div class="line">        FilterRegistrationBean registrationBean = new FilterRegistrationBean();</div><div class="line">        registrationBean.setFilter(new AuthorizationFilter()); // 自己的filter</div><div class="line"></div><div class="line">        List&lt;String&gt; urlPatterns = new ArrayList&lt;&gt;();</div><div class="line">        urlPatterns.add(&quot;/openapi/*&quot;);</div><div class="line">        registrationBean.setUrlPatterns(urlPatterns);</div><div class="line">        return registrationBean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="过滤器filter"><a href="#过滤器filter" class="headerlink" title="过滤器filter  "></a>过滤器filter  </h2><p>　　以下是自己的filter类。继承Filter接口，对于满足条件的请求，使用filterChain.doFilter(request, response);将连接转发到目的地，不满足，则直接通过response写入错误信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 过滤器：校验接口访问权限</div><div class="line"> */</div><div class="line">public class AuthorizationFilter implements Filter&#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class);</div><div class="line"></div><div class="line">    private CheckAuth checkAuth;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</div><div class="line">        // 将请求转换成HttpServletRequest 请求</div><div class="line">        HttpServletRequest req = (HttpServletRequest) servletRequest;</div><div class="line">        HttpServletResponse rsp = (HttpServletResponse) servletResponse;</div><div class="line">        // 取得接口URI</div><div class="line">        String currentURI = req.getRequestURI();</div><div class="line">        // 注入checkAuth对象</div><div class="line">        。。。</div><div class="line">        // 读取请求参数</div><div class="line">        。。。</div><div class="line"></div><div class="line">        if (requestWrapper == null) &#123;</div><div class="line">            strError = &quot;请求方式错误！&quot;;</div><div class="line">        &#125; else &#123;</div><div class="line">            if (&quot;&quot;.equals(accessToken)) &#123;</div><div class="line">                strError = &quot;缺少必要的参数&quot;;</div><div class="line">            &#125; else &#123;</div><div class="line">                // 校验接口权限</div><div class="line">                if (checkAuth.checkAuth(accessToken, currentURI)) &#123;</div><div class="line">                    // Filter 只是链式处理，请求依然转发到目的地址。</div><div class="line">                    filterChain.doFilter(requestWrapper, rsp);</div><div class="line">                    return;</div><div class="line">                &#125; else &#123;</div><div class="line">                    strError = &quot;权限不足&quot;;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        rsp.setCharacterEncoding(&quot;UTF-8&quot;);</div><div class="line">        rsp.setContentType(&quot;application/json; charset=utf-8&quot;);</div><div class="line">        String rspValue = &quot;&quot;;   // 返回错误json信息</div><div class="line">        logger.info(&quot;返回：&#123;&#125;&quot;, rspValue);</div><div class="line">        rsp.getWriter().write(rspValue);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void destroy() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项  "></a>注意事项  </h2><h3 id="filter中注入对象"><a href="#filter中注入对象" class="headerlink" title="filter中注入对象"></a>filter中注入对象</h3><p>　　filter的加载在servlet之前。所以在Filter中使用@Autowired注入对象CheckAuth肯定会失败。我们可以使用WebApplicationContextUtils来获取对象。(可参考：<a href="http://www.cnblogs.com/JesseV/archive/2009/11/17/1605015.html" target="_blank" rel="external">web.xml 中的listener、 filter、servlet 加载顺序及其详解</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 注入checkAuth对象</div><div class="line">ServletContext sc = req.getSession().getServletContext();</div><div class="line">WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);</div><div class="line">if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123;</div><div class="line">    checkAuth = context.getBean(CheckAuth.class);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="流的读取"><a href="#流的读取" class="headerlink" title="流的读取"></a>流的读取</h3><p>　　读取请求参数：对于post请求，我们通过stream流进行读取，但是会发现，直接读取response流中的数据后，使用filterChain.doFilter(requestWrapper, rsp);请求，会报错：没有请求内容。<br>　　因为：<br>　　stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。<br>　　为了防止流读取一次后就没有了, 所以需要将流继续写出去。<br>　　下面是对Request的封装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;  </div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line">import java.util.Enumeration;  </div><div class="line"></div><div class="line">import javax.servlet.ReadListener;</div><div class="line">import javax.servlet.ServletInputStream;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">/**</div><div class="line"> * httpServletRequst封装类</div><div class="line"> */</div><div class="line">public class HttpServletRequestWrapper extends</div><div class="line">        javax.servlet.http.HttpServletRequestWrapper &#123;</div><div class="line"></div><div class="line">    private final byte[] body;  </div><div class="line"></div><div class="line">    public HttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123;</div><div class="line">        super(request);</div><div class="line">        body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;));  </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public BufferedReader getReader() throws IOException &#123;</div><div class="line">        return new BufferedReader(new InputStreamReader(getInputStream()));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public ServletInputStream getInputStream() throws IOException &#123;</div><div class="line"></div><div class="line">        final ByteArrayInputStream bais = new ByteArrayInputStream(body);</div><div class="line"></div><div class="line">        return new ServletInputStream() &#123;</div><div class="line">            @Override</div><div class="line">            public boolean isFinished() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public boolean isReady() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void setReadListener(ReadListener listener) &#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public int read() throws IOException &#123;</div><div class="line">                return bais.read();</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String getHeader(String name) &#123;</div><div class="line">        return super.getHeader(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaderNames() &#123;</div><div class="line">        return super.getHeaderNames();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;</div><div class="line">        return super.getHeaders(name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="request读取数据工具类"><a href="#request读取数据工具类" class="headerlink" title="request读取数据工具类"></a>request读取数据工具类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStream;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line"></div><div class="line">import javax.servlet.ServletRequest;  </div><div class="line"></div><div class="line">public class HttpHelper &#123;  </div><div class="line">    /**</div><div class="line">     * 获取请求Body</div><div class="line">     *</div><div class="line">     * @param request</div><div class="line">     * @return</div><div class="line">     */  </div><div class="line">    public static String getBodyString(ServletRequest request) &#123;  </div><div class="line">        StringBuilder sb = new StringBuilder();  </div><div class="line">        InputStream inputStream = null;  </div><div class="line">        BufferedReader reader = null;  </div><div class="line">        try &#123;  </div><div class="line">            inputStream = request.getInputStream();  </div><div class="line">            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));  </div><div class="line">            String line;</div><div class="line">            while ((line = reader.readLine()) != null) &#123;  </div><div class="line">                sb.append(line);  </div><div class="line">            &#125;  </div><div class="line">        &#125; catch (IOException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125; finally &#123;  </div><div class="line">            if (inputStream != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    inputStream.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">            if (reader != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    reader.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return sb.toString();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="获取请求参数"><a href="#获取请求参数" class="headerlink" title="获取请求参数"></a>获取请求参数</h3><p>get、post获取请求参数的方式是不一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if (req.getMethod().equals(&quot;POST&quot;)) &#123;</div><div class="line">    requestWrapper = new HttpServletRequestWrapper(req);</div><div class="line">    String reqParamsStr = HttpHelper.getBodyString(requestWrapper);</div><div class="line">    if(reqParamsStr.length() &gt;0) &#123;</div><div class="line">        // 从json字符串获取参数</div><div class="line">        accessToken = &quot;&quot;;</div><div class="line">    &#125;</div><div class="line">&#125; else if (req.getMethod().equals(&quot;GET&quot;)) &#123;</div><div class="line">    requestWrapper = req;</div><div class="line">    String[] tokens = req.getParameterValues(&quot;accessToken&quot;);</div><div class="line">    if (tokens != null &amp;&amp; tokens.length &gt; 0) &#123;</div><div class="line">        accessToken = tokens[0];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+      <category term="filter" scheme="https://haofangyuan.github.io/tags/filter/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网页转图片</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/java-html-img/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/java-html-img/</id>
+    <published>2017-06-02T05:56:59.000Z</published>
+    <updated>2017-11-15T10:04:46.750Z</updated>
+    
+    <content type="html"><![CDATA[<p>  一些总结<br><a id="more"></a></p>
+<h2 id="html2image"><a href="#html2image" class="headerlink" title="html2image"></a>html2image</h2><p>示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HtmlImageGenerator imageGenerator = new HtmlImageGenerator();</div><div class="line">String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;</div><div class="line">imageGenerator.loadHtml(htmlstr);</div><div class="line">imageGenerator.getBufferedImage();</div><div class="line">imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);</div><div class="line">imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;);</div></pre></td></tr></table></figure></p>
+<p>maven:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.github.xuwei-k&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;html2image&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.1.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>放弃的原因：<br>1、css样式不能写在<code>&lt;style&gt;</code>标签中，不能引用其他css文件，只能写在style属性中。<br>2、对css的支持不好。</p>
+<h2 id="cssbox"><a href="#cssbox" class="headerlink" title="cssbox"></a>cssbox</h2><p>官网：<a href="http://cssbox.sourceforge.net/" target="_blank" rel="external">http://cssbox.sourceforge.net/</a><br>示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ImageRenderer render = new ImageRenderer();</div><div class="line">String url = &quot;&quot;;</div><div class="line">FileOutputStream out = new FileOutputStream(new File(filePath));</div><div class="line">render.setWindowSize(new Dimension(1080,1920), false);</div><div class="line">render.renderURL(url, out, ImageRenderer.Type.PNG);</div><div class="line">out.close();</div></pre></td></tr></table></figure></p>
+<p>maven:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"> &lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;net.sf.cssbox&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;cssbox&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;4.12&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>优点：调用非常简单，能支持较多的css。  </p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>1、部署到测试linux系统，正常，部署到线上linux系统，发现导出的图片中文文字全部不显示。<br>原因：不支持中文字体。（安装字体请看：<a href="https://haofangyuan.github.io/2017/05/11/linux-command/">linux相关知识</a>）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>工具类</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/java-util/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/java-util/</id>
+    <published>2017-06-02T05:56:59.000Z</published>
+    <updated>2017-11-15T10:04:46.760Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　常用的工具类<br><a id="more"></a></p>
+<h2 id="date"><a href="#date" class="headerlink" title="date"></a>date</h2><p>获取日期是星期几：<br>　　可以使用SimpleDateFormat：EEEE代表星期；<br>　　另外：MMMM代表中文月份</p>
+<h2 id="File"><a href="#File" class="headerlink" title="File"></a>File</h2><p>下载文件并保存在服务器上时，最好使用当前操作系统的分隔符<br>获取方法：private String sepa = java.io.File.separator;</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　常用的工具类&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
     
   </entry>
   

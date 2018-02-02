@@ -274,7 +274,7 @@ a {
   margin: 3px;
 }
 #container .left-col {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.3);
   width: 300px;
   position: fixed;
   opacity: 1;
@@ -305,7 +305,7 @@ a {
   position: absolute;
   right: 0;
   min-height: 100%;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.1);
   left: 300px;
   width: auto;
 }
@@ -605,10 +605,10 @@ a {
   width: 100%;
 }
 #header a {
-  color: #696969;
+  color: #fff;
 }
 #header a:hover {
-  color: #b0a0aa;
+  color: #5e6166;
 }
 #header .profilepic {
   text-align: center;
@@ -1292,7 +1292,7 @@ body .ui-tooltip {
   font-size: 12px;
 }
 .archives-wrap {
-  background: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.75);
 }
 .archives-wrap .archives {
   background: transparent;
@@ -1305,7 +1305,7 @@ body .ui-tooltip {
   margin: 30px;
   margin-bottom: 5px;
   position: relative;
-  background: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.75);
   -webkit-transition: all 0.2s ease-in;
 }
 .article.show {
@@ -1611,7 +1611,7 @@ body .ui-tooltip {
   z-index: 1;
 }
 .article-meta time {
-  color: #aaa;
+  color: #6a6a6a;
   float: right;
 }
 .article-meta time:before {
@@ -1804,10 +1804,10 @@ li:hover {
   background: none;
 }
 #toc ol.toc a.toc-link {
-  color: #808080;
+  color: #fff;
 }
 #toc ol.toc a.toc-link:visited {
-  color: #f48385;
+  color: #fff;
 }
 #toc ol.toc a.toc-link:hover {
   color: #88acdb;
@@ -2148,7 +2148,7 @@ aside.comment-bar:active {
   font-size: 12px;
 }
 .archives-wrap {
-  background: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.75);
 }
 .archives-wrap .archives {
   background: transparent;
@@ -3095,7 +3095,7 @@ pre .javascript .function {
   -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.15);
   box-shadow: 0 0 3px rgba(0,0,0,0.15);
   cursor: pointer;
-  color: #808080;
+  color: #fff;
 }
 #search-form .fa-times:active {
   background: #d3d3d3;
@@ -3128,7 +3128,7 @@ pre .javascript .function {
 #local-search-result a.search-result-title {
   line-height: 1.2;
   font-weight: bold;
-  color: #708090;
+  color: #fff;
 }
 #local-search-result p.search-result {
   margin: 0.4em auto;

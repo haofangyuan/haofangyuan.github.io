@@ -100,7 +100,7 @@
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+    <!-- <div class="overlay"></div> -->
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
@@ -150,9 +150,9 @@
                         </ul>
                     </nav>
                 </section>
+
                 
-                
-                
+
                 
                 <section class="switch-part switch-part3">
                     <div id="js-friends">
@@ -176,8 +176,9 @@
                 
             </div>
         </div>
-    </header>                
+    </header>
 </div>
+
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -400,7 +401,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = 2;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
