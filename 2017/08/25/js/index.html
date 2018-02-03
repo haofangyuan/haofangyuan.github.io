@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="自己一些总结">
+<meta name="description" content="记录网上一些好的解决办法的链接">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js获得get传过来的参数">
-<meta property="og:url" content="https://haofangyuan.github.io/2017/05/11/html-get-reqparam/index.html">
+<meta property="og:title" content="js一些其他问题">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/08/25/js/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="自己一些总结">
-<meta property="og:updated_time" content="2017-11-15T10:04:46.737Z">
+<meta property="og:description" content="记录网上一些好的解决办法的链接">
+<meta property="og:updated_time" content="2018-02-03T02:55:22.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="js获得get传过来的参数">
-<meta name="twitter:description" content="自己一些总结">
+<meta name="twitter:title" content="js一些其他问题">
+<meta name="twitter:description" content="记录网上一些好的解决办法的链接">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>js获得get传过来的参数 | hfy Blog</title>
+<title>js一些其他问题 | hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -226,11 +226,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-html-get-reqparam" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-js" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/05/11/html-get-reqparam/" class="article-date">
-      <time datetime="2017-05-11T14:56:11.000Z" itemprop="datePublished">2017-05-11</time>
+      <a href="/2017/08/25/js/" class="article-date">
+      <time datetime="2017-08-25T03:56:11.000Z" itemprop="datePublished">2017-08-25</time>
 </a>
 
 
@@ -245,7 +245,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      js获得get传过来的参数
+      js一些其他问题
     </h1>
   
 
@@ -270,7 +270,11 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>  自己一些总结<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//获得页面传过来的参数  </div><div class="line">function getParam() &#123;  </div><div class="line">   var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url  </div><div class="line">   var intLen = urlInfo.length; //获取url的长度  </div><div class="line">   var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置  </div><div class="line">   var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串  </div><div class="line">   var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割  </div><div class="line">    var map = &#123;&#125;;</div><div class="line">    for(var i in arrParam)&#123;</div><div class="line">        var temp = arrParam[i];</div><div class="line">        var val = temp.split(&quot;=&quot;);</div><div class="line">        map[val[0]] = val[1];</div><div class="line"></div><div class="line">    &#125;</div><div class="line">   return map;  </div><div class="line">&#125;   </div><div class="line"></div><div class="line">var map = getParam();</div><div class="line">var startTime = map[&quot;startTime&quot;];</div></pre></td></tr></table></figure></p>
+        <p>　　记录网上一些好的解决办法的链接　　<br><a id="more"></a></p>
+<h2 id="扫描一个二维码"><a href="#扫描一个二维码" class="headerlink" title="扫描一个二维码"></a>扫描一个二维码</h2><p>扫描一个二维码，android和ios都可以下载app。<br>其中涉及到的点：<br>1、html中要判断是来自android还是ios<br>2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。</p>
+<h2 id="判断打开来源（浏览器-IOS-Android）"><a href="#判断打开来源（浏览器-IOS-Android）" class="headerlink" title="判断打开来源（浏览器 || IOS || Android）"></a>判断打开来源（浏览器 || IOS || Android）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">var browser = &#123;</div><div class="line">	versions: function() &#123;</div><div class="line">		var u = navigator.userAgent, app = navigator.appVersion;</div><div class="line"></div><div class="line">		var isWeixin =  !!/MicroMessenger/i.test(u);</div><div class="line">		return &#123;//移动终端浏览器版本信息</div><div class="line">			trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核</div><div class="line">			presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核</div><div class="line">			webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核</div><div class="line">			gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核</div><div class="line">			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端</div><div class="line">			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端</div><div class="line">			android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器</div><div class="line">			iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器</div><div class="line">			iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad</div><div class="line">			webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部</div><div class="line">		&#125;;</div><div class="line">	&#125;(),</div><div class="line">	language: (navigator.browserLanguage || navigator.language).toLowerCase()</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123;</div><div class="line">	 // ios</div><div class="line">   window.location = &quot;http://...&quot;;</div><div class="line">&#125;</div><div class="line">else if (browser.versions.android) &#123;</div><div class="line">	 // android</div><div class="line">   // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="判断打开来源-微信-支付宝"><a href="#判断打开来源-微信-支付宝" class="headerlink" title="判断打开来源(微信 || 支付宝)"></a>判断打开来源(微信 || 支付宝)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function isWechat()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/MicroMessenger/i) == &apos;micromessenger&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function isAli()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/AlipayClient/i) ==&apos;alipayclient&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>以下是一些好的文章<br>１、<a href="http://www.blogjava.net/Hopes/articles/388873.html" target="_blank" rel="external">JS怎么刷新当前页面</a><br>2、<a href="http://www.jb51.net/article/60538.htm" target="_blank" rel="external">jQuery中$.click()无效问题分析</a><br>3、<a href="https://www.cnblogs.com/ShimizuShiori/p/5464063.html" target="_blank" rel="external">HTML5服务器推送消息的各种解决办法</a></p>
 
       
     </div>
@@ -279,13 +283,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></p>
+        <p><span>本文标题:</span><a href="/2017/08/25/js/">js一些其他问题</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">hfy</a></p>
-        <p><span>发布时间:</span>2017-05-11, 22:56:11</p>
-        <p><span>最后更新:</span>2017-11-15, 18:04:46</p>
+        <p><span>发布时间:</span>2017-08-25, 11:56:11</p>
+        <p><span>最后更新:</span>2018-02-03, 10:55:22</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/05/11/html-get-reqparam/" title="js获得get传过来的参数">https://haofangyuan.github.io/2017/05/11/html-get-reqparam/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/05/11/html-get-reqparam/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/08/25/js/" title="js一些其他问题">https://haofangyuan.github.io/2017/08/25/js/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/08/25/js/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -298,15 +302,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/05/11/springmvc-transaction/">
-                    springmvc+mybatis事务不起作用
+                <a href="/2017/09/05/adminlte/">
+                    adminLTE使用中遇到的难点
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/05/11/jquery-weui-datetimepicker/">
-                    JQuery WEUI的datetimePicker使用
+                <a href="/2017/06/30/java-objectMapper/">
+                    objectMapper中自定义类型转换
                 </a>
             </div>
         
@@ -318,7 +322,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#扫描一个二维码"><span class="toc-number">1.</span> <span class="toc-text">扫描一个二维码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断打开来源（浏览器-IOS-Android）"><span class="toc-number">2.</span> <span class="toc-text">判断打开来源（浏览器 || IOS || Android）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#判断打开来源-微信-支付宝"><span class="toc-number">3.</span> <span class="toc-text">判断打开来源(微信 || 支付宝)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
         
     </div>
     <style>
@@ -354,7 +358,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"js获得get传过来的参数　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"js一些其他问题　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -374,7 +378,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/05/11/springmvc-transaction/" title="上一篇: springmvc+mybatis事务不起作用">
+            <a href="/2017/09/05/adminlte/" title="上一篇: adminLTE使用中遇到的难点">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -382,13 +386,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/05/11/jquery-weui-datetimepicker/" title="下一篇: JQuery WEUI的datetimePicker使用">
+            <a href="/2017/06/30/java-objectMapper/" title="下一篇: objectMapper中自定义类型转换">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/lombok/">lombok学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html/">html中的那些事</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/exception-deadlock/">死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-json/">html中的那些事</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/11/lombok/">lombok学习</a></li></ul>
 
 
 
@@ -456,7 +460,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 2;
+                var backgroundnum = 1;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

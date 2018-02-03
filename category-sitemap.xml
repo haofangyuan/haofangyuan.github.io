@@ -7,13 +7,6 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/idea/</loc>
-        <lastmod>2017-11-15T10:04:46.745Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/categories/mybatis/</loc>
         <lastmod>2017-11-15T10:04:46.775Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -23,27 +16,6 @@
     <url>
         <loc>https://haofangyuan.github.io/categories/php/</loc>
         <lastmod>2017-11-15T10:04:46.783Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/windows/</loc>
-        <lastmod>2017-11-15T10:04:46.813Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/github/</loc>
-        <lastmod>2017-11-17T08:59:37.972Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
-        <lastmod>2017-11-17T08:59:37.974Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -63,29 +35,8 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/protobuf/</loc>
-        <lastmod>2018-01-05T10:32:53.094Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://haofangyuan.github.io/categories/mysql/</loc>
         <lastmod>2018-01-08T01:47:07.182Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
-        <lastmod>2018-01-30T02:59:05.391Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://haofangyuan.github.io/categories/pay/</loc>
-        <lastmod>2018-02-01T07:22:18.746Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -98,15 +49,50 @@
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/java/</loc>
-        <lastmod>2018-02-01T07:28:40.189Z</lastmod>
+        <loc>https://haofangyuan.github.io/categories/springboot/</loc>
+        <lastmod>2018-02-01T07:33:37.973Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://haofangyuan.github.io/categories/springboot/</loc>
-        <lastmod>2018-02-01T07:33:37.973Z</lastmod>
+        <loc>https://haofangyuan.github.io/categories/hexo/</loc>
+        <lastmod>2018-02-03T02:35:36.602Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/idea/</loc>
+        <lastmod>2018-02-03T02:55:26.244Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/</loc>
+        <lastmod>2018-02-03T02:59:04.116Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/exception/</loc>
+        <lastmod>2018-02-03T03:17:38.322Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/java/</loc>
+        <lastmod>2018-02-03T03:17:50.258Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://haofangyuan.github.io/categories/windows/</loc>
+        <lastmod>2018-02-03T03:17:57.704Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

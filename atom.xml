@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haofangyuan.github.io/"/>
-  <updated>2018-02-01T07:28:40.189Z</updated>
+  <updated>2018-02-03T03:17:38.322Z</updated>
   <id>https://haofangyuan.github.io/</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="https://haofangyuan.github.io/2018/01/12/time_wait/"/>
     <id>https://haofangyuan.github.io/2018/01/12/time_wait/</id>
     <published>2018-01-12T10:37:11.000Z</published>
-    <updated>2018-02-01T07:28:40.189Z</updated>
+    <updated>2018-02-03T03:17:38.322Z</updated>
     
-    <content type="html"><![CDATA[<p>  TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。<br><a id="more"></a><br>分析：<br><a href="http://lib.csdn.net/article/computernetworks/17275" target="_blank" rel="external">http://lib.csdn.net/article/computernetworks/17275</a><br><a href="http://blog.csdn.net/bk_guo/article/details/53995399" target="_blank" rel="external">http://blog.csdn.net/bk_guo/article/details/53995399</a><br>windows下解决：<br><a href="http://www.cnblogs.com/doNetTom/p/5160709.html" target="_blank" rel="external">http://www.cnblogs.com/doNetTom/p/5160709.html</a></p>
+    <content type="html"><![CDATA[<p>  TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。<br><a id="more"></a></p>
+<p>分析：<br><a href="http://lib.csdn.net/article/computernetworks/17275" target="_blank" rel="external">http://lib.csdn.net/article/computernetworks/17275</a><br><a href="http://blog.csdn.net/bk_guo/article/details/53995399" target="_blank" rel="external">http://blog.csdn.net/bk_guo/article/details/53995399</a><br>windows下解决：<br><a href="http://www.cnblogs.com/doNetTom/p/5160709.html" target="_blank" rel="external">http://www.cnblogs.com/doNetTom/p/5160709.html</a></p>
 ]]></content>
     
     <summary type="html">
@@ -31,7 +32,7 @@
     
     </summary>
     
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+      <category term="exception" scheme="https://haofangyuan.github.io/categories/exception/"/>
     
     
       <category term="exception" scheme="https://haofangyuan.github.io/tags/exception/"/>
@@ -131,7 +132,7 @@
     <link href="https://haofangyuan.github.io/2017/11/16/protobuf/"/>
     <id>https://haofangyuan.github.io/2017/11/16/protobuf/</id>
     <published>2017-11-16T10:56:11.000Z</published>
-    <updated>2018-01-05T10:32:53.094Z</updated>
+    <updated>2018-02-03T03:16:53.347Z</updated>
     
     <content type="html"><![CDATA[<p>　　开始学习pb了，来些总结吧！<br><a id="more"></a><br>本人github上本内容相关的项目：<br>　　springboot+protobuf<br>　　springboot+protobuf+websocket<br>接口设计：<br>　我的Protobuf消息设计原则 <a href="https://my.oschina.net/cxh3905/blog/159122" target="_blank" rel="external">https://my.oschina.net/cxh3905/blog/159122</a><br>　我的Protobuf消息设计原则(续)–实践  <a href="https://my.oschina.net/cxh3905/blog/293000" target="_blank" rel="external">https://my.oschina.net/cxh3905/blog/293000</a>  </p>
 <h2 id="Json转换"><a href="#Json转换" class="headerlink" title="Json转换"></a>Json转换</h2><h3 id="protobuf转json"><a href="#protobuf转json" class="headerlink" title="protobuf转json"></a>protobuf转json</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import com.google.protobuf.Descriptors;</div><div class="line">import com.googlecode.protobuf.format.JsonFormat;</div><div class="line"></div><div class="line">import java.io.IOException;</div><div class="line"></div><div class="line">/**</div><div class="line"> * JsonFormat的子类，不打印图片数据</div><div class="line"> *</div><div class="line"> * 直接使用com.googlecode.protobuf.format.JsonFormat的方法：</div><div class="line"> * new JsonFormat().printToString(message);</div><div class="line"> * 来打印，会将图片也打印出来，下面方法过滤了图片数据。</div><div class="line"> * new MyJsonFormat().printToString(message);</div><div class="line"> *</div><div class="line"> * Created by hfy on 2018/1/5.</div><div class="line"> */</div><div class="line">public class MyJsonFormat extends JsonFormat &#123;</div><div class="line">    @Override</div><div class="line">    public void printField(Descriptors.FieldDescriptor field, Object value, JsonGenerator generator) throws IOException &#123;</div><div class="line">        if (field.getType() == Descriptors.FieldDescriptor.Type.BYTES) &#123;</div><div class="line">            generator.print(&quot;\&quot;&quot;);</div><div class="line">            generator.print(&quot;image data...&quot;);</div><div class="line">            generator.print(&quot;\&quot;&quot;);</div><div class="line">        &#125; else &#123;</div><div class="line">            super.printField(field, value, generator);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -144,7 +145,7 @@
     
     </summary>
     
-      <category term="protobuf" scheme="https://haofangyuan.github.io/categories/protobuf/"/>
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
     
     
       <category term="protobuf" scheme="https://haofangyuan.github.io/tags/protobuf/"/>
@@ -152,13 +153,13 @@
   </entry>
   
   <entry>
-    <title>springboot异常</title>
-    <link href="https://haofangyuan.github.io/2017/10/27/springboot-exception/"/>
-    <id>https://haofangyuan.github.io/2017/10/27/springboot-exception/</id>
+    <title>死锁</title>
+    <link href="https://haofangyuan.github.io/2017/10/27/exception-deadlock/"/>
+    <id>https://haofangyuan.github.io/2017/10/27/exception-deadlock/</id>
     <published>2017-10-27T12:37:11.000Z</published>
-    <updated>2017-11-17T10:34:26.894Z</updated>
+    <updated>2018-02-03T02:30:52.694Z</updated>
     
-    <content type="html"><![CDATA[<p>　　spring boot 项目遇到的一些问题<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>　　项目遇到的死锁问题<br><a id="more"></a></p>
 <h2 id="项目假死"><a href="#项目假死" class="headerlink" title="项目假死"></a>项目假死</h2><p>问题描述：<br>　　在linux服务器中，springboot项目运行一段时间后，ps -ef|grep java发现项目进程在，但是打开日志，请求项目接口，发现服务器没有反应，好像死了一样。什么原因呢？<br>解决：<br>　　问题出现后，通过 <code>jstack 进程id</code> 发现，出现了死锁问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">JNI global references: 296</div><div class="line"></div><div class="line"></div><div class="line">Found one Java-level deadlock:</div><div class="line">=============================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2d424ec98 (object 0x0000000086bef5c8, a com.hfy.service.impl.TokenServiceImpl),</div><div class="line">  which is held by &quot;SockJS-2&quot;</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line"></div><div class="line">Java stack information for the threads listed above:</div><div class="line">===================================================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.keepAlive(SessionServiceImpl.java:114)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.PmWebSocketHandler.handleTextMessage(PmWebSocketHandler.java:85)</div><div class="line">	- locked &lt;0x00000000d8ca01c8&gt; (a org.springframework.web.socket.adapter.standard.StandardWebSocketSession)</div><div class="line">	............</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.deleteToken(TokenServiceImpl.java:49)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.sessionTimeout(SessionServiceImpl.java:96)</div><div class="line">	- locked &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.sessionTimeout(ScheduleTask.java:75)</div><div class="line">	.......</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.deleteSession(SessionServiceImpl.java:47)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.tokenTimeout(TokenServiceImpl.java:80)</div><div class="line">	- locked &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.tokenTimeout(ScheduleTask.java:69)</div><div class="line">	.......</div><div class="line"></div><div class="line">Found 1 deadlock.</div></pre></td></tr></table></figure></p>
 <p>可以很清楚的看到：<br>　　“SockJS-2”:<br>　　TokenServiceImpl.java:80执行tokenTimeout()的时候，获得了锁<0x0000000086bef5c8>,方法执行到了SessionServiceImpl.java:47,执行deleteSession时，等待锁<0x0000000086bef5e8><br>　　“SockJS-1”:<br>　　SessionServiceImpl.java:96执行sessionTimeout()的时候，获得了锁<0x0000000086bef5e8>,方法执行到了TokenServiceImpl.java:49，执行deleteToken时，等待锁<0x0000000086bef5c8><br>　　典型的死锁，知道问题所在，解决去了。。。。。。</0x0000000086bef5c8></0x0000000086bef5e8></0x0000000086bef5e8></0x0000000086bef5c8></p>
 <h2 id="Tomcat一个BUG造成CLOSE-WAIT"><a href="#Tomcat一个BUG造成CLOSE-WAIT" class="headerlink" title="Tomcat一个BUG造成CLOSE_WAIT"></a>Tomcat一个BUG造成CLOSE_WAIT</h2><p>此问题还未遇见<br><a href="http://cxytiandi.com/blog/detail/11147" target="_blank" rel="external">http://cxytiandi.com/blog/detail/11147</a><br><a href="http://www.cnblogs.com/saaav/p/6258831.html" target="_blank" rel="external">http://www.cnblogs.com/saaav/p/6258831.html</a></p>
@@ -166,7 +167,31 @@
     
     <summary type="html">
     
-      &lt;p&gt;　　spring boot 项目遇到的一些问题&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;　　项目遇到的死锁问题&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="exception" scheme="https://haofangyuan.github.io/categories/exception/"/>
+    
+    
+      <category term="exception" scheme="https://haofangyuan.github.io/tags/exception/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>springboot shiro权限控制</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot_shiro/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot_shiro/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2018-02-01T07:33:37.973Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　用户权限<br><a id="more"></a></p>
+<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，我们称之为Apache Shiro。它是一个很易用与Java项目的的安全框架，提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　用户权限&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -174,6 +199,44 @@
     
     
       <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>websocket相关问题</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/websocket/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/websocket/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2018-02-03T03:17:50.258Z</updated>
+    
+    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a></p>
+<h2 id="UnresolvedAddressException"><a href="#UnresolvedAddressException" class="headerlink" title="UnresolvedAddressException"></a>UnresolvedAddressException</h2><p>　　连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，<br>结果出现异常：UnresolvedAddressException  </p>
+<p>　　检测发现dns配置正确。后来原因是：服务器连接数已达到上限  </p>
+<h2 id="BINARY-PARTIAL-WRITING"><a href="#BINARY-PARTIAL-WRITING" class="headerlink" title="BINARY_PARTIAL_WRITING"></a>BINARY_PARTIAL_WRITING</h2><p>　　此问题的原因是：多线程在同时发送消息。需要加锁。<br>以下是错误代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    Thread.sleep(1 * 1000);</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        session.sendMessage(message);</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://or8a8is80.bkt.clouddn.com/BINARY_PARTIAL_WRITING.png" alt=""></p>
+<h2 id="强制关闭现有连接"><a href="#强制关闭现有连接" class="headerlink" title="强制关闭现有连接"></a>强制关闭现有连接</h2><p>　　对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。<br>　　session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        if (session.isOpen()) &#123;</div><div class="line">            session.sendMessage(message);</div><div class="line">        &#125;</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="http://or8a8is80.bkt.clouddn.com/IOException.png" alt=""></p>
+<h2 id="timeoutException"><a href="#timeoutException" class="headerlink" title="timeoutException"></a>timeoutException</h2><p>　　同时发现会报错：WritePendingException<br>　　这种问题在服务端处理的比较慢的时候出现。<br>　　为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。<br>　　因为：很多数据存储在缓存中，无法继续写入，超时。<br>　　至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。<br><img src="http://or8a8is80.bkt.clouddn.com/TimeoutException.png" alt=""></p>
+<h2 id="websocket超时断开"><a href="#websocket超时断开" class="headerlink" title="websocket超时断开"></a>websocket超时断开</h2><p>　　两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。<br>解决办法：<br>　　发送心跳包</p>
+<h2 id="IOException-Too-many-open-files"><a href="#IOException-Too-many-open-files" class="headerlink" title="IOException:Too many open files"></a>IOException:Too many open files</h2><p>服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">java.nio.channels.UnresolvedAddressException: null</div><div class="line">	at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101]</div><div class="line">	at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101]</div><div class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101]</div></pre></td></tr></table></figure></p>
+<p>没有联网，报错正常，但是运行一段时间后，报了以下错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">2017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failed</div><div class="line">java.io.IOException: Too many open files</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101]</div><div class="line">    at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4]</div><div class="line">    at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101]</div></pre></td></tr></table></figure></p>
+<p>查看进程号：<code>ps -ef | grep java</code> 再用命令<code>lsof -p 进程号 | wc -l</code>发现打开的文件数量很多。<code>lsof -p 进程号</code>则发现有大量类似的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java    13597 root   51u  sock                0,6      0t0  185981 can&apos;t identify protocol</div></pre></td></tr></table></figure></p>
+<p>What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">StandardWebSocketClient client = new StandardWebSocketClient();</div><div class="line">WebSocketConnectionManager manager = new WebSocketConnectionManager(</div><div class="line">                client, handler, WS_URI);</div><div class="line">manager.setOrigin(ORIGIN);</div><div class="line">manager.start();</div></pre></td></tr></table></figure></p>
+<p>不明白，查看源码，追踪到WsWebSocketContainer中，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public Session connectToServer(Endpoint endpoint,</div><div class="line">            ClientEndpointConfig clientEndpointConfiguration, URI path)</div><div class="line">            throws DeploymentException &#123;</div><div class="line">	// ......</div><div class="line"></div><div class="line">	// Open the connection</div><div class="line">	Future&lt;Void&gt; fConnect = socketChannel.connect(sa);</div><div class="line">	AsyncChannelWrapper channel = null;</div><div class="line"></div><div class="line">	// ......</div><div class="line"></div><div class="line">  if (secure) &#123;</div><div class="line">      SSLEngine sslEngine = createSSLEngine(userProperties);</div><div class="line">      channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine);</div><div class="line">  &#125; else if (channel == null) &#123;</div><div class="line">      channel = new AsyncChannelWrapperNonSecure(socketChannel);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">	try &#123;</div><div class="line">		// ......</div><div class="line">	&#125; catch (ExecutionException | InterruptedException | SSLException |</div><div class="line">			EOFException | TimeoutException | URISyntaxException e) &#123;</div><div class="line">		throw new DeploymentException(</div><div class="line">				sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e);</div><div class="line">	&#125; finally &#123;</div><div class="line">		if (!success) &#123;</div><div class="line">			channel.close();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// ......</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。<br>解决：<br> 　　在调用创建socket连接之前，判断了下是否可以连接。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html" target="_blank" rel="external">http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html</a><br><a href="https://my.oschina.net/ldl123292/blog/304360" target="_blank" rel="external">https://my.oschina.net/ldl123292/blog/304360</a><br>Spring Websocket Session共享解决思路（背景）<a href="http://www.sojson.com/blog/238.html" target="_blank" rel="external">http://www.sojson.com/blog/238.html</a><br>看完让你彻底搞懂Websocket原理 <a href="http://blog.csdn.net/frank_good/article/details/50856585" target="_blank" rel="external">http://blog.csdn.net/frank_good/article/details/50856585</a><br>webSocket中并发的策略 <a href="http://blog.csdn.net/heshuangyuan123/article/details/39023569" target="_blank" rel="external">http://blog.csdn.net/heshuangyuan123/article/details/39023569</a><br>tcp socket文件句柄泄漏<br><a href="http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/" target="_blank" rel="external">http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="websocket" scheme="https://haofangyuan.github.io/tags/websocket/"/>
     
   </entry>
   
@@ -219,68 +282,6 @@
   </entry>
   
   <entry>
-    <title>websocket相关问题</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/websocket/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/websocket/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2017-12-06T01:45:56.360Z</updated>
-    
-    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a></p>
-<h2 id="UnresolvedAddressException"><a href="#UnresolvedAddressException" class="headerlink" title="UnresolvedAddressException"></a>UnresolvedAddressException</h2><p>　　连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，<br>结果出现异常：UnresolvedAddressException  </p>
-<p>　　检测发现dns配置正确。后来原因是：服务器连接数已达到上限  </p>
-<h2 id="BINARY-PARTIAL-WRITING"><a href="#BINARY-PARTIAL-WRITING" class="headerlink" title="BINARY_PARTIAL_WRITING"></a>BINARY_PARTIAL_WRITING</h2><p>　　此问题的原因是：多线程在同时发送消息。需要加锁。<br>以下是错误代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    Thread.sleep(1 * 1000);</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        session.sendMessage(message);</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="http://or8a8is80.bkt.clouddn.com/BINARY_PARTIAL_WRITING.png" alt=""></p>
-<h2 id="强制关闭现有连接"><a href="#强制关闭现有连接" class="headerlink" title="强制关闭现有连接"></a>强制关闭现有连接</h2><p>　　对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。<br>　　session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123;</div><div class="line">    UserProtos.User user = UserProtos.User.parseFrom(message.getPayload());</div><div class="line">    System.out.println(user.getName());</div><div class="line">    try &#123;</div><div class="line">        if (session.isOpen()) &#123;</div><div class="line">            session.sendMessage(message);</div><div class="line">        &#125;</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="http://or8a8is80.bkt.clouddn.com/IOException.png" alt=""></p>
-<h2 id="timeoutException"><a href="#timeoutException" class="headerlink" title="timeoutException"></a>timeoutException</h2><p>　　同时发现会报错：WritePendingException<br>　　这种问题在服务端处理的比较慢的时候出现。<br>　　为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。<br>　　因为：很多数据存储在缓存中，无法继续写入，超时。<br>　　至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。<br><img src="http://or8a8is80.bkt.clouddn.com/TimeoutException.png" alt=""></p>
-<h2 id="websocket超时断开"><a href="#websocket超时断开" class="headerlink" title="websocket超时断开"></a>websocket超时断开</h2><p>　　两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。<br>解决办法：<br>　　发送心跳包</p>
-<h2 id="IOException-Too-many-open-files"><a href="#IOException-Too-many-open-files" class="headerlink" title="IOException:Too many open files"></a>IOException:Too many open files</h2><p>服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">java.nio.channels.UnresolvedAddressException: null</div><div class="line">	at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101]</div><div class="line">	at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101]</div><div class="line">	at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE]</div><div class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101]</div><div class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101]</div></pre></td></tr></table></figure></p>
-<p>没有联网，报错正常，但是运行一段时间后，报了以下错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">2017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failed</div><div class="line">java.io.IOException: Too many open files</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101]</div><div class="line">    at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101]</div><div class="line">    at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4]</div><div class="line">    at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101]</div></pre></td></tr></table></figure></p>
-<p>查看进程号：<code>ps -ef | grep java</code> 再用命令<code>lsof -p 进程号 | wc -l</code>发现打开的文件数量很多。<code>lsof -p 进程号</code>则发现有大量类似的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java    13597 root   51u  sock                0,6      0t0  185981 can&apos;t identify protocol</div></pre></td></tr></table></figure></p>
-<p>What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">StandardWebSocketClient client = new StandardWebSocketClient();</div><div class="line">WebSocketConnectionManager manager = new WebSocketConnectionManager(</div><div class="line">                client, handler, WS_URI);</div><div class="line">manager.setOrigin(ORIGIN);</div><div class="line">manager.start();</div></pre></td></tr></table></figure></p>
-<p>不明白，查看源码，追踪到WsWebSocketContainer中，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">public Session connectToServer(Endpoint endpoint,</div><div class="line">            ClientEndpointConfig clientEndpointConfiguration, URI path)</div><div class="line">            throws DeploymentException &#123;</div><div class="line">	// ......</div><div class="line"></div><div class="line">	// Open the connection</div><div class="line">	Future&lt;Void&gt; fConnect = socketChannel.connect(sa);</div><div class="line">	AsyncChannelWrapper channel = null;</div><div class="line"></div><div class="line">	// ......</div><div class="line"></div><div class="line">  if (secure) &#123;</div><div class="line">      SSLEngine sslEngine = createSSLEngine(userProperties);</div><div class="line">      channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine);</div><div class="line">  &#125; else if (channel == null) &#123;</div><div class="line">      channel = new AsyncChannelWrapperNonSecure(socketChannel);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">	try &#123;</div><div class="line">		// ......</div><div class="line">	&#125; catch (ExecutionException | InterruptedException | SSLException |</div><div class="line">			EOFException | TimeoutException | URISyntaxException e) &#123;</div><div class="line">		throw new DeploymentException(</div><div class="line">				sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e);</div><div class="line">	&#125; finally &#123;</div><div class="line">		if (!success) &#123;</div><div class="line">			channel.close();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// ......</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。<br>解决：<br> 　　在调用创建socket连接之前，判断了下是否可以连接。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html" target="_blank" rel="external">http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.html</a><br><a href="https://my.oschina.net/ldl123292/blog/304360" target="_blank" rel="external">https://my.oschina.net/ldl123292/blog/304360</a><br>Spring Websocket Session共享解决思路（背景）<a href="http://www.sojson.com/blog/238.html" target="_blank" rel="external">http://www.sojson.com/blog/238.html</a><br>看完让你彻底搞懂Websocket原理 <a href="http://blog.csdn.net/frank_good/article/details/50856585" target="_blank" rel="external">http://blog.csdn.net/frank_good/article/details/50856585</a><br>webSocket中并发的策略 <a href="http://blog.csdn.net/heshuangyuan123/article/details/39023569" target="_blank" rel="external">http://blog.csdn.net/heshuangyuan123/article/details/39023569</a><br>tcp socket文件句柄泄漏<br><a href="http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/" target="_blank" rel="external">http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot shiro权限控制</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/springboot_shiro/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/springboot_shiro/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2018-02-01T07:33:37.973Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　用户权限<br><a id="more"></a></p>
-<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，我们称之为Apache Shiro。它是一个很易用与Java项目的的安全框架，提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　用户权限&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springboot整合logback</title>
     <link href="https://haofangyuan.github.io/2017/10/23/springboot-logback/"/>
     <id>https://haofangyuan.github.io/2017/10/23/springboot-logback/</id>
@@ -313,7 +314,7 @@
     <link href="https://haofangyuan.github.io/2017/10/18/findbugs/"/>
     <id>https://haofangyuan.github.io/2017/10/18/findbugs/</id>
     <published>2017-10-18T10:56:11.000Z</published>
-    <updated>2017-11-15T10:04:46.727Z</updated>
+    <updated>2018-02-03T02:32:32.219Z</updated>
     
     <content type="html"><![CDATA[<p>　　FindBugs常见错误描述和解决方法  　　<br><a id="more"></a></p>
 <p>　　本文转载自：<a href="http://blog.sina.com.cn/s/blog_4adc4b090102vi9p.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4adc4b090102vi9p.html</a></p>
@@ -337,10 +338,45 @@
     
     </summary>
     
+      <category term="exception" scheme="https://haofangyuan.github.io/categories/exception/"/>
+    
+    
+      <category term="exception" scheme="https://haofangyuan.github.io/tags/exception/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>了解负载均衡 会话保持 session同步(转)</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java_nginx/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java_nginx/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2018-02-03T02:55:54.974Z</updated>
+    
+    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a><br>　　转自：<a href="http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212" target="_blank" rel="external">http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212</a>  </p>
+<h2 id="什么负载均衡"><a href="#什么负载均衡" class="headerlink" title="什么负载均衡"></a>什么负载均衡</h2><p>　　一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。<br>　　在这种情况下，有二种方案可以选择：<br>　　1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。<br>　　2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。<br>　　第一种方法可以理解为纵向发展，这种方法总是有限。<br>　　第二种方法才是解决问题的正确选择。<br>　　实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。<br>　　负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法:<br>　　1、根据请求数<br>　　　　a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。<br>　　　　b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。<br>　　2、根据IP<br>　　　　a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题<br>　　　　b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。<br>　　　　c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。  </p>
+<h2 id="什么是会话保持，有什么作用"><a href="#什么是会话保持，有什么作用" class="headerlink" title="什么是会话保持，有什么作用"></a>什么是会话保持，有什么作用</h2><p>　　会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。</p>
+<p>会话保持有什么作用呢，举例说明一下<br>　　如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。<br>　　还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。<br>　　会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。  </p>
+<h2 id="session同步"><a href="#session同步" class="headerlink" title="session同步"></a>session同步</h2><p>　　为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法  </p>
+<p>　　web集群时session同步的3种方法  </p>
+<p>　　在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题：  </p>
+<h3 id="利用数据库同步session"><a href="#利用数据库同步session" class="headerlink" title="利用数据库同步session"></a>利用数据库同步session</h3><p>　　在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法：<br>　　a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。<br>　　b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。<br>　　说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担  </p>
+<h3 id="利用cookie同步session"><a href="#利用cookie同步session" class="headerlink" title="利用cookie同步session"></a>利用cookie同步session</h3><p>　　session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。  </p>
+<p>　　说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。  </p>
+<h3 id="利用memcache同步session"><a href="#利用memcache同步session" class="headerlink" title="利用memcache同步session"></a>利用memcache同步session</h3><p>　　memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。  </p>
+<p>　　优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。<br>　　缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。  </p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　上面三种方法都是可行的<br>　　第一种方法，最影响系统速度的那种，不推荐使用；<br>　　第二种方法，效果不错，不过安全隐患一样的存在；<br>　　第三种方法，个人觉得第三种方法是最好的，推荐大家使用;  </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
       <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
     
     
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+      <category term="nginx" scheme="https://haofangyuan.github.io/tags/nginx/"/>
     
   </entry>
   
@@ -369,72 +405,11 @@
   </entry>
   
   <entry>
-    <title>了解负载均衡 会话保持 session同步(转)</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java_nginx/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java_nginx/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2017-11-15T10:04:46.762Z</updated>
-    
-    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a><br>　　转自：<a href="http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212" target="_blank" rel="external">http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212</a>  </p>
-<h2 id="什么负载均衡"><a href="#什么负载均衡" class="headerlink" title="什么负载均衡"></a>什么负载均衡</h2><p>　　一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。<br>　　在这种情况下，有二种方案可以选择：<br>　　1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。<br>　　2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。<br>　　第一种方法可以理解为纵向发展，这种方法总是有限。<br>　　第二种方法才是解决问题的正确选择。<br>　　实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。<br>　　负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法:<br>　　1、根据请求数<br>　　　　a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。<br>　　　　b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。<br>　　2、根据IP<br>　　　　a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题<br>　　　　b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。<br>　　　　c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。  </p>
-<h2 id="什么是会话保持，有什么作用"><a href="#什么是会话保持，有什么作用" class="headerlink" title="什么是会话保持，有什么作用"></a>什么是会话保持，有什么作用</h2><p>　　会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。</p>
-<p>会话保持有什么作用呢，举例说明一下<br>　　如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。<br>　　还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。<br>　　会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。  </p>
-<h2 id="session同步"><a href="#session同步" class="headerlink" title="session同步"></a>session同步</h2><p>　　为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法  </p>
-<p>　　web集群时session同步的3种方法  </p>
-<p>　　在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题：  </p>
-<h3 id="利用数据库同步session"><a href="#利用数据库同步session" class="headerlink" title="利用数据库同步session"></a>利用数据库同步session</h3><p>　　在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法：<br>　　a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。<br>　　b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。<br>　　说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担  </p>
-<h3 id="利用cookie同步session"><a href="#利用cookie同步session" class="headerlink" title="利用cookie同步session"></a>利用cookie同步session</h3><p>　　session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。  </p>
-<p>　　说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。  </p>
-<h3 id="利用memcache同步session"><a href="#利用memcache同步session" class="headerlink" title="利用memcache同步session"></a>利用memcache同步session</h3><p>　　memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。  </p>
-<p>　　优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。<br>　　缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。  </p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　上面三种方法都是可行的<br>　　第一种方法，最影响系统速度的那种，不推荐使用；<br>　　第二种方法，效果不错，不过安全隐患一样的存在；<br>　　第三种方法，个人觉得第三种方法是最好的，推荐大家使用;  </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>lombok学习</title>
-    <link href="https://haofangyuan.github.io/2017/10/11/lombok/"/>
-    <id>https://haofangyuan.github.io/2017/10/11/lombok/</id>
-    <published>2017-10-11T14:56:11.000Z</published>
-    <updated>2017-11-17T10:32:14.867Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　lombok的学习<br><a id="more"></a><br>  在github上看开源代码，发现maven中用了org.projectlombok，一查询，相见恨晚的感觉啊！</p>
-<h2 id="lombok简介"><a href="#lombok简介" class="headerlink" title="lombok简介"></a>lombok简介</h2><p>　　lombok是个什么东东呢？嘿嘿，是通过注解形式帮我们减少一些代码的书写，比如getter、setter、stream的close，null的判断等。<br>　　官网：<a href="http://projectlombok.org/" target="_blank" rel="external">http://projectlombok.org/</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;lombok&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;1.16.10&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">&lt;/dependencies&gt;</div></pre></td></tr></table></figure>
-<h2 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a>常用注解</h2><p>@Getter: 生成get方法，是类、成员变量注解。<br>@Setter: 生成set方法，是类、成员变量注解。<br>@Data:     生成get、set、toString、equals、hashCode方法、空构造器，是类注解。<br>@ToString: 生成toString方法，是类注解。<br>@Log4j ：  注解在类上；为类提供一个 属性名为log 的 log4j 日志对象。<br>@EqualsAndHashCode： 生成equals方法、hashCode方法，是类注解。<br>@NoArgsConstructor： 注解在类上；为类提供一个无参的构造方法。<br>@AllArgsConstructor：注解在类上；为类提供一个全参的构造方法。  </p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　lombok的学习&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>adminLTE使用中遇到的难点</title>
     <link href="https://haofangyuan.github.io/2017/09/05/adminlte/"/>
     <id>https://haofangyuan.github.io/2017/09/05/adminlte/</id>
     <published>2017-09-05T10:37:11.000Z</published>
-    <updated>2017-11-30T06:23:24.530Z</updated>
+    <updated>2018-02-03T02:32:04.468Z</updated>
     
     <content type="html"><![CDATA[<p>　　这里主要记录使用adminlte时遇到的困难。<br><a id="more"></a></p>
 <h2 id="修改form缩放展开图标"><a href="#修改form缩放展开图标" class="headerlink" title="修改form缩放展开图标"></a>修改form缩放展开图标</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">    // 在引入js之前更改配置</div><div class="line">    var AdminLTEOptions = &#123;</div><div class="line">        boxWidgetOptions: &#123;</div><div class="line">            boxWidgetIcons: &#123;</div><div class="line">                //Collapse icon</div><div class="line">                collapse: &apos;fa-angle-down&apos;,</div><div class="line">                //Open icon</div><div class="line">                open: &apos;fa-angle-right&apos;,</div><div class="line">                //Remove icon</div><div class="line">                remove: &apos;fa-times&apos;</div><div class="line">            &#125;,</div><div class="line">            boxWidgetSelectors: &#123;</div><div class="line">                //Remove button selector</div><div class="line">                remove: &apos;[data-widget=&quot;remove&quot;]&apos;,</div><div class="line">                //Collapse button selector</div><div class="line">                collapse: &apos;[data-widget=&quot;collapse&quot;]&apos;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;script src=&quot;&lt;%=basePath%&gt;/adminlte/dist/js/app.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;&lt;%=basePath%&gt;/adminlte/dist/js/app.min.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
@@ -451,24 +426,22 @@
       <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
-      <category term="adminlte" scheme="https://haofangyuan.github.io/tags/adminlte/"/>
-    
-      <category term="chartjs" scheme="https://haofangyuan.github.io/tags/chartjs/"/>
+      <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
     
   </entry>
   
   <entry>
     <title>js一些其他问题</title>
-    <link href="https://haofangyuan.github.io/2017/08/25/html-js/"/>
-    <id>https://haofangyuan.github.io/2017/08/25/html-js/</id>
+    <link href="https://haofangyuan.github.io/2017/08/25/js/"/>
+    <id>https://haofangyuan.github.io/2017/08/25/js/</id>
     <published>2017-08-25T03:56:11.000Z</published>
-    <updated>2017-11-15T10:04:46.740Z</updated>
+    <updated>2018-02-03T02:55:22.991Z</updated>
     
     <content type="html"><![CDATA[<p>　　记录网上一些好的解决办法的链接　　<br><a id="more"></a></p>
 <h2 id="扫描一个二维码"><a href="#扫描一个二维码" class="headerlink" title="扫描一个二维码"></a>扫描一个二维码</h2><p>扫描一个二维码，android和ios都可以下载app。<br>其中涉及到的点：<br>1、html中要判断是来自android还是ios<br>2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。</p>
 <h2 id="判断打开来源（浏览器-IOS-Android）"><a href="#判断打开来源（浏览器-IOS-Android）" class="headerlink" title="判断打开来源（浏览器 || IOS || Android）"></a>判断打开来源（浏览器 || IOS || Android）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">var browser = &#123;</div><div class="line">	versions: function() &#123;</div><div class="line">		var u = navigator.userAgent, app = navigator.appVersion;</div><div class="line"></div><div class="line">		var isWeixin =  !!/MicroMessenger/i.test(u);</div><div class="line">		return &#123;//移动终端浏览器版本信息</div><div class="line">			trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核</div><div class="line">			presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核</div><div class="line">			webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核</div><div class="line">			gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核</div><div class="line">			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端</div><div class="line">			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端</div><div class="line">			android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器</div><div class="line">			iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器</div><div class="line">			iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad</div><div class="line">			webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部</div><div class="line">		&#125;;</div><div class="line">	&#125;(),</div><div class="line">	language: (navigator.browserLanguage || navigator.language).toLowerCase()</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123;</div><div class="line">	 // ios</div><div class="line">   window.location = &quot;http://...&quot;;</div><div class="line">&#125;</div><div class="line">else if (browser.versions.android) &#123;</div><div class="line">	 // android</div><div class="line">   // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="判断打开来源-微信-支付宝"><a href="#判断打开来源-微信-支付宝" class="headerlink" title="判断打开来源(微信 || 支付宝)"></a>判断打开来源(微信 || 支付宝)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function isWechat()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/MicroMessenger/i) == &apos;micromessenger&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function isAli()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/AlipayClient/i) ==&apos;alipayclient&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>以下是一些好的文章<br>１、<a href="http://www.blogjava.net/Hopes/articles/388873.html" target="_blank" rel="external">JS怎么刷新当前页面</a><br>2、<a href="http://www.jb51.net/article/60538.htm" target="_blank" rel="external">jQuery中$.click()无效问题分析</a>  </p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>以下是一些好的文章<br>１、<a href="http://www.blogjava.net/Hopes/articles/388873.html" target="_blank" rel="external">JS怎么刷新当前页面</a><br>2、<a href="http://www.jb51.net/article/60538.htm" target="_blank" rel="external">jQuery中$.click()无效问题分析</a><br>3、<a href="https://www.cnblogs.com/ShimizuShiori/p/5464063.html" target="_blank" rel="external">HTML5服务器推送消息的各种解决办法</a></p>
 ]]></content>
     
     <summary type="html">
@@ -547,7 +520,7 @@
     <link href="https://haofangyuan.github.io/2017/06/02/java-html-img/"/>
     <id>https://haofangyuan.github.io/2017/06/02/java-html-img/</id>
     <published>2017-06-02T05:56:59.000Z</published>
-    <updated>2017-11-15T10:04:46.750Z</updated>
+    <updated>2018-02-03T02:56:36.412Z</updated>
     
     <content type="html"><![CDATA[<p>  一些总结<br><a id="more"></a></p>
 <h2 id="html2image"><a href="#html2image" class="headerlink" title="html2image"></a>html2image</h2><p>示例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">HtmlImageGenerator imageGenerator = new HtmlImageGenerator();</div><div class="line">String htmlstr = &quot;&lt;div&gt;xxxxxxxxx&lt;/div&gt;&quot;;</div><div class="line">imageGenerator.loadHtml(htmlstr);</div><div class="line">imageGenerator.getBufferedImage();</div><div class="line">imageGenerator.saveAsImage(&quot;d:/hello-world.png&quot;);</div><div class="line">imageGenerator.saveAsHtmlWithMap(&quot;hello-world.html&quot;, &quot;hello-world.png&quot;);</div></pre></td></tr></table></figure></p>
@@ -571,6 +544,34 @@
       <category term="html" scheme="https://haofangyuan.github.io/tags/html/"/>
     
       <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ArrayList的线程安全问题</title>
+    <link href="https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/"/>
+    <id>https://haofangyuan.github.io/2017/06/02/java-thread-arraylist/</id>
+    <published>2017-06-02T05:56:59.000Z</published>
+    <updated>2017-11-15T10:04:46.757Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。<br><a id="more"></a></p>
+<h2 id="实例1"><a href="#实例1" class="headerlink" title="实例1"></a>实例1</h2><p>　　下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。<br>　　以下是异常图片：<br><img src="http://or8a8is80.bkt.clouddn.com/java_arraylist_thread.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line"></div><div class="line">public class ArrayListThreadTest &#123;</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;();</div><div class="line">    private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">//    private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.add(&quot;11&quot;);</div><div class="line">                    System.out.println(&quot;Thread1 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line">                    TEST_LIST.clear();</div><div class="line">                    System.out.println(&quot;Thread2 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"></div><div class="line">        new Thread(new Runnable() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                while (true) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(100);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    if (TEST_LIST.size() &gt; 0) &#123;</div><div class="line">                        int size = TEST_LIST.size();</div><div class="line">                        System.out.println(size + &quot;====&quot;);</div><div class="line">                        System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1));</div><div class="line">                    &#125;</div><div class="line">//                    System.out.println(&quot;Thread3 running&quot;);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="实例2"><a href="#实例2" class="headerlink" title="实例2"></a>实例2</h2><p>　　演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。<br>　　下面例子则来源于：<a href="http://www.oschina.net/code/snippet_70229_2425" target="_blank" rel="external">http://www.oschina.net/code/snippet_70229_2425</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">import java.util.ArrayList;</div><div class="line">import java.util.Collections;</div><div class="line">import java.util.List;</div><div class="line">import java.util.Random;</div><div class="line"></div><div class="line">// Java语言: ArrayList的线程安全与不安全对比演示</div><div class="line">public class ThreadSafeDemo &#123;</div><div class="line">    public static int demo(final List list, final int testCount) throws InterruptedException &#123;</div><div class="line">        ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode());</div><div class="line">        final Random rand = new Random();</div><div class="line"></div><div class="line">        Runnable listAppender = new Runnable() &#123;</div><div class="line">            public void run() &#123;</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep(rand.nextInt(2));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                    return;</div><div class="line">                &#125;</div><div class="line">                list.add(&quot;0&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; testCount; i++) &#123;</div><div class="line">            new Thread(group, listAppender, &quot;InsertList-&quot; + i).start();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        while (group.activeCount() &gt; 0) &#123;</div><div class="line">            Thread.sleep(10);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        return list.size();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) throws InterruptedException &#123;</div><div class="line">        List unsafeList = new ArrayList();</div><div class="line">        List safeList = Collections.synchronizedList(new ArrayList());</div><div class="line">        final int N = 10000;</div><div class="line">        for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">            unsafeList.clear();</div><div class="line">            safeList.clear();</div><div class="line">            int unsafeSize = demo(unsafeList, N);</div><div class="line">            int safeSize = demo(safeList, N);</div><div class="line">            System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>　　ArrayList是线程不安全的，多线程中，我们可以使用<code>Collections.synchronizedList(list);</code>方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class TestList &#123;</div><div class="line">    public static List&lt;String&gt; list = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public static void addMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            list.add(message);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static void getMessage(String message)&#123;</div><div class="line">        synchronized (TestList.class) &#123;</div><div class="line">            if (list.size() &gt; 0) &#123;</div><div class="line">                list.remove(0);    </div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+      <category term="thread" scheme="https://haofangyuan.github.io/tags/thread/"/>
     
   </entry>
   

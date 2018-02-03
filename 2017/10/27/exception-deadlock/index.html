@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="自己一些总结">
+<meta name="description" content="项目遇到的死锁问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js中日期相关问题">
-<meta property="og:url" content="https://haofangyuan.github.io/2017/05/11/html-date/index.html">
+<meta property="og:title" content="死锁">
+<meta property="og:url" content="https://haofangyuan.github.io/2017/10/27/exception-deadlock/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="自己一些总结">
-<meta property="og:updated_time" content="2017-11-15T10:04:46.735Z">
+<meta property="og:description" content="项目遇到的死锁问题">
+<meta property="og:updated_time" content="2018-02-03T02:30:52.694Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="js中日期相关问题">
-<meta name="twitter:description" content="自己一些总结">
+<meta name="twitter:title" content="死锁">
+<meta name="twitter:description" content="项目遇到的死锁问题">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>js中日期相关问题 | hfy Blog</title>
+<title>死锁 | hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -226,11 +226,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-html-date" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-exception-deadlock" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/05/11/html-date/" class="article-date">
-      <time datetime="2017-05-11T14:56:11.000Z" itemprop="datePublished">2017-05-11</time>
+      <a href="/2017/10/27/exception-deadlock/" class="article-date">
+      <time datetime="2017-10-27T12:37:11.000Z" itemprop="datePublished">2017-10-27</time>
 </a>
 
 
@@ -245,7 +245,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      js中日期相关问题
+      死锁
     </h1>
   
 
@@ -254,13 +254,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/前端/">前端</a>
+    <a class="article-category-link" href="/categories/exception/">exception</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/exception/">exception</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -270,10 +270,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>  自己一些总结<br><a id="more"></a></p>
-<h2 id="日期转换"><a href="#日期转换" class="headerlink" title="日期转换"></a>日期转换</h2><h3 id="日期转字符串"><a href="#日期转字符串" class="headerlink" title="日期转字符串"></a>日期转字符串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function convertDate2String(datetime)&#123;</div><div class="line">    var year = datetime.getFullYear();</div><div class="line">    var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1;</div><div class="line">    var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate();</div><div class="line">    var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours();</div><div class="line">    var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes();</div><div class="line">    var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds();</div><div class="line">    return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="字符串转日期"><a href="#字符串转日期" class="headerlink" title="字符串转日期"></a>字符串转日期</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;</div><div class="line">var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;)));</div></pre></td></tr></table></figure>
-<h2 id="日期增减"><a href="#日期增减" class="headerlink" title="日期增减"></a>日期增减</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)</div><div class="line">function getMonthNumber(date1,date2)&#123;</div><div class="line">    date1 = date1.split(&quot;-&quot;);</div><div class="line">    date2 = date2.split(&quot;-&quot;);</div><div class="line">    var year1 =  date1[0];</div><div class="line">    var year2 =  date2[0];</div><div class="line">    var month1 = date1[1];</div><div class="line">    var month2 = date2[1];</div><div class="line">    var day1 = date1[2];</div><div class="line">    var day2 = date2[2];</div><div class="line"></div><div class="line">    var len=(year2-year1)*12+(month2-month1);</div><div class="line">    if (day1 &gt;= day2) &#123;</div><div class="line">        len = len - 1;</div><div class="line">    &#125;</div><div class="line">    return len;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>　　项目遇到的死锁问题<br><a id="more"></a></p>
+<h2 id="项目假死"><a href="#项目假死" class="headerlink" title="项目假死"></a>项目假死</h2><p>问题描述：<br>　　在linux服务器中，springboot项目运行一段时间后，ps -ef|grep java发现项目进程在，但是打开日志，请求项目接口，发现服务器没有反应，好像死了一样。什么原因呢？<br>解决：<br>　　问题出现后，通过 <code>jstack 进程id</code> 发现，出现了死锁问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">JNI global references: 296</div><div class="line"></div><div class="line"></div><div class="line">Found one Java-level deadlock:</div><div class="line">=============================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2d424ec98 (object 0x0000000086bef5c8, a com.hfy.service.impl.TokenServiceImpl),</div><div class="line">  which is held by &quot;SockJS-2&quot;</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">  waiting to lock monitor 0x00007fe2c45001d8 (object 0x0000000086bef5e8, a com.hfy.service.impl.SessionServiceImpl),</div><div class="line">  which is held by &quot;SockJS-1&quot;</div><div class="line"></div><div class="line">Java stack information for the threads listed above:</div><div class="line">===================================================</div><div class="line">&quot;http-nio-8889-exec-34&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.keepAlive(SessionServiceImpl.java:114)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.PmWebSocketHandler.handleTextMessage(PmWebSocketHandler.java:85)</div><div class="line">	- locked &lt;0x00000000d8ca01c8&gt; (a org.springframework.web.socket.adapter.standard.StandardWebSocketSession)</div><div class="line">	............</div><div class="line">&quot;SockJS-1&quot;:</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.deleteToken(TokenServiceImpl.java:49)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.sessionTimeout(SessionServiceImpl.java:96)</div><div class="line">	- locked &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.sessionTimeout(ScheduleTask.java:75)</div><div class="line">	.......</div><div class="line">&quot;SockJS-2&quot;:</div><div class="line">	at com.hfy.service.impl.SessionServiceImpl.deleteSession(SessionServiceImpl.java:47)</div><div class="line">	- waiting to lock &lt;0x0000000086bef5e8&gt; (a com.hfy.service.impl.SessionServiceImpl)</div><div class="line">	............</div><div class="line">	at com.hfy.service.impl.TokenServiceImpl.tokenTimeout(TokenServiceImpl.java:80)</div><div class="line">	- locked &lt;0x0000000086bef5c8&gt; (a com.hfy.service.impl.TokenServiceImpl)</div><div class="line">	at com.hfy.service.ScheduleTask.tokenTimeout(ScheduleTask.java:69)</div><div class="line">	.......</div><div class="line"></div><div class="line">Found 1 deadlock.</div></pre></td></tr></table></figure></p>
+<p>可以很清楚的看到：<br>　　“SockJS-2”:<br>　　TokenServiceImpl.java:80执行tokenTimeout()的时候，获得了锁<0x0000000086bef5c8>,方法执行到了SessionServiceImpl.java:47,执行deleteSession时，等待锁<0x0000000086bef5e8><br>　　“SockJS-1”:<br>　　SessionServiceImpl.java:96执行sessionTimeout()的时候，获得了锁<0x0000000086bef5e8>,方法执行到了TokenServiceImpl.java:49，执行deleteToken时，等待锁<0x0000000086bef5c8><br>　　典型的死锁，知道问题所在，解决去了。。。。。。</0x0000000086bef5c8></0x0000000086bef5e8></0x0000000086bef5e8></0x0000000086bef5c8></p>
+<h2 id="Tomcat一个BUG造成CLOSE-WAIT"><a href="#Tomcat一个BUG造成CLOSE-WAIT" class="headerlink" title="Tomcat一个BUG造成CLOSE_WAIT"></a>Tomcat一个BUG造成CLOSE_WAIT</h2><p>此问题还未遇见<br><a href="http://cxytiandi.com/blog/detail/11147" target="_blank" rel="external">http://cxytiandi.com/blog/detail/11147</a><br><a href="http://www.cnblogs.com/saaav/p/6258831.html" target="_blank" rel="external">http://www.cnblogs.com/saaav/p/6258831.html</a></p>
 
       
     </div>
@@ -282,13 +282,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/05/11/html-date/">js中日期相关问题</a></p>
+        <p><span>本文标题:</span><a href="/2017/10/27/exception-deadlock/">死锁</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">hfy</a></p>
-        <p><span>发布时间:</span>2017-05-11, 22:56:11</p>
-        <p><span>最后更新:</span>2017-11-15, 18:04:46</p>
+        <p><span>发布时间:</span>2017-10-27, 20:37:11</p>
+        <p><span>最后更新:</span>2018-02-03, 10:30:52</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/05/11/html-date/" title="js中日期相关问题">https://haofangyuan.github.io/2017/05/11/html-date/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/05/11/html-date/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/27/exception-deadlock/" title="死锁">https://haofangyuan.github.io/2017/10/27/exception-deadlock/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/10/27/exception-deadlock/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -301,15 +301,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/05/11/windows/">
-                    windows常用命令
+                <a href="/2017/11/16/protobuf/">
+                    protobuf的学习
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/05/11/springmvc-swagger/">
-                    springmvc与swagger
+                <a href="/2017/10/26/springboot_shiro/">
+                    springboot shiro权限控制
                 </a>
             </div>
         
@@ -321,7 +321,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#日期转换"><span class="toc-number">1.</span> <span class="toc-text">日期转换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#日期转字符串"><span class="toc-number">1.1.</span> <span class="toc-text">日期转字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串转日期"><span class="toc-number">1.2.</span> <span class="toc-text">字符串转日期</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#日期增减"><span class="toc-number">2.</span> <span class="toc-text">日期增减</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#项目假死"><span class="toc-number">1.</span> <span class="toc-text">项目假死</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat一个BUG造成CLOSE-WAIT"><span class="toc-number">2.</span> <span class="toc-text">Tomcat一个BUG造成CLOSE_WAIT</span></a></li></ol>
         
     </div>
     <style>
@@ -357,7 +357,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"js中日期相关问题　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"死锁　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -377,7 +377,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/05/11/windows/" title="上一篇: windows常用命令">
+            <a href="/2017/11/16/protobuf/" title="上一篇: protobuf的学习">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -385,13 +385,13 @@
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/05/11/springmvc-swagger/" title="下一篇: springmvc与swagger">
+            <a href="/2017/10/26/springboot_shiro/" title="下一篇: springboot shiro权限控制">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/springboot-exception/">springboot异常</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/11/lombok/">lombok学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/html-js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/html-ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html/">html中的那些事</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/html-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/github/">github的使用</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/exception-deadlock/">死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-json/">html中的那些事</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/11/lombok/">lombok学习</a></li></ul>
 
 
 
@@ -459,7 +459,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 2;
+                var backgroundnum = 1;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

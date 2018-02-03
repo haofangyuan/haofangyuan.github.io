@@ -229,10 +229,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-springboot-exception" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-exception-deadlock" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/10/27/springboot-exception/" class="article-date">
+      <a href="/2017/10/27/exception-deadlock/" class="article-date">
       <time datetime="2017-10-27T12:37:11.000Z" itemprop="datePublished">2017-10-27</time>
 </a>
 
@@ -248,7 +248,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/27/springboot-exception/">springboot异常</a>
+      <a class="article-title" href="/2017/10/27/exception-deadlock/">死锁</a>
     </h1>
   
 
@@ -258,7 +258,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>　　spring boot 项目遇到的一些问题<br></p>
+              <p>　　项目遇到的死锁问题<br></p>
           
       
     </div>
@@ -267,18 +267,18 @@
       
       
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    <a class="article-category-link" href="/categories/exception/">exception</a>
     </div>
 
 
       
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/exception/">exception</a></li></ul>
     </div>
 
       
         <p class="article-more-link">
-          <a href="/2017/10/27/springboot-exception/#more">阅读全文 >></a>
+          <a href="/2017/10/27/exception-deadlock/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -375,6 +375,79 @@
 
 
   
+    <article id="post-websocket" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/26/websocket/" class="article-date">
+      <time datetime="2017-10-26T14:56:11.000Z" itemprop="datePublished">2017-10-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/26/websocket/">websocket相关问题</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <p>  自己一些总结<br></p>
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/websocket/">websocket</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2017/10/26/websocket/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-springboot" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -425,79 +498,6 @@
       
         <p class="article-more-link">
           <a href="/2017/10/26/springboot/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-websocket" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/26/websocket/" class="article-date">
-      <time datetime="2017-10-26T14:56:11.000Z" itemprop="datePublished">2017-10-26</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/websocket/">websocket相关问题</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>  自己一些总结<br></p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/前端/">前端</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/json/">json</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2017/10/26/websocket/#more">阅读全文 >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -650,7 +650,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 2;
+                var backgroundnum = 1;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }
