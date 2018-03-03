@@ -1452,6 +1452,7 @@ body .ui-tooltip {
 .article-entry p {
   margin: 0.85em auto;
   line-height: 1.7;
+  text-indent: 2em;
 }
 .article-entry em {
   font-style: italic;
@@ -1569,7 +1570,9 @@ body .ui-tooltip {
   content: " —— ";
   font-family: Arial;
 }
-.article-entry h3 {
+.article-entry h3,
+.article-entry h4,
+.article-entry h5 {
   margin: 0.5em auto;
   color: #438aac;
   background: rgba(243,248,253,0.6);
@@ -1578,14 +1581,16 @@ body .ui-tooltip {
   -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
   box-shadow: 1px 1px 1px rgba(0,0,0,0.15);
 }
-.article-entry h3:hover a {
+.article-entry h3:hover a,
+.article-entry h4:hover a,
+.article-entry h5:hover a {
   text-decoration: underline;
 }
-.article-entry h3::after {
+.article-entry h3::after,
+.article-entry h4::after,
+.article-entry h5::after {
   content: " >";
 }
-.article-entry h4,
-.article-entry h5,
 .article-entry h6 {
   margin-top: 20px;
   color: #574c4c;

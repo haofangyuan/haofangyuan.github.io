@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[重复提交]]></title>
+    <url>%2F2018%2F01%2F12%2Fweb-form-repeat-submit%2F</url>
+    <content type="text"><![CDATA[表单重复提交与后台防重策略 表单重复提交场景1、在网络延迟的情况下，让用户有时间点击多次submit按钮导致表单重复提交；2、表单提交后用户点击【刷新】按钮导致表单重复提交；3、用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交； 客户端点击一次后，按钮置灰不可用。（仅场景一有效） 服务端1、利用令牌token。 访问jsp前生成令牌token，一份放入jsp的form的hidden中，一份存入用户session中。提交form后，判断令牌是否正确。（form中有令牌&amp;&amp;session中有令牌&amp;&amp;令牌相等）转载 http://www.cnblogs.com/xdp-gacl/p/3859416.html 后台防重1、使用数据库乐观锁，包括主键防重，版本号控制。但是这两种方法各有利弊。2、Zookeeper防重策略3、Redis防重策略转载 http://blog.csdn.net/jp413670706/article/details/52737282]]></content>
+      <categories>
+        <category>javaweb</category>
+      </categories>
+      <tags>
+        <tag>javaweb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[TCP/IP TIME_WAIT过多]]></title>
     <url>%2F2018%2F01%2F12%2Ftime_wait%2F</url>
-    <content type="text"><![CDATA[TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。 分析：http://lib.csdn.net/article/computernetworks/17275http://blog.csdn.net/bk_guo/article/details/53995399windows下解决：http://www.cnblogs.com/doNetTom/p/5160709.html]]></content>
+    <content type="text"><![CDATA[TCP/IP TIME_WAIT状态原理和服务端过多原因分析，及解决方案。 TCP握手TCP协议中的三次握手和四次挥手(图解)：http://blog.csdn.net/whuslei/article/details/6667471创建连接三次握手：发SYN包，返回SYN/ACK包，再发ACK包 当请求者收到SYN 后，就开始建立连接了。而被请求者第三次握手结束后才建立连接。关闭连接四次握手：发FIN包，返回ACK包，FIN包，返回ACK包 TCP连接是全双工，我关了你的连接，并不等于你关了我的连接。 linux查看time_wait数量netstat -n | awk ‘/^tcp/ {++S[$NF]} END { for(a in S) print(a,S[a])}’ 参考http://lib.csdn.net/article/computernetworks/17275TIME_WAIT状态的连接过多是什么原因？windows 下解决 Time_Wait 和 CLOSE_WAIT 方法]]></content>
       <categories>
         <category>exception</category>
       </categories>
@@ -69,7 +80,7 @@
   <entry>
     <title><![CDATA[websocket相关问题]]></title>
     <url>%2F2017%2F10%2F26%2Fwebsocket%2F</url>
-    <content type="text"><![CDATA[自己一些总结 UnresolvedAddressException 连接 Connecting to WebSocket at ws://www.hfy.com:8888/testSvr，结果出现异常：UnresolvedAddressException 检测发现dns配置正确。后来原因是：服务器连接数已达到上限 BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。123456789101112@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
+    <content type="text"><![CDATA[自己一些总结 为什么引入WebSocket协议 http协议是一种单向的网络协议，想要实时获取服务端数据，Long Polling(http设置超时时间，服务端有数据，立即返回，收到http返回或超时都立即再发起一个请求)还是有缺陷，1、server更新速度快，server在传送一个数据包给client后必须等待下一个Get请求到来，才能传递第二个更新的数据包给Browser，那么这样的话，Browser显示实时数据最快的时间为2×RTT（往返时间），另外在网络拥塞的情况下，这个应该是不能让用户接受的；2、由于http数据包的头部数据量往往很大（通常有400多个字节），但是真正被服务器需要的数据却很少（有时只有10个字节左右），这样的数据包在网络上周期性的传输，难免对网络带宽是一种浪费。 此时，websocket就华丽出场啦！转载自：http://blog.csdn.net/yl02520/article/ 遇到问题BINARY_PARTIAL_WRITING 此问题的原因是：多线程在同时发送消息。需要加锁。以下是错误代码：1234567891011@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; Thread.sleep(1 * 1000); UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; session.sendMessage(message); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; 强制关闭现有连接 对此进行改进以后,还是报错：java.io.IOException: java.io.IOException: 远程主机强迫关闭了一个现有的连接。发送之前判断session是否打开。 session突然关闭，handler的handleTextMessage方法还是会接收到消息的。所有数据处理之前，可以使用session.isOpen()来判断session的状态。123456789101112@Overrideprotected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception &#123; UserProtos.User user = UserProtos.User.parseFrom(message.getPayload()); System.out.println(user.getName()); try &#123; if (session.isOpen()) &#123; session.sendMessage(message); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125;&#125; timeoutException 同时发现会报错：WritePendingException 这种问题在服务端处理的比较慢的时候出现。 为了更改的找出问题所在，客户端一秒发送100条数据，服务端一秒钟处理一条数据（线程休眠），出现此问题。 因为：很多数据存储在缓存中，无法继续写入，超时。 至于写绑定异常，本人认为是：超时关闭，写入关闭原因，而之前的数据超时没写完，两个一起写造成的。 websocket超时断开 两个socket间，如果不长时间进行通信，会自动断开。虽然断开可以接收到通知，但是还有路由等原因会导致断开，是接不到通知的，察觉不到。一端认为还在，另一端已经断开了。解决办法： 发送心跳包 IOException:Too many open files服务器无法联网，websocket连接其他服务器，报错UnresolvedAddressException：123456789java.nio.channels.UnresolvedAddressException: null at sun.nio.ch.Net.checkAddress(Net.java:101) ~[na:1.8.0_101] at sun.nio.ch.UnixAsynchronousSocketChannelImpl.implConnect(UnixAsynchronousSocketChannelImpl.java:301) ~[na:1.8.0_101] at sun.nio.ch.AsynchronousSocketChannelImpl.connect(AsynchronousSocketChannelImpl.java:199) ~[na:1.8.0_101] at org.apache.tomcat.websocket.WsWebSocketContainer.connectToServer(WsWebSocketContainer.java:297) ~[tomcat-embed-websocket-8.5.16.jar!/:8.5.16] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:150) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at org.springframework.web.socket.client.standard.StandardWebSocketClient$1.call(StandardWebSocketClient.java:147) ~[spring-websocket-4.3.10.RELEASE.jar!/:4.3.10.RELEASE] at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_101] at java.lang.Thread.run(Thread.java:745) [na:1.8.0_101] 没有联网，报错正常，但是运行一段时间后，报了以下错误。12345672017-11-21 05:30:00,010:ERROR http-nio-8888-Acceptor-0 (DirectJDKLog.java:181) - Socket accept failedjava.io.IOException: Too many open files at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:422) ~[?:1.8.0_101] at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:250) ~[?:1.8.0_101] at org.apache.tomcat.util.net.NioEndpoint$Acceptor.run(NioEndpoint.java:457) [tomcat-embed-core-8.5.4.jar!/:8.5.4] at java.lang.Thread.run(Thread.java:745) [?:1.8.0_101] 查看进程号：ps -ef | grep java 再用命令lsof -p 进程号 | wc -l发现打开的文件数量很多。lsof -p 进程号则发现有大量类似的：can’t identify protocol1java 13597 root 51u sock 0,6 0t0 185981 can&apos;t identify protocol What？什么原因？网络搜索查看原因，解释说socket没有关闭。定位到打开socket的地方，只是简单的下面几行：12345StandardWebSocketClient client = new StandardWebSocketClient();WebSocketConnectionManager manager = new WebSocketConnectionManager( client, handler, WS_URI);manager.setOrigin(ORIGIN);manager.start(); 不明白，查看源码，追踪到WsWebSocketContainer中，1234567891011121314151617181920212223242526272829303132public Session connectToServer(Endpoint endpoint, ClientEndpointConfig clientEndpointConfiguration, URI path) throws DeploymentException &#123; // ...... // Open the connection Future&lt;Void&gt; fConnect = socketChannel.connect(sa); AsyncChannelWrapper channel = null; // ...... if (secure) &#123; SSLEngine sslEngine = createSSLEngine(userProperties); channel = new AsyncChannelWrapperSecure(socketChannel, sslEngine); &#125; else if (channel == null) &#123; channel = new AsyncChannelWrapperNonSecure(socketChannel); &#125; try &#123; // ...... &#125; catch (ExecutionException | InterruptedException | SSLException | EOFException | TimeoutException | URISyntaxException e) &#123; throw new DeploymentException( sm.getString(&quot;wsWebSocketContainer.httpRequestFailed&quot;), e); &#125; finally &#123; if (!success) &#123; channel.close(); &#125; &#125; // ......&#125; channel.close()实则关闭的就是socketChannel，所以，如果直接写ip，没事，写域名连接，每次报错在connect(sa)处报错，没有关闭。解决： 在调用创建socket连接之前，判断了下是否可以连接。 参考http://www.cnblogs.com/highriver/archive/2012/01/16/2324035.htmlhttps://my.oschina.net/ldl123292/blog/304360Spring Websocket Session共享解决思路（背景）http://www.sojson.com/blog/238.html看完让你彻底搞懂Websocket原理 http://blog.csdn.net/frank_good/article/details/50856585webSocket中并发的策略 http://blog.csdn.net/heshuangyuan123/article/details/39023569tcp socket文件句柄泄漏http://mdba.cn/2015/03/10/tcp-socket文件句柄泄漏/]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -90,8 +101,8 @@
   </entry>
   <entry>
     <title><![CDATA[springboot shiro权限控制]]></title>
-    <url>%2F2017%2F10%2F26%2Fspringboot_shiro%2F</url>
-    <content type="text"><![CDATA[用户权限 shiro简介Shiro是Apache下的一个开源项目，我们称之为Apache Shiro。它是一个很易用与Java项目的的安全框架，提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。]]></content>
+    <url>%2F2017%2F10%2F26%2Fspringboot-shiro%2F</url>
+    <content type="text"><![CDATA[用户权限 shiro简介Shiro是Apache下的一个开源项目，称之为Apache Shiro。提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -112,7 +123,7 @@
   </entry>
   <entry>
     <title><![CDATA[FindBugs常见错误描述和解决方法]]></title>
-    <url>%2F2017%2F10%2F18%2Ffindbugs%2F</url>
+    <url>%2F2017%2F10%2F18%2Fexception-findbugs%2F</url>
     <content type="text"><![CDATA[FindBugs常见错误描述和解决方法 本文转载自：http://blog.sina.com.cn/s/blog_4adc4b090102vi9p.html DLS_DEAD_LOCAL_STORE 描述： Dead store to 未使用的局部变量 解决方法：局部变量定义后未使用；实例化对象后又重新对该对象赋值 ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD 描述：Write to static field 通过实例方法更新静态属性 常见于常量类，直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用，而如果将常量改成静态成员变量，又因为spring不支持静态注入导致不能实现，解决方法是非静态的setter调用静态的setter方法给静态成员变量赋值。 解决方法： 常量类F： 123 class F&#123; public static String a = “123”;&#125; 常量a改为静态成员变量，通过F.getA()获取，且由于spring不支持静态注入，改为：123456789101112class F&#123; private static String a; public static Integer getA() &#123; return a; &#125; public void setA(String a) &#123; setAValue(a); &#125; public static void setAValue(String a) &#123; F.a = a; &#125;&#125; BX_UNBOXING_IMMEDIATELY_REBOXED 描述： Boxed value is unboxed and then immediately reboxed 装箱的值被拆箱，然后立刻重新装箱了 常见的是三目运算时，同时存在基本类型和包装类型。 解决方法：123Integer a = null;//...a = (a == null)?0:a; 此问题在于a不为null时，会被拆箱，赋值时再装箱。这是自动装箱拆箱的特性，只要运算中有不同类型，当涉及到类型转换时，编译器就会向下转型，再进行运算。修改方法，统一类型：123Integer a = null;//...a = (a == null)?Integer.valueOf(0):a; SE_BAD_FIELD 描述： Non-transient non-serializable instance field in serializable class在可序列化的类中存在不能序列化或者不能暂存的数据 解决方法： 方法1：序列化该对象 方法2：当采用struts2框架开发，不可避免的此问题会大量出现，因为ActionSupport实现了序列化接口，action继承了此类，而service没序列化，所以在action中引用service对象时提示此错误，最简单的解决方法是将service对象声明成transient，即service不需要序列化 方法3(未验证)：To avoid java serialization you need to implement writeObject() and readObject() method in your Class and need to throw NotSerializableException from those method.（action中实现这两个方法?）123456private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException &#123; throw new java.io.NotSerializableException( getClass().getName() );&#125;private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException &#123; throw new java.io.NotSerializableException( getClass().getName() );&#125; NP_LOAD_OF_KNOWN_NULL_VALUE 描述： Load of known null value加载已知是null的值 解决方法：已知方法参数为null是，直接传递null而不是参数名 REC_CATCH_EXCEPTION 描述： Exception is caught when Exception is not thrown 过泛地捕获异常或捕获异常后未做任何处理 解决方法：异常分类捕获（至少要打印出此异常对象） NP_NULL_PARAM_DEREF 描述： Null passed for nonnull parameter 把空值传给了非空的参数 解决方法：增加非空判断 NP_IMMEDIATE_DEREFERENCE_OF_READLINE 描述： Immediate dereference of the result of readLine() 立即引用了readLine()的结果 解决方法：判断readLine的结果是否为空 EI_EXPOSE_REP 恶意代码漏洞 描述：may expose internal representation by returning getter方法返回引用类型 eclipse自动生成的引用类型(Object、数组、Date等)的getter、setter方法会得到或通过对可变对象的引用操作而暴露代码内部实现，解决方法很多，只要返回的或赋值的对象不是原引用对象即可。 解决方法：1234567//以Date类型为例：public Date getHappenTime() &#123;if(happenTime != null)&#123;return (Date) happenTime.clone();&#125; return null;&#125; EI_EXPOSE_REP2 恶意代码漏洞 描述：may expose internal representation by storing an externally mutable object into setter方法返回引用类型 eclipse自动生成的引用类型(Object、数组、Date等)的getter、setter方法会得到或通过对可变对象的引用操作而暴露代码内部实现，解决方法很多，只要返回的或赋值的对象不是原引用对象即可。 解决方法：12345678//以Date类型为例：public void setHappenTime(Date happenTime) &#123; if(happenTime != null)&#123; this.happenTime = (Date) happenTime.clone(); &#125;else&#123; this.happenTime = null; &#125;&#125;]]></content>
       <categories>
         <category>exception</category>
@@ -123,7 +134,7 @@
   </entry>
   <entry>
     <title><![CDATA[了解负载均衡 会话保持 session同步(转)]]></title>
-    <url>%2F2017%2F10%2F16%2Fjava_nginx%2F</url>
+    <url>%2F2017%2F10%2F16%2Fnginx%2F</url>
     <content type="text"><![CDATA[自己一些总结 转自：http://bbs.linuxtone.org/forum.php?mod=viewthread&amp;tid=18212 什么负载均衡 一个新网站是不要做负载均衡的，因为访问量不大，流量也不大，所以没有必要搞这些东西。但是随着网站访问量和流量的快速增长，单台服务器受自身硬件条件的限制，很难承受这么大的访问量。 在这种情况下，有二种方案可以选择： 1，对单台服务器的硬件进行更新，由双核的变成四核的，内存加大等。 2，增加服务器的台数，来分担服务器的负担。以实现增加网络带宽，增加服务器的处理能力的目的。 第一种方法可以理解为纵向发展，这种方法总是有限。 第二种方法才是解决问题的正确选择。 实现负载均衡的方法，大至分为二个方向，一种是用软件来实现负载均衡，另一种是硬件实现负载均衡（包括结合硬件和软件）用软件来实现负载均衡，实现负载均衡的过程，自身也要消耗一些系统资源，响应时间增加。例如：LVS,nginx,haproxy,apache等这些基于应用层的负载均衡软件，适合那些访问量不是特别大的网站。如果像sina,163这样大访量的网站，用硬件来实现负载均衡是最明志的选择。 负载均衡的算法很多，有根据请求数来进行负载均衡的，有根IP来负载均衡的，有根据流量的等等。我经常会用的二种算法: 1、根据请求数 a，可以实现各台服务器都能比较平均分担客户的请求，其中一台服务器down掉的话也不会造成不好的影响。 b，服务器间的状态要同步，如session，需要其他手段来同步这些状态。 2、根据IP a，ip_hash算法可以把一个ip映射到一台服务器上，这样可以解决session同步的问题 b，ip_hash也有不好的地方就是，假如其中的一台服务器down掉的话，映射到这台的服务器的用户就郁闷了。 c，ip_hash容易导致负载不均衡的情况，现在河蟹政府对google的搜索关键词进行过滤，你会经常发现google打不开，但是过一会就好了。这让那些google的爱好者们郁闷不已，很多用户都到国外找代理去了，狗急跳墙，人急帆樯。如果这样的话，这些代理会被分到同一个服务器，会导致负载不均衡 ，甚至失效。 什么是会话保持，有什么作用 会话保持是指在负载均衡器上有一种机制，在作负载均衡的同时，还保证同一用户相关连的访问请求会被分配到同一台服务器上。 会话保持有什么作用呢，举例说明一下 如果有一个用户访问请求被分配到服务器A，并且在服务器A登录了，并且在很短的时间，这个用户又发出了一个请求，如果没有会话保持功能的话，这个用户的请求很有可能会被分配到服务器B去，这个时候在服务器B上是没有登录的，所以你要重新登录，但是用户并不知道自己的请求被分配到了哪里，用户的感觉就是登录了，怎么又要登录，用户体验很不好。 还有你在淘宝上面买东西，从登录＝》拍得东西＝》添加地址＝》付款，这是一个一系列的过程，也可以理解成一次操作过程，所有这一系列的操作过程都应当由一台服务器完成，而不能被负载均衡器分配到不同的服务器上。 会话保持都会有时间的限制（映射到固定某一台的服务器除外，如：ip_hash）,各种负载均衡工具都会提供这种会话保持时间的设置，LVS，apache等。连php语言都提供了会话保持时间的设定session.gc_maxlifetime会话保持时间的设定要大于session生存时间的设定，这样可以减少需要同步session的情况，但是不能杜绝。所以同步session还是要做的。 session同步 为什么要进行session同步，说会话保持的时候已经提到了。具体方法请参考web集群时session同步的3种方法 web集群时session同步的3种方法 在做了web集群后，你肯定会首先考虑session同步问题，因为通过负载均衡后，同一个IP访问同一个页面会被分配到不同的服务器上，如果session不同步的话，一个登录用户，一会是登录状态，一会又不是登录状态。所以本文就根据这种情况给出三种不同的方法来解决这个问题： 利用数据库同步session 在做多服务器session同步时我没有用这种方法，如果非要用这种方法的话，我想过二种方法： a，用一个低端电脑建个数据库专门存放web服务器的session，或者，把这个专门的数据库建在文件服务器上，用户访问web服务器时，会去这个专门的数据库check一下session的情况，以达到session同步的目的。 b，这种方法是把存放session的表和其他数据库表放在一起，如果mysql也做了集群了话，每个mysql节点都要有这张表，并且这张session表的数据表要实时同步。 说明：用数据库来同步session，会加大数据库的负担，数据库本来就是容易产生瓶颈的地方，如果把session还放到数据库里面，无疑是雪上加霜。上面的二种方法，第一点方法较好，把放session的表独立开来，减轻了真正数据库的负担 利用cookie同步session session是文件的形势存放在服务器端的，cookie是文件的形势存在客户端的，怎么实现同步呢？方法很简单，就是把用户访问页面产生的session放到cookie里面，就是以cookie为中转站。你访问web服务器A，产生了session把它放到cookie里面了，你访问被分配到web服务器B，这个时候，web服务器B先判断服务器有没有这个session，如果没有，在去看看客户端的cookie里面有没有这个session，如果也没有，说明session真的不存，如果cookie里面有，就把cookie里面的sessoin同步到web服务器B，这样就可以实现session的同步了。 说明：这种方法实现起来简单，方便，也不会加大数据库的负担，但是如果客户端把cookie禁掉了的话，那么session就无从同步了，这样会给网站带来损失；cookie的安全性不高，虽然它已经加了密，但是还是可以伪造的。 利用memcache同步session memcache可以做分布式，如果没有这功能，他也不能用来做session同步。他可以把web服务器中的内存组合起来，成为一个”内存池”，不管是哪个服务器产生的sessoin都可以放到这个”内存池”中，其他的都可以使用。 优点：以这种方式来同步session，不会加大数据库的负担，并且安全性比用cookie大大的提高，把session放到内存里面，比从文件中读取要快很多。 缺点：memcache把内存分成很多种规格的存储块，有块就有大小，这种方式也就决定了，memcache不能完全利用内存，会产生内存碎片，如果存储块不足，还会产生内存溢出。 总结 上面三种方法都是可行的 第一种方法，最影响系统速度的那种，不推荐使用； 第二种方法，效果不错，不过安全隐患一样的存在； 第三种方法，个人觉得第三种方法是最好的，推荐大家使用;]]></content>
       <categories>
         <category>java</category>
@@ -133,9 +144,31 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[java中的HashMap]]></title>
+    <title><![CDATA[ArrayList]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava-ArrayList%2F</url>
+    <content type="text"><![CDATA[ArrayList的那些事 实现原理ArrayList 内部是用Object[]实现的。 网上很多，直接打开源码，参考大神的分析：Java集合—ArrayList的实现原理 http://www.cnblogs.com/ITtangtang/p/3948555.html#ensureSize]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[HashMap]]></title>
     <url>%2F2017%2F10%2F16%2Fjava-HashMap%2F</url>
-    <content type="text"><![CDATA[hashMap的那些事 参考深入分析ConcurrentHashMap]]></content>
+    <content type="text"><![CDATA[hashMap的那些事 JDK7的HashMapHashMap是非线程安全的。高并发下会发生死循环（注意：不是死锁）。 工作原理HashMap的数据结构基于数组和链表。用数组存储HashMapEntry元素。 put时，调用hashcode计算出key的hash值从而得到bucket位置。如果该坐标下已经有值，发生碰撞，通过链表将产生碰撞冲突的元素组织起来。在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。 get时，我们将K传给get，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。 如果数组的长度很短，那么冲突就会很多。所以，插入后会计算是否&gt;=阈值threshold，是，则增大数组长度。此时所有的元素重新再存一次，这叫rehash，成本很高。(HashMap是在插入元素后判断元素是否已经到达容量的，如果到达了就进行扩容，但是很有可能扩容之后没有新元素插入，这时HashMap就进行了一次无效的扩容。) 源码分析问题转载：https://coolshell.cn/articles/9606.html 以下是put源码123456789101112131415161718192021public V put(K key, V value)&#123; ...... //算Hash值 int hash = hash(key.hashCode()); int i = indexFor(hash, table.length); //如果该key已被插入，则替换掉旧的value （链接操作） for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123; Object k; if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123; V oldValue = e.value; e.value = value; e.recordAccess(this); return oldValue; &#125; &#125; modCount++; //该key不存在，需要增加一个结点 addEntry(hash, key, value, i); return null;&#125; 增加一个节点。12345678void addEntry(int hash, K key, V value, int bucketIndex)&#123; Entry&lt;K,V&gt; e = table[bucketIndex]; table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);// (1) //查看当前的size是否超过了我们设定的阈值threshold，如果超过，需要resize if (size++ &gt;= threshold) resize(2 * table.length);&#125; 新建一个更大尺寸的hash表，然后把数据从老的Hash表中迁移到新的Hash表中。123456789101112void resize(int newCapacity)&#123; Entry[] oldTable = table; int oldCapacity = oldTable.length; ...... //创建一个新的Hash Table Entry[] newTable = new Entry[newCapacity]; //将Old Hash Table上的数据迁移到New Hash Table上 transfer(newTable); table = newTable; threshold = (int)(newCapacity * loadFactor);&#125; 迁移。12345678910111213141516171819202122void transfer(Entry[] newTable)&#123; Entry[] src = table; int newCapacity = newTable.length; //下面这段代码的意思是： // 从OldTable里摘一个元素出来，然后放到NewTable中 for (int j = 0; j &lt; src.length; j++) &#123; Entry&lt;K,V&gt; e = src[j]; if (e != null) &#123; src[j] = null; do &#123; // 以下是问题的关键部分。 // 当产生带环链表后，如果调用get()方法，将会陷入死循环，CPU占用将达到100% Entry&lt;K,V&gt; next = e.next; // (1) int i = indexFor(e.hash, newCapacity); e.next = newTable[i]; // (2) newTable[i] = e; // (3) e = next; &#125; while (e != null); &#125; &#125;&#125; 多线程put时元素丢失addEntry方法的(1)处，table[bucketIndex] = new Entry(hash, key, value, e); 两个线程都获得了e,他们的next都指向e，之后给相同的位置赋值，必然一个覆盖一个，最终丢失一个。 rehash可能导致死循环正常下rehash假设hash算法就是简单的用key mod 一下表的大小（也就是数组的长度） 并发下rehash12345Entry&lt;K,V&gt; next = e.next; // (1)int i = indexFor(e.hash, newCapacity);e.next = newTable[i]; // (2)newTable[i] = e; // (3)e = next; 两个线程，线程1走到(1)处暂停。线程2执行完毕了。 之后，线程1又开始执行。 走到(2)处，e的next就指向了(key：7),走到(3)处，此时，数组3的位置就形成了一个带环链表。当get()的时候，就会陷入死循环，cpu会上升。 e、next虽然是线程私有，但是它们之前已经指向了共有的table中的entry。所以即使线程二将table中entry换了地方，但是entry本身并没有变，只是本身的存储位置或者其next指向发生变化，e和next还是指向原来的entry。所以当e和next继续执行时，还是指向原来的entry，但是原来的entry的位置和指向已经变了。从而导致线程一继续执行时，又将原来的entry的指向和位置再次发生变化，最终导致环。 解决办法1、hashtable或Collections.synchronizedMap。（ synchronized 同步锁，严重牺牲了性能，而且对并发的效率就更低了） 2、ConcurrentHashMap替换HashMap（通过复杂的策略不仅保证了多线程的安全又提高的并发时的效率） JDK8-HashMapJava8的HashMap的数据结构，跟之前版本不一样的是当table达到一定的阀值时，bucket就会由链表转换为红黑树的方式进行存储。 探索HashMap实现原理及其在jdk8数据结构的改进 ConcurrentHashMaphttps://my.oschina.net/zhupanxin/blog/269037深入分析ConcurrentHashMap LinkedHashMaphttp://blog.csdn.net/justloveyou_/article/details/71713781]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Arrays.sort实现原理和Collection实现原理]]></title>
+    <url>%2F2017%2F10%2F16%2Fjava-Arrays.sort%2F</url>
+    <content type="text"><![CDATA[Collections.sort方法底层调用的是Arrays.sort方法。底层实现都是TimeSort实现的。TimSort算法就是找到已经排好序数据的子序列，然后对剩余部分排序(使用了插入排序算法)，然后合并起来. Collections.sort方法底层12List&lt;String&gt; list = Arrays.asList(&quot;1&quot;, &quot;3&quot;, &quot;2&quot;, &quot;6&quot;);Collections.sort(list); 进入源码发现，实际上调用的就是list的sort方法。12345678910111213141516// Collections.javapublic static &lt;T extends Comparable&lt;? super T&gt;&gt; void sort(List&lt;T&gt; list) &#123; list.sort(null);&#125;// List.java@SuppressWarnings(&#123;&quot;unchecked&quot;, &quot;rawtypes&quot;&#125;)default void sort(Comparator&lt;? super E&gt; c) &#123; Object[] a = this.toArray(); Arrays.sort(a, (Comparator) c); ListIterator&lt;E&gt; i = this.listIterator(); for (Object e : a) &#123; i.next(); i.set((E) e); &#125;&#125; Arrays.sort方法]]></content>
       <categories>
         <category>java</category>
       </categories>
@@ -157,7 +190,7 @@
   <entry>
     <title><![CDATA[js一些其他问题]]></title>
     <url>%2F2017%2F08%2F25%2Fjs%2F</url>
-    <content type="text"><![CDATA[记录网上一些好的解决办法的链接 扫描一个二维码扫描一个二维码，android和ios都可以下载app。其中涉及到的点：1、html中要判断是来自android还是ios2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。 判断打开来源（浏览器 || IOS || Android）1234567891011121314151617181920212223242526272829var browser = &#123; versions: function() &#123; var u = navigator.userAgent, app = navigator.appVersion; var isWeixin = !!/MicroMessenger/i.test(u); return &#123;//移动终端浏览器版本信息 trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核 presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核 webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核 gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核 mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端 ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器 iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器 iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部 &#125;; &#125;(), language: (navigator.browserLanguage || navigator.language).toLowerCase()&#125;if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123; // ios window.location = &quot;http://...&quot;;&#125;else if (browser.versions.android) &#123; // android // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link&#125; 判断打开来源(微信 || 支付宝)12345678910111213141516function isWechat()&#123; var ua = window.navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i) == &apos;micromessenger&apos;)&#123; return true; &#125;else&#123; return false; &#125;&#125;function isAli()&#123; var ua = window.navigator.userAgent.toLowerCase(); if(ua.match(/AlipayClient/i) ==&apos;alipayclient&apos;)&#123; return true; &#125;else&#123; return false; &#125;&#125; 参考以下是一些好的文章１、JS怎么刷新当前页面2、jQuery中$.click()无效问题分析3、HTML5服务器推送消息的各种解决办法]]></content>
+    <content type="text"><![CDATA[记录网上一些好的解决办法的链接 扫描二维码下载app扫描一个二维码，android和ios都可以下载app。其中涉及到的点：1、html中要判断是来自android还是ios2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。 判断扫码来源判断打开来源（浏览器 || IOS || Android）1234567891011121314151617181920212223242526272829var browser = &#123; versions: function() &#123; var u = navigator.userAgent, app = navigator.appVersion; var isWeixin = !!/MicroMessenger/i.test(u); return &#123;//移动终端浏览器版本信息 trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核 presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核 webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核 gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核 mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端 ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器 iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器 iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部 &#125;; &#125;(), language: (navigator.browserLanguage || navigator.language).toLowerCase()&#125;if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123; // ios window.location = &quot;http://...&quot;;&#125;else if (browser.versions.android) &#123; // android // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link&#125; 判断打开来源(微信 || 支付宝)12345678910111213141516function isWechat()&#123; var ua = window.navigator.userAgent.toLowerCase(); if(ua.match(/MicroMessenger/i) == &apos;micromessenger&apos;)&#123; return true; &#125;else&#123; return false; &#125;&#125;function isAli()&#123; var ua = window.navigator.userAgent.toLowerCase(); if(ua.match(/AlipayClient/i) ==&apos;alipayclient&apos;)&#123; return true; &#125;else&#123; return false; &#125;&#125; 获得页面传过来的参数html跳转，get请求带参数，获取参数123456789101112131415161718function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;]; json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符 其他内容以下是一些好的文章１、JS怎么刷新当前页面2、jQuery中$.click()无效问题分析3、HTML5服务器推送消息的各种解决办法]]></content>
       <categories>
         <category>前端</category>
       </categories>
@@ -196,13 +229,13 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>html</tag>
         <tag>java</tag>
+        <tag>html</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[ArrayList的线程安全问题]]></title>
-    <url>%2F2017%2F06%2F02%2Fjava-thread-arraylist%2F</url>
+    <url>%2F2017%2F06%2F02%2Fthread-arraylist%2F</url>
     <content type="text"><![CDATA[ArrayList是不安全的。多个线程对ArrayList操作，会出现问题。 实例1 下面这个demo，主要测试内容：三个线程，一个线程向集合中add数据，一个线程从集合中remove数据，一个线程判断如果集合中有数据，从其中获取数据。运行程序，会报错：越界异常。 以下是异常图片：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061import java.util.ArrayList;import java.util.Collections;import java.util.List;public class ArrayListThreadTest &#123;// private static List&lt;String&gt; TEST_LIST = new CopyOnWriteArrayList&lt;String&gt;(); private static List&lt;String&gt; TEST_LIST = Collections.synchronizedList(new ArrayList&lt;String&gt;());// private static List&lt;String&gt; TEST_LIST = new ArrayList&lt;&gt;(); public static void main(String[] args) &#123; new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.add(&quot;11&quot;); System.out.println(&quot;Thread1 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; TEST_LIST.clear(); System.out.println(&quot;Thread2 running&quot;); &#125; &#125; &#125;).start(); new Thread(new Runnable() &#123; @Override public void run() &#123; while (true) &#123; try &#123; Thread.sleep(100); &#125; catch (InterruptedException e) &#123; e.printStackTrace(); &#125; if (TEST_LIST.size() &gt; 0) &#123; int size = TEST_LIST.size(); System.out.println(size + &quot;====&quot;); System.out.println(size + &quot;===&quot; + TEST_LIST.get(size-1)); &#125;// System.out.println(&quot;Thread3 running&quot;); &#125; &#125; &#125;).start(); &#125;&#125; 实例2 演示内容：多个线程向集合arraylist、线程安全的arraylist中添加数据，集合长度不同。 下面例子则来源于：http://www.oschina.net/code/snippet_70229_242512345678910111213141516171819202122232425262728293031323334353637383940414243444546import java.util.ArrayList;import java.util.Collections;import java.util.List;import java.util.Random;// Java语言: ArrayList的线程安全与不安全对比演示public class ThreadSafeDemo &#123; public static int demo(final List list, final int testCount) throws InterruptedException &#123; ThreadGroup group = new ThreadGroup(list.getClass().getName() + &quot;@&quot; + list.hashCode()); final Random rand = new Random(); Runnable listAppender = new Runnable() &#123; public void run() &#123; try &#123; Thread.sleep(rand.nextInt(2)); &#125; catch (InterruptedException e) &#123; return; &#125; list.add(&quot;0&quot;); &#125; &#125;; for (int i = 0; i &lt; testCount; i++) &#123; new Thread(group, listAppender, &quot;InsertList-&quot; + i).start(); &#125; while (group.activeCount() &gt; 0) &#123; Thread.sleep(10); &#125; return list.size(); &#125; public static void main(String[] args) throws InterruptedException &#123; List unsafeList = new ArrayList(); List safeList = Collections.synchronizedList(new ArrayList()); final int N = 10000; for (int i = 0; i &lt; 10; i++) &#123; unsafeList.clear(); safeList.clear(); int unsafeSize = demo(unsafeList, N); int safeSize = demo(safeList, N); System.out.println(&quot;unsafe/safe: &quot; + unsafeSize + &quot;/&quot; + safeSize); &#125; &#125;&#125; 总结 ArrayList是线程不安全的，多线程中，我们可以使用Collections.synchronizedList(list);方法使其转换成安全的。或者我们也可以调用自己写的get、set、remove方法方法，自己方法内部加锁，调用list的get、set、remove方法1234567891011121314151617public class TestList &#123; public static List&lt;String&gt; list = new ArrayList&lt;&gt;(); public static void addMessage(String message)&#123; synchronized (TestList.class) &#123; list.add(message); &#125; &#125; public static void getMessage(String message)&#123; synchronized (TestList.class) &#123; if (list.size() &gt; 0) &#123; list.remove(0); &#125; &#125; &#125;&#125;]]></content>
       <categories>
         <category>java</category>
@@ -237,7 +270,7 @@
   <entry>
     <title><![CDATA[git常用命令]]></title>
     <url>%2F2017%2F05%2F24%2Fgit%2F</url>
-    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上12345678将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git cherry-pick --continue git绑定两个远程仓库http://www.cnblogs.com/beileixinqing/p/7493302.html]]></content>
+    <content type="text"><![CDATA[git常用命令 基本命令12345678910111213141516171819202122232425262728293031323334353637381、克隆代码 git clone 地址2、查看当前状态 git status 状态分为 &quot;未跟踪&quot; Untracked 未跟踪的文件需要git add 添加之后，执行commit才会保存到版本库中。 &quot;已经修改&quot; modified 执行commit才会保存到版本库中。 &quot;已经删除&quot; deleted 本地删除文件不代表版本库中已经删除，需要执行git rm [文件名]3、添加未跟踪文件 git add [文件名] 注意：不要git add . 这样会让eclipse生成的文件也add进去。 使用add * 使用 `git add *.java, *.jsp`4、提交代码 git commit [文件名] -m &quot;注释&quot; 5、从版本库拉代码 git pull6、代码提交到版本库 git push7、查看文件修改情况 git diff [文件名] 如果不加文件名，会将所有已经修改的文件与版本库进行比较8、回滚 git reset [--hard] [--mixed] [--hard] 是强制抹除修改，未提交的修改会丢失。 git reset --hard #######慎重使用##### [--mixed] 是保存修改，相当于重新提交。9、rebase git rebase [分支名] //一般基于origin/master rebase 即 git rebase origin/master 本次提交后，从版本库拉去代码，别人也修改了。此时两者不在一条线上，rebase合并。 出现冲突时， 1、查看那些文件冲突： git status 2、修改： 3、将冲突文件修改后添加：git add 文件名 4、git rebase --continue10、图形界面工具 gitk --all 修改撤回123git diff &gt; tmp.diff //修改内容暂存置tmp.diffgit reset --hard //去除修改rm -f tmp.diff //删除tmp.diff 分支12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849501、查看本地分支 git branch * dev master *代表当前位于dev分支2、查看远程分支 git branch -r origin/dev origin/master 3、查看本地和远程分支 git branch -a4、创建分支 git checkout -b new_branch 注意，new_branch的代码来自于当前分支5、切换分支 git checkout another_branch 和创建分支就差-b参数6、push本地分支代码到远端服务器 git push origin branch_name 如果远端服务器没有该分支，将会自动创建7、pull远端分支代码到本地对应分支 git pull origin branch_name 8、删除本地分支,首先切换到别的分支,然后才能删除某个分支 git checkout b git branch -d a 9、删除远程分支 git push origin --delete branch_name 10、合并本地分支b4.5到master上： git checkout master git merger b4.5 将本地的b4.5分支代码合并到当前分支master中 出现冲突: 1、修改冲突文件 2、git add 3、git commit11、合并远程分支，和前面的几乎一样， git merge origin/b 远程分支b被合并到本地当前分支dev中了。12、重命名分支： git branch -m &lt;old_name&gt; &lt;new_name&gt; (如果有同名会失败，改用 -M 可以强制覆盖) 标签12345678910111、查看本地标签： git tag2、推送所有标签： git push --tags3、删除本地标签： git tag -d 标签名4、删除远程标签： git push origin --delete tag 标签名 文件追踪问题123456如果我们不小心将某个文件加入了 git 版本控制，但是突然又不想继续跟踪控制这个文件了，怎么办呢？使用 git update-index 即可。不想继续追踪某个文件git update-index --assume-unchanged your_file_path如果想再次继续跟踪某个文件git update-index --no-assume-unchanged your_file_path windows gitk 乱码1234vi .gitconfig。 或者打开C:\Users\cage\.gitconfig文件在文件末尾加上：[gui] encoding = utf-8 某次提交合并到分支上123456789将分支b2上的某次提交合并到分支b1上。1、b2分支上：查看commit号 git log2、切换到b1分支 git checkout b1 git cherry-pick ef895d2b76610d9c41e901e09e4c483a132870e23、出现冲突，解决后使用 git add filepath git cherry-pick --continue git绑定两个远程仓库http://www.cnblogs.com/beileixinqing/p/7493302.html]]></content>
       <categories>
         <category>git</category>
       </categories>
@@ -327,14 +360,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springmvc与分页]]></title>
-    <url>%2F2017%2F05%2F12%2Fspringmvc-page%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[js中日期相关问题]]></title>
+    <url>%2F2017%2F05%2F11%2Fjs-date%2F</url>
+    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
       <categories>
-        <category>springmvc</category>
+        <category>前端</category>
       </categories>
       <tags>
-        <tag>springmvc</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[支付]]></title>
+    <url>%2F2017%2F05%2F11%2Fpay%2F</url>
+    <content type="text"><![CDATA[支付宝、微信支付自己一些总结 支付宝异步通知签名失败app支付，app端可以调起支付，支付成功后异步通知，签名校验失败，原因是：使用的是“应用公钥”，应该用“支付宝公钥”。查看地址：https://openhome.alipay.com/platform/keyManage.htm 微信一个二维码支付一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>pay</tag>
       </tags>
   </entry>
   <entry>
@@ -349,48 +393,25 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[html中的那些事]]></title>
-    <url>%2F2017%2F05%2F11%2Fjs-json%2F</url>
-    <content type="text"><![CDATA[json与其他类型之间的转换，推送消息 json与字符串12var obj = JSON.parse(str); //由JSON字符串转换为JSON对象var last=JSON.stringify(obj); //将JSON对象转化为JSON字符 好的文章]]></content>
+    <title><![CDATA[php]]></title>
+    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
+    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
       <categories>
-        <category>前端</category>
+        <category>php</category>
       </categories>
       <tags>
-        <tag>json</tag>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js中日期相关问题]]></title>
-    <url>%2F2017%2F05%2F11%2Fjs-date%2F</url>
-    <content type="text"><![CDATA[自己一些总结 日期转换日期转字符串123456789function convertDate2String(datetime)&#123; var year = datetime.getFullYear(); var month = datetime.getMonth() + 1 &lt; 10 ? &quot;0&quot; + (datetime.getMonth() + 1) : datetime.getMonth() + 1; var date = datetime.getDate() &lt; 10 ? &quot;0&quot; + datetime.getDate() : datetime.getDate(); var hour = datetime.getHours()&lt; 10 ? &quot;0&quot; + datetime.getHours() : datetime.getHours(); var minute = datetime.getMinutes()&lt; 10 ? &quot;0&quot; + datetime.getMinutes() : datetime.getMinutes(); var second = datetime.getSeconds()&lt; 10 ? &quot;0&quot; + datetime.getSeconds() : datetime.getSeconds(); return year + &quot;-&quot; + month + &quot;-&quot; + date+&quot; &quot;+hour+&quot;:&quot;+minute;&#125; 字符串转日期12var oldEndTimeStr = &apos;2017-06-03 11:50&apos;;var oldEndTime = new Date(Date.parse(oldEndTimeStr.replace(/-/g, &quot;/&quot;))); 日期增减1234567891011121314151617//根据日期字符串计算月份差 (日期格式为&quot;yyyy-MM-dd&quot;,根据自己需要改格式和方法)function getMonthNumber(date1,date2)&#123; date1 = date1.split(&quot;-&quot;); date2 = date2.split(&quot;-&quot;); var year1 = date1[0]; var year2 = date2[0]; var month1 = date1[1]; var month2 = date2[1]; var day1 = date1[2]; var day2 = date2[2]; var len=(year2-year1)*12+(month2-month1); if (day1 &gt;= day2) &#123; len = len - 1; &#125; return len;&#125;]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
     <title><![CDATA[mybatis中的mapper]]></title>
     <url>%2F2017%2F05%2F11%2Fmybatis-sql%2F</url>
-    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hfy.db.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.Order&quot; id=&quot;OrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false) MyBatis注解select in参数1234567/** * * @param ids &apos;1,2,3&apos; * @return */@Select(&quot;select * from user where id in ($&#123;ids&#125;)&quot;)List&lt;UserInfo&gt; getUserbyIds(@Param(&quot;ids&quot;)String ids); MyBatis注解list参数注解中想使用xml中的&lt;if&gt;标签，需要用&lt;script&gt;标签将其包起来123456789101112&lt;script&gt;insert into tb_image_temp( &lt;foreach collection=&apos;keys&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; $&#123;item&#125; &lt;/foreach&gt;) values( &lt;foreach collection=&apos;values&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; #&#123;item&#125; &lt;/foreach&gt;)&lt;/script&gt; 12345678@Update(&quot;&lt;script&gt;\n&quot; + &quot; update $&#123;tableName&#125; set &quot; + &quot; &lt;foreach collection=&apos;map&apos; index=&apos;key&apos; item=&apos;item&apos; open=&apos;&apos; separator=&apos;,&apos; close=&apos;&apos; &gt;\n&quot; + &quot; $&#123;key&#125; = #&#123;item&#125;\n&quot; + &quot; &lt;/foreach&gt;\n&quot; + &quot; where id = #&#123;id&#125;\n&quot; + &quot;&lt;/script&gt;&quot;)void updateImage(@Param(&quot;tableName&quot;) String tableName, @Param(&quot;map&quot;) Map&lt;String, Object&gt; map, @Param(&quot;id&quot;) Integer id);]]></content>
+    <content type="text"><![CDATA[插入后返回主键、关联查询、多参 xml格式插入后返回主键12&lt;insert id=&quot;insertUser&quot; parameterType=&quot;com.hfy.db.bean.User&quot; useGeneratedKeys=&quot;true&quot; keyProperty=&quot;id&quot;&gt;&lt;/insert&gt; 多个参数 对于接口中多个请求参数，没有封装成对象12345678910111213// dao中:OrderDetail selectByTypeAndDate(@Param(&quot;type&quot;)Integer type, @Param(&quot;date&quot;)String date);// mapper中：&lt;select id=&quot;selectByTypeAndDate&quot; resultMap=&quot;orderDetailResult&quot; &gt; SELECT * FROM order_detail WHERE type = #&#123;type&#125; &lt;c:if test=&quot;type == 1&quot;&gt; and minPlayTime &gt; #&#123;date&#125; &lt;/c:if&gt; &lt;c:if test=&quot;type == 2&quot;&gt; and maxPlayTime &lt; #&#123;date&#125; &lt;/c:if&gt;&lt;/select&gt; 关联查询 123456&lt;resultMap type=&quot;com.hfy.db.bean.Order&quot; id=&quot;OrderResult&quot;&gt; &lt;result property=&quot;id&quot; column=&quot;id&quot; /&gt; &lt;!-- 配置关联关系 --&gt; &lt;association property=&quot;user&quot; column=&quot;userId&quot; select=&quot;com.hfy.dao.UserDao.selectById&quot;&gt;&lt;/association&gt; &lt;/resultMap&gt; MyBatis参数传入集合之foreach动态sql http://blog.csdn.net/small____fish/article/details/8029030/ 注解格式插入后返回主键12@Insert(&quot;&quot;)@SelectKey(statement = &quot;SELECT LAST_INSERT_ID()&quot;, keyProperty = &quot;user.id&quot;, resultType = int.class, before = false) MyBatis注解select in参数1234567/** * * @param ids &apos;1,2,3&apos; * @return */@Select(&quot;select * from user where id in ($&#123;ids&#125;)&quot;)List&lt;UserInfo&gt; getUserbyIds(@Param(&quot;ids&quot;)String ids); MyBatis注解list参数注解中想使用xml中的&lt;if&gt;标签，需要用&lt;script&gt;标签将其包起来123456789101112&lt;script&gt;insert into tb_image_temp( &lt;foreach collection=&apos;keys&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; $&#123;item&#125; &lt;/foreach&gt;) values( &lt;foreach collection=&apos;values&apos; item=&apos;item&apos; open=&apos;(&apos; separator=&apos;,&apos; close=&apos;)&apos;&gt; #&#123;item&#125; &lt;/foreach&gt;)&lt;/script&gt; 12345678@Update(&quot;&lt;script&gt;\n&quot; + &quot; update $&#123;tableName&#125; set &quot; + &quot; &lt;foreach collection=&apos;map&apos; index=&apos;key&apos; item=&apos;item&apos; open=&apos;&apos; separator=&apos;,&apos; close=&apos;&apos; &gt;\n&quot; + &quot; $&#123;key&#125; = #&#123;item&#125;\n&quot; + &quot; &lt;/foreach&gt;\n&quot; + &quot; where id = #&#123;id&#125;\n&quot; + &quot;&lt;/script&gt;&quot;)void updateImage(@Param(&quot;tableName&quot;) String tableName, @Param(&quot;map&quot;) Map&lt;String, Object&gt; map, @Param(&quot;id&quot;) Integer id);]]></content>
       <categories>
         <category>mybatis</category>
       </categories>
       <tags>
         <tag>mybatis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux相关知识]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
-    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列） 6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l9、修改IP地址： 编辑：vi /etc/sysconfig/network-scripts/ifcfg-eth0，完成后，service network restart或/etc/init.d/network restart重启网络服务，然后ping网关，ping外网进行测试。都能ping通表示网络正常。详细参考：https://jingyan.baidu.com/article/ca2d939d2cf1aceb6c31ce0a.html 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git（软连接相当于windows的快捷方式） mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redis安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -405,9 +426,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springmvc+mybatis事务不起作用]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-transaction%2F</url>
-    <content type="text"><![CDATA[http://blog.csdn.net/liuxiao723846/article/details/43483101]]></content>
+    <title><![CDATA[springboot的测试]]></title>
+    <url>%2F2017%2F05%2F11%2Fspringboot-test%2F</url>
+    <content type="text"><![CDATA[测试代码以下是1.3版本的测试12345678import org.junit.runner.RunWith;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.test.context.junit4.SpringRunner;@RunWith(SpringRunner.class)@SpringBootTest(classes = App.class)public class BaseTest &#123;&#125; 以下是1.4.0 版本的测试123456789101112import org.junit.runner.RunWith;import org.springframework.boot.test.SpringApplicationConfiguration;import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;import org.springframework.test.context.web.WebAppConfiguration;import javax.servlet.ServletContext;@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！@SpringApplicationConfiguration(classes = App.class) // 指定我们SpringBoot工程的Application启动类@WebAppConfigurationpublic class BaseTest &#123;&#125; MockMVC测试调用方法之前，获取登录后session。12345678910111213141516171819202122232425262728293031323334353637@Autowiredprivate WebApplicationContext context;private MockMvc mockMvc;private MockHttpSession session;@Beforepublic void setupMockMvc() throws Exception &#123; mockMvc = MockMvcBuilders.webAppContextSetup(context).build(); getLoginSession(&quot;hfy&quot;, &quot;111111&quot;);&#125;// 获取登入信息sessionprivate void getLoginSession(String name, String pwd) throws Exception &#123; MvcResult result = this.mockMvc .perform(post(&quot;/index.action&quot;) .contentType(MediaType.APPLICATION_FORM_URLENCODED) .param(&quot;loginname&quot;, name) .param(&quot;password&quot;, pwd)) .andReturn(); Assert.assertEquals(&quot;main/index&quot;, result.getModelAndView().getViewName()); this.session = (MockHttpSession) result.getRequest().getSession();&#125;@Testpublic void testPerson() throws Exception &#123; MockHttpServletRequestBuilder builder = post(&quot;/person/editPerson.action&quot;) .param(&quot;personId&quot;, &quot;1&quot;) .param(&quot;name&quot;, &quot;xx&quot;).session(session); MvcResult mvcResult = mockMvc.perform(builder).andReturn(); System.out.println(mvcResult.getResponse().getContentAsString()); Map map = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Map.class); Assert.assertEquals(&quot;success&quot;, map.get(&quot;result&quot;));&#125; 参考Spring Boot应用的测试——MockitoSpring MVC 测试 | 模拟提交表单Junit测试Controller（MockMVC使用），传输@RequestBody数据解决办法sonar + jacoco + mockMvc 模拟session 用户登录 配合SpringSecurity 权限 快速测试代码覆盖率]]></content>
       <categories>
         <category>springboot</category>
       </categories>
@@ -428,14 +449,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[springboot的测试]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringboot-test%2F</url>
-    <content type="text"><![CDATA[测试代码以下是1.3版本的测试12345678import org.junit.runner.RunWith;import org.springframework.boot.test.context.SpringBootTest;import org.springframework.test.context.junit4.SpringRunner;@RunWith(SpringRunner.class)@SpringBootTest(classes = App.class)public class BaseTest &#123;&#125; 以下是1.4.0 版本的测试123456789101112import org.junit.runner.RunWith;import org.springframework.boot.test.SpringApplicationConfiguration;import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;import org.springframework.test.context.web.WebAppConfiguration;import javax.servlet.ServletContext;@RunWith(SpringJUnit4ClassRunner.class) // SpringJUnit支持，由此引入Spring-Test框架支持！@SpringApplicationConfiguration(classes = App.class) // 指定我们SpringBoot工程的Application启动类@WebAppConfigurationpublic class BaseTest &#123;&#125; MockMVC测试调用方法之前，获取登录后session。12345678910111213141516171819202122232425262728293031323334353637@Autowiredprivate WebApplicationContext context;private MockMvc mockMvc;private MockHttpSession session;@Beforepublic void setupMockMvc() throws Exception &#123; mockMvc = MockMvcBuilders.webAppContextSetup(context).build(); getLoginSession(&quot;hfy&quot;, &quot;111111&quot;);&#125;// 获取登入信息sessionprivate void getLoginSession(String name, String pwd) throws Exception &#123; MvcResult result = this.mockMvc .perform(post(&quot;/index.action&quot;) .contentType(MediaType.APPLICATION_FORM_URLENCODED) .param(&quot;loginname&quot;, name) .param(&quot;password&quot;, pwd)) .andReturn(); Assert.assertEquals(&quot;main/index&quot;, result.getModelAndView().getViewName()); this.session = (MockHttpSession) result.getRequest().getSession();&#125;@Testpublic void testPerson() throws Exception &#123; MockHttpServletRequestBuilder builder = post(&quot;/person/editPerson.action&quot;) .param(&quot;personId&quot;, &quot;1&quot;) .param(&quot;name&quot;, &quot;xx&quot;).session(session); MvcResult mvcResult = mockMvc.perform(builder).andReturn(); System.out.println(mvcResult.getResponse().getContentAsString()); Map map = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Map.class); Assert.assertEquals(&quot;success&quot;, map.get(&quot;result&quot;));&#125; 参考Spring Boot应用的测试——MockitoSpring MVC 测试 | 模拟提交表单Junit测试Controller（MockMVC使用），传输@RequestBody数据解决办法sonar + jacoco + mockMvc 模拟session 用户登录 配合SpringSecurity 权限 快速测试代码覆盖率]]></content>
+    <title><![CDATA[linux相关知识]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-command%2F</url>
+    <content type="text"><![CDATA[linux常用命令，和安装一些软件，以及一些基础知识 [CPU状态信息us,sy,ni,id,wa,hi,si,st含义]（http://blog.csdn.net/sasoritattoo/article/details/9318893） 常用命令1、启动jar包：java -jar test.jar2、在后台启动jar：nohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp; 当然，我们可以将其写到sh脚本中。然后sh start.sh 执行脚本即可。 其中，start.sh是个脚本。里面内容是：1234test=`dirname &quot;$0&quot;`cd $testnohup java -jar test.jar 2&gt;&amp;1 &gt;/dev/null &amp;cd - 3、查看java程序是否启动：ps -ef | grep java （每天一个linux命令（41）：ps命令）4、根据端口查看进行：netstat -anp | grep 80805、杀掉进程： kill -9 4564 4564是进程号，通过上一个命令查看（第二列） 6、查看目录大小：du -h df -h（命令详解请看linux的du和df命令、df, du, ls 的区别）7、更改密码 8、查看打开文件数量：lsof -p 端口号 | wc -l9、修改IP地址： 编辑：vi /etc/sysconfig/network-scripts/ifcfg-eth0，完成后，service network restart或/etc/init.d/network restart重启网络服务，然后ping网关，ping外网进行测试。都能ping通表示网络正常。详细参考：https://jingyan.baidu.com/article/ca2d939d2cf1aceb6c31ce0a.html 创建git仓库1、创建文件夹：mkdir test.git2、进入目录：cd test.git3、git初始化：git init --bare4、创建快捷方式：ln -s /home/git/test.git（软连接相当于windows的快捷方式） mysql6.0以后1、启动：/bin/systemctl start mariadb2、停止：/bin/systemctl stop mariadb3、查看: systemctl status mariadb.service 安装redisredis如何后台启动 安装activemq安装中文字体去网上下载字体：例如：微软雅黑：http://www.mycode.net.cn/wp-content/uploads/2015/07/YaHeiConsolas.tar.gz 查看当前系统已经安装的中文字体：fc-list :lang=zh 字体安装步骤：1、解压压缩包到任意普通目录cd /home/hfy/test/tar -zxvf YaHeiConsolas.tar.gz2、在系统目录下创建自定义字体目录（必须要sudo）sudo mkdir -p /usr/share/fonts/chinese/msyh3、复制解压出来的字体到刚才创建的目录sudo cp YaHeiConsolas.ttf /usr/share/fonts/chinese/msyh4、进入字体目录cd /usr/share/fonts/chinese/msyh5、刷新并安装字体sudo mkfontscale &amp;&amp; sudo mkfontdir &amp;&amp; sudo fc-cache -fv]]></content>
       <categories>
-        <category>springboot</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -450,51 +471,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[支付]]></title>
-    <url>%2F2017%2F05%2F11%2Fpay%2F</url>
-    <content type="text"><![CDATA[支付宝、微信支付自己一些总结 支付宝异步通知签名失败app支付，app端可以调起支付，支付成功后异步通知，签名校验失败，原因是：使用的是“应用公钥”，应该用“支付宝公钥”。查看地址：https://openhome.alipay.com/platform/keyManage.htm 微信一个二维码支付一个二维码微信支付宝均可付款1、判断扫描来源是微信还是支付宝；2、进行不同的操作；如果是微信，我采用jsApi支付。跳转到微信公众号支付下面。因为微信二维码支付的码串不是链接，所以放弃了。注意：有可能没有关注微信公众号，此链接支持：授权1location.href = &quot;https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx19eba09adbcda9da&amp;redirect_uri=xxxx&amp;response_type=code&amp;scope=snsapi_base&amp;state=fff&amp;connect_redirect=1#wechat_redirect&quot;; 如果是支付宝，本人采用的是获取支付二维码方式：（因为支付宝码串是https链接，可直接跳转）本人不知还有什么更好的办法，欢迎网友们提提建议。]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>pay</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[springmvc与swagger]]></title>
-    <url>%2F2017%2F05%2F11%2Fspringmvc-swagger%2F</url>
-    <content type="text"><![CDATA[]]></content>
-      <categories>
-        <category>springmvc</category>
-      </categories>
-      <tags>
-        <tag>swagger</tag>
-        <tag>springmvc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[js获得get传过来的参数]]></title>
-    <url>%2F2017%2F05%2F11%2Fjs-get-reqparam%2F</url>
-    <content type="text"><![CDATA[自己一些总结12345678910111213141516171819//获得页面传过来的参数 function getParam() &#123; var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url var intLen = urlInfo.length; //获取url的长度 var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置 var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串 var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割 var map = &#123;&#125;; for(var i in arrParam)&#123; var temp = arrParam[i]; var val = temp.split(&quot;=&quot;); map[val[0]] = val[1]; &#125; return map; &#125; var map = getParam();var startTime = map[&quot;startTime&quot;];]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[linux命令expect]]></title>
-    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
-    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[windows常用命令]]></title>
     <url>%2F2017%2F05%2F11%2Fwindows%2F</url>
     <content type="text"><![CDATA[windows常用命令查看进程：cmd /c netstat -aon| findstr 端口杀掉进程：taskkill /F /pid 进程号]]></content>
@@ -506,14 +482,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[php]]></title>
-    <url>%2F2017%2F05%2F11%2Fphp%2F</url>
-    <content type="text"><![CDATA[自己一些总结用全局变量。123456789class MyClass &#123; public my_print() &#123; global 搜索$str; print $str; &#125;&#125;$str = &apos;Hello, World&apos;.$myclass = new MyClass();$myclass-&gt;my_print(); 12345include_once(&quot;config.php&quot;);class WxPayConfig&#123; const A = Config::A;&#125; 1234567&lt;?php class Config&#123; const KEY = &apos;111&apos;; static $URL = &quot;&quot;; &#125; Config::$URL_GET_TOKEN = &quot;http://127.0.0.1:8890/user/add?key=&quot;.Config::KEY;?&gt; php实现返回上一页1echo&quot;&lt;script&gt;alert(&apos;随便写点什么&apos;);history.go(-1);&lt;/script&gt;&quot;; 参考php的class中怎样引用外部的变量PHP类中的静态方法使用实例关于PHP对象实例化单个例子的方法通过http post发送json数据php与js相互调用php json]]></content>
+    <title><![CDATA[linux命令expect]]></title>
+    <url>%2F2017%2F05%2F11%2Flinux-expect%2F</url>
+    <content type="text"><![CDATA[自己一些总结 参考expect用法]]></content>
       <categories>
-        <category>php</category>
+        <category>linux</category>
       </categories>
       <tags>
-        <tag>php</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>

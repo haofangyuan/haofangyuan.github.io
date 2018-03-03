@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="用户权限">
+<meta name="description" content="表单重复提交与后台防重策略">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springboot shiro权限控制">
-<meta property="og:url" content="https://haofangyuan.github.io/2017/10/26/springboot_shiro/index.html">
+<meta property="og:title" content="重复提交">
+<meta property="og:url" content="https://haofangyuan.github.io/2018/01/12/web-form-repeat-submit/index.html">
 <meta property="og:site_name" content="hfy Blog">
-<meta property="og:description" content="用户权限">
-<meta property="og:updated_time" content="2018-02-01T07:33:37.973Z">
+<meta property="og:description" content="表单重复提交与后台防重策略">
+<meta property="og:updated_time" content="2018-02-26T09:50:28.768Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springboot shiro权限控制">
-<meta name="twitter:description" content="用户权限">
+<meta name="twitter:title" content="重复提交">
+<meta name="twitter:description" content="表单重复提交与后台防重策略">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>springboot shiro权限控制 | hfy Blog</title>
+<title>重复提交 | hfy Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -226,11 +226,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-springboot_shiro" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-web-form-repeat-submit" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/10/26/springboot_shiro/" class="article-date">
-      <time datetime="2017-10-26T14:56:11.000Z" itemprop="datePublished">2017-10-26</time>
+      <a href="/2018/01/12/web-form-repeat-submit/" class="article-date">
+      <time datetime="2018-01-12T10:37:11.000Z" itemprop="datePublished">2018-01-12</time>
 </a>
 
 
@@ -245,7 +245,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      springboot shiro权限控制
+      重复提交
     </h1>
   
 
@@ -254,13 +254,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/springboot/">springboot</a>
+    <a class="article-category-link" href="/categories/javaweb/">javaweb</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javaweb/">javaweb</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -270,8 +270,11 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>　　用户权限<br><a id="more"></a></p>
-<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，我们称之为Apache Shiro。它是一个很易用与Java项目的的安全框架，提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
+        <p>  表单重复提交与后台防重策略<br><a id="more"></a></p>
+<h2 id="表单重复提交"><a href="#表单重复提交" class="headerlink" title="表单重复提交"></a>表单重复提交</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>1、在网络延迟的情况下，让用户有时间点击多次submit按钮导致表单重复提交；<br>2、表单提交后用户点击【刷新】按钮导致表单重复提交；<br>3、用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交；  </p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>点击一次后，按钮置灰不可用。（仅场景一有效）  </p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>1、利用令牌token。<br>　　访问jsp前生成令牌token，一份放入jsp的form的hidden中，一份存入用户session中。提交form后，判断令牌是否正确。（form中有令牌&amp;&amp;session中有令牌&amp;&amp;令牌相等）<br>转载  <a href="http://www.cnblogs.com/xdp-gacl/p/3859416.html" target="_blank" rel="external">http://www.cnblogs.com/xdp-gacl/p/3859416.html</a></p>
+<h2 id="后台防重"><a href="#后台防重" class="headerlink" title="后台防重"></a>后台防重</h2><p>1、使用数据库乐观锁，包括主键防重，版本号控制。但是这两种方法各有利弊。<br>2、Zookeeper防重策略<br>3、Redis防重策略<br>转载  <a href="http://blog.csdn.net/jp413670706/article/details/52737282" target="_blank" rel="external">http://blog.csdn.net/jp413670706/article/details/52737282</a></p>
 
       
     </div>
@@ -280,13 +283,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></p>
+        <p><span>本文标题:</span><a href="/2018/01/12/web-form-repeat-submit/">重复提交</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">hfy</a></p>
-        <p><span>发布时间:</span>2017-10-26, 22:56:11</p>
-        <p><span>最后更新:</span>2018-02-01, 15:33:37</p>
+        <p><span>发布时间:</span>2018-01-12, 18:37:11</p>
+        <p><span>最后更新:</span>2018-02-26, 17:50:28</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/10/26/springboot_shiro/" title="springboot shiro权限控制">https://haofangyuan.github.io/2017/10/26/springboot_shiro/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2017/10/26/springboot_shiro/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/01/12/web-form-repeat-submit/" title="重复提交">https://haofangyuan.github.io/2018/01/12/web-form-repeat-submit/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2018/01/12/web-form-repeat-submit/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -298,16 +301,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/10/27/exception-deadlock/">
-                    死锁
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/10/26/websocket/">
-                    websocket相关问题
+                <a href="/2018/01/12/time_wait/">
+                    TCP/IP TIME_WAIT过多
                 </a>
             </div>
         
@@ -319,7 +316,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#shiro简介"><span class="toc-number">1.</span> <span class="toc-text">shiro简介</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单重复提交"><span class="toc-number">1.</span> <span class="toc-text">表单重复提交</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#场景"><span class="toc-number">1.1.</span> <span class="toc-text">场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端"><span class="toc-number">1.2.</span> <span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端"><span class="toc-number">1.3.</span> <span class="toc-text">服务端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后台防重"><span class="toc-number">2.</span> <span class="toc-text">后台防重</span></a></li></ol>
         
     </div>
     <style>
@@ -355,7 +352,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"springboot shiro权限控制　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"重复提交　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -375,21 +372,19 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/10/27/exception-deadlock/" title="上一篇: 死锁">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/10/26/websocket/" title="下一篇: websocket相关问题">
+            <a href="/2018/01/12/time_wait/" title="下一篇: TCP/IP TIME_WAIT过多">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/exception-deadlock/">死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot_shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java_nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">java中的HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/12/springmvc-page/">springmvc与分页</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-json/">html中的那些事</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-transaction/">springmvc+mybatis事务不起作用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springmvc-swagger/">springmvc与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-get-reqparam/">js获得get传过来的参数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/11/lombok/">lombok学习</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/web-form-repeat-submit/">重复提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/exception-deadlock/">死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot-shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/exception-findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-ArrayList/">ArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-Arrays.sort/">Arrays.sort实现原理和Collection实现原理 </a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/11/lombok/">lombok学习</a></li></ul>
 
 
 
