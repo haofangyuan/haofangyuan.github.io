@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://haofangyuan.github.io/"/>
-  <updated>2018-02-26T09:50:28.768Z</updated>
+  <updated>2018-03-15T03:03:02.264Z</updated>
   <id>https://haofangyuan.github.io/</id>
   
   <author>
@@ -14,6 +14,51 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微信开发</title>
+    <link href="https://haofangyuan.github.io/2018/03/01/wechat/"/>
+    <id>https://haofangyuan.github.io/2018/03/01/wechat/</id>
+    <published>2018-03-01T14:56:11.000Z</published>
+    <updated>2018-03-15T03:03:02.264Z</updated>
+    
+    <content type="html"><![CDATA[<p>  微信开发自己的一些总结<br><a id="more"></a></p>
+<h2 id="access-token"><a href="#access-token" class="headerlink" title="access_token"></a>access_token</h2><p>以下来自微信公众号开发文档：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="external">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115</a></p>
+<p>jsapi_ticket是公众号用于调用微信JS接口的临时票据。正常情况下，jsapi_ticket的有效期为7200秒，通过access_token来获取。由于获取jsapi_ticket的api调用次数非常有限，频繁刷新jsapi_ticket会导致api调用受限，影响自身业务，开发者必须在自己的服务全局缓存jsapi_ticket 。</p>
+<p>access_token（有效期7200秒，开发者必须在自己的服务全局缓存access_token）</p>
+<p>故而，可以将access_token和有效期存放到文件中。每次get时先从文件读取，没有或者过期，直接请求接口获取</p>
+<h2 id="拍照和图片"><a href="#拍照和图片" class="headerlink" title="拍照和图片"></a>拍照和图片</h2><p>拍照使用jssdk。demo下载：<a href="http://demo.open.weixin.qq.com/jssdk/sample.zip" target="_blank" rel="external">http://demo.open.weixin.qq.com/jssdk/sample.zip</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:;&quot; class=&quot;weui-btn weui_btn_primary&quot; href=&quot;javascript:void(0);&quot; id=&quot;img-upload&quot;&gt;上传图片&lt;/a&gt;</div><div class="line">&lt;img src=&quot;&quot; id=&quot;img-preview&quot; style=&quot;width: 100px; height: 100px;&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var uploadButton = $(&apos;#img-upload&apos;);</div><div class="line">var uploadPreview = $(&apos;#img-preview&apos;);</div><div class="line">//点击上传按钮</div><div class="line">uploadButton.on(&apos;click&apos;, function() &#123;</div><div class="line">    wx.chooseImage(&#123;</div><div class="line">            count: 1,// 默认9</div><div class="line">            sizeType: [&apos;original&apos;, &apos;compressed&apos;],// 可以指定是原图还是压缩图，默认二者都有</div><div class="line">            sourceType: [&apos;album&apos;, &apos;camera&apos;],// 可以指定来源是相册还是相机，默认二者都有</div><div class="line">            success: function(res) &#123;</div><div class="line">                var localIds = res.localIds;  // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片</div><div class="line">                uploadPreview.attr(&apos;src&apos;, localIds[0]); //微信本地图片地址,可以用来做上传前预览</div><div class="line">                // 将图片上传到微信服务器，有效期三天，通过接口下载图片到自己服务器</div><div class="line">                // 接口 http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&amp;media_id=MEDIA_ID</div><div class="line">                wx.uploadImage(&#123;</div><div class="line">                  localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得</div><div class="line">                  isShowProgressTips: 1, // 默认为1，显示进度提示</div><div class="line">                  success: function (res) &#123;</div><div class="line">                     var serverId = res.serverId; // 返回图片的服务器端ID</div><div class="line">                  &#125;</div><div class="line">                &#125;);</div><div class="line">          &#125;,</div><div class="line">          error: function(res) &#123;</div><div class="line">            $.toast(&quot;系统异常，请稍后重试！&quot;, &quot;cancel&quot;);</div><div class="line">          &#125;</div><div class="line">   &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="问题和注意事项"><a href="#问题和注意事项" class="headerlink" title="问题和注意事项"></a>问题和注意事项</h3><p>注意事项： 在微信公众号绑定域名，是“JS接口安全域名”，并不是网页域名哦！！！（不加http://）</p>
+<p>开发过程中，真遇到了invalid signature错误。</p>
+<p>invalid signature签名错误。建议按如下顺序检查：</p>
+<p>1.确认签名算法正确，可用<a href="http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign" target="_blank" rel="external">http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign</a> 页面工具进行校验。</p>
+<p>2.确认config中nonceStr（js中驼峰标准大写S）, timestamp与用以签名中的对应noncestr, timestamp一致。</p>
+<p>3.确认url是页面完整的url(请在当前页面alert(location.href.split(‘#’)[0])确认)，包括’http(s)://‘部分，以及’？’后面的GET参数部分,但不包括’#’hash后面的部分。</p>
+<p>4.确认 config 中的 appid 与用来获取 jsapi_ticket 的 appid 一致。</p>
+<p>5.确保一定缓存access_token和jsapi_ticket。</p>
+<p>6.确保你获取用来签名的url是动态获取的，动态页面可参见实例代码中php的实现方式。如果是html的静态页面在前端通过ajax将url传到后台签名，前端需要用js获取当前页面除去’#’hash部分的链接（可用location.href.split(‘#’)[0]获取,而且需要encodeURIComponent），因为页面一旦分享，微信客户端会在你的链接末尾加入其它参数，如果不是动态获取当前链接，将导致分享后的页面签名失败。</p>
+<p>本人问题出在url写死了。php动态获取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$protocol = (!empty($_SERVER[&apos;HTTPS&apos;]) &amp;&amp; $_SERVER[&apos;HTTPS&apos;] !== &apos;off&apos; || $_SERVER[&apos;SERVER_PORT&apos;] == 443) ? &quot;https://&quot; : &quot;http://&quot;;</div><div class="line">$url = &quot;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&quot;;</div></pre></td></tr></table></figure></p>
+<h2 id="条形码-amp-二维码"><a href="#条形码-amp-二维码" class="headerlink" title="条形码&amp;二维码"></a>条形码&amp;二维码</h2><p>使用 jquery-barcode.js 和 jquery.qrcode.min.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;bcTarget&quot; style=&quot;margin: 0 auto; margin-top: 100px; margin-bottom: 40px;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div id=&quot;output&quot; style=&quot;text-align: center;&quot;&gt;&lt;/div&gt;  </div><div class="line"></div><div class="line">// 生成码。 showHRI是否显示码串</div><div class="line">$(&quot;#bcTarget&quot;).empty().barcode(content, &quot;ean13&quot;,&#123;barWidth:2, barHeight:30,showHRI:false&#125;);</div><div class="line">$(&apos;#output&apos;).qrcode(&#123;width:200,height:200,correctLevel:0,text:content&#125;);</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;  微信开发自己的一些总结&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+      <category term="wechat" scheme="https://haofangyuan.github.io/categories/java/wechat/"/>
+    
+      <category term="php" scheme="https://haofangyuan.github.io/categories/java/wechat/php/"/>
+    
+    
+      <category term="wechat" scheme="https://haofangyuan.github.io/tags/wechat/"/>
+    
+  </entry>
   
   <entry>
     <title>重复提交</title>
@@ -137,7 +182,7 @@
     <link href="https://haofangyuan.github.io/2017/11/20/springboot-source/"/>
     <id>https://haofangyuan.github.io/2017/11/20/springboot-source/</id>
     <published>2017-11-20T12:37:11.000Z</published>
-    <updated>2017-11-21T02:41:26.239Z</updated>
+    <updated>2018-03-15T02:54:02.342Z</updated>
     
     <content type="html"><![CDATA[<p>　　springboot源码学习<br><a id="more"></a></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://zhaox.github.io/java/2016/03/22/spring-boot-start-flow" target="_blank" rel="external">http://zhaox.github.io/java/2016/03/22/spring-boot-start-flow</a><br><a href="http://www.cnblogs.com/davidwang456/p/5846513.html" target="_blank" rel="external">http://www.cnblogs.com/davidwang456/p/5846513.html</a><br><a href="http://www.majunwei.com/view/201708262210563675.html" target="_blank" rel="external">http://www.majunwei.com/view/201708262210563675.html</a>  </p>
@@ -245,11 +290,35 @@
   </entry>
   
   <entry>
+    <title>springboot shiro权限控制</title>
+    <link href="https://haofangyuan.github.io/2017/10/26/springboot-shiro/"/>
+    <id>https://haofangyuan.github.io/2017/10/26/springboot-shiro/</id>
+    <published>2017-10-26T14:56:11.000Z</published>
+    <updated>2018-02-09T02:24:43.967Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　用户权限<br><a id="more"></a></p>
+<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，称之为Apache Shiro。提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　用户权限&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
+    
+    
+      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot学习收获</title>
     <link href="https://haofangyuan.github.io/2017/10/26/springboot/"/>
     <id>https://haofangyuan.github.io/2017/10/26/springboot/</id>
     <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2018-02-01T07:27:11.855Z</updated>
+    <updated>2018-03-16T07:35:43.727Z</updated>
     
     <content type="html"><![CDATA[<p>　　自己一些总结<br><a id="more"></a></p>
 <h2 id="修改网站小图标"><a href="#修改网站小图标" class="headerlink" title="修改网站小图标"></a>修改网站小图标</h2><p>1、在<code>application.properties</code>中配：<code>spring.mvc.favicon.enabled = false</code><br>2、网站图片命名为<code>favicon.ico</code>;<br>3、将<code>favicon.ico</code>放在<code>resources/static</code>目录下；<br>4、ok，结束ヾ(◍°∇°◍)ﾉﾞ</p>
@@ -269,36 +338,14 @@
 <h2 id="多数据源"><a href="#多数据源" class="headerlink" title="多数据源"></a>多数据源</h2><p>springboot + mybatis + 多数据源 <a href="http://www.cnblogs.com/java-zhao/p/5413845.html" target="_blank" rel="external">http://www.cnblogs.com/java-zhao/p/5413845.html</a></p>
 <h2 id="后台配置"><a href="#后台配置" class="headerlink" title="后台配置"></a>后台配置</h2><h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>windows平台下，jar包开机自启动好配置，可会有命令行窗口运行在界面上，容易不小心关闭。<br>1、wrapper可以实现<br>2、使用AlwaysUp软件  </p>
 <h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><p>看文章：linux相关知识<br>参考：<br>　　<a href="http://blog.didispace.com/spring-boot-run-backend/" target="_blank" rel="external">http://blog.didispace.com/spring-boot-run-backend/</a><br>　　Wrapper配置详解及高级应用</p>
+<h2 id="access-origin"><a href="#access-origin" class="headerlink" title="access-origin"></a>access-origin</h2><p>看本人文章：ajax常见问题</p>
+<h2 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h2><p>来自：<a href="http://www.cnblogs.com/petermsdn/archive/2011/05/06/2039178.html" target="_blank" rel="external">http://www.cnblogs.com/petermsdn/archive/2011/05/06/2039178.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">jsp是大家最熟悉的技术</div><div class="line">  优点：</div><div class="line">    1、功能强大，可以写java代码</div><div class="line">    2、支持jsp标签（jsp tag）</div><div class="line">    3、支持表达式语言（el）</div><div class="line">    4、官方标准，用户群广，丰富的第三方jsp标签库</div><div class="line">    5、性能良好。jsp编译成class文件执行，有很好的性能表现</div><div class="line">  缺点：</div><div class="line">    jsp没有明显缺点，非要挑点骨头那就是，由于可以编写java代码，如使用不当容易破坏mvc结构。</div><div class="line"></div><div class="line">freemarker</div><div class="line">  优点：</div><div class="line">    1、不能编写java代码，可以实现严格的mvc分离</div><div class="line">    2、性能非常不错</div><div class="line">    3、对jsp标签支持良好</div><div class="line">    4、内置大量常用功能，使用非常方便</div><div class="line">    5、宏定义（类似jsp标签）非常方便</div><div class="line">    6、使用表达式语言</div><div class="line">  缺点：</div><div class="line">    1、不是官方标准</div><div class="line">    2、用户群体和第三方标签库没有jsp多</div></pre></td></tr></table></figure></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>参考链接：<a href="http://www.jianshu.com/p/692be2b00e6b" target="_blank" rel="external">http://www.jianshu.com/p/692be2b00e6b</a></p>
 ]]></content>
     
     <summary type="html">
     
       &lt;p&gt;　　自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot shiro权限控制</title>
-    <link href="https://haofangyuan.github.io/2017/10/26/springboot-shiro/"/>
-    <id>https://haofangyuan.github.io/2017/10/26/springboot-shiro/</id>
-    <published>2017-10-26T14:56:11.000Z</published>
-    <updated>2018-02-09T02:24:43.967Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　用户权限<br><a id="more"></a></p>
-<h2 id="shiro简介"><a href="#shiro简介" class="headerlink" title="shiro简介"></a>shiro简介</h2><p>Shiro是Apache下的一个开源项目，称之为Apache Shiro。提供了认证、授权、加密、会话管理，与 Spring Security 一样都是做一个权限的安全框架，但是与Spring Security 相比，在于 Shiro 使用了比较简单易懂易于使用的授权方式。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　用户权限&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -374,6 +421,110 @@
   </entry>
   
   <entry>
+    <title>ArrayList</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-ArrayList/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-ArrayList/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2018-02-28T08:34:23.388Z</updated>
+    
+    <content type="html"><![CDATA[<p>ArrayList的那些事<br><a id="more"></a></p>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>ArrayList 内部是用Object[]实现的。</p>
+<p>网上很多，直接打开源码，参考大神的分析：<br>Java集合—ArrayList的实现原理 <a href="http://www.cnblogs.com/ITtangtang/p/3948555.html#ensureSize" target="_blank" rel="external">http://www.cnblogs.com/ITtangtang/p/3948555.html#ensureSize</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ArrayList的那些事&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>clone</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-clone/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-clone/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2018-03-15T09:03:23.383Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　clone的理解<br><a id="more"></a><br><a href="http://blog.csdn.net/cws1214/article/details/52193341" target="_blank" rel="external">http://blog.csdn.net/cws1214/article/details/52193341</a></p>
+<h2 id="为何要clone"><a href="#为何要clone" class="headerlink" title="为何要clone"></a>为何要clone</h2><p>有个对象A，此时需要和其一样的对象B，且修改B不影响A。简单的B=A不行，clone登场。</p>
+<h2 id="new和clone"><a href="#new和clone" class="headerlink" title="new和clone"></a>new和clone</h2><p>new：本意是分配内存。1、当程序执行到new时，看new后面的操作类型，根据类型分配内存空间。2、调用构造函数，填充对象的各个域，即初始化。3、对象创建结束，将引用（地址）返回给外部。</p>
+<p>clone：1、分配内存（和new相似），大小和原对象大小一样。2、将原对象的各个域填充到新对象域中。3、对象呗创建，将引用（地址）返回给外部。</p>
+<h2 id="clone使用"><a href="#clone使用" class="headerlink" title="clone使用"></a>clone使用</h2><h3 id="复制对象和复制引用"><a href="#复制对象和复制引用" class="headerlink" title="复制对象和复制引用"></a>复制对象和复制引用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A a1 = new A();</div><div class="line">A a2 = a1;  // 是将引用地址给a2.</div><div class="line"></div><div class="line">A a3 = new A();</div><div class="line">A a4 = (A)a3.clone();  // clone的新对象地址给a4</div></pre></td></tr></table></figure>
+<h3 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h3><p><img src="http://img.blog.csdn.net/20140116224712140?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvemhhbmdqZ19ibG9n/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>这个对象必须要实现 Cloneable 接口，实现 clone<br>方法，并且在 clone 方法内部，把该对象引用的其他对象也要 clone 一份。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">static class Body implements Cloneable&#123;  </div><div class="line">    public Head head;  </div><div class="line">    public Body() &#123;&#125;  </div><div class="line">    public Body(Head head) &#123;this.head = head;&#125;  </div><div class="line"></div><div class="line">    @Override  </div><div class="line">    protected Object clone() throws CloneNotSupportedException &#123;  </div><div class="line">        Body newBody =  (Body) super.clone();  </div><div class="line">        newBody.head = (Head) head.clone();  </div><div class="line">        return newBody;  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="实现克隆"><a href="#实现克隆" class="headerlink" title="实现克隆"></a>实现克隆</h2><p>1). 实现 Cloneable 接口并重写 Object 类中的 clone()方法；</p>
+<p>2). 实现 Serializable 接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆。</p>
+<p>　　注意：基于序列化和反序列化实现的克隆不仅仅是深度克隆，更重要的是通过泛型限定，可以检查出要克隆的对象是否支持序列化，这项检查是编译器完成的，不是在运行时抛出异常，这种是方案明显优于使用 Object 类的 clone方法克隆对象。让问题在编译的时候暴露出来总是好过把问题留到运行时。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public static &lt;T extends Serializable&gt; T clone(T obj) throws Exception &#123;</div><div class="line">    ByteArrayOutputStream bout = new ByteArrayOutputStream();</div><div class="line">    ObjectOutputStream oos = new ObjectOutputStream(bout);</div><div class="line">    oos.writeObject(obj);</div><div class="line">    ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());</div><div class="line">    ObjectInputStream ois = new ObjectInputStream(bin);</div><div class="line">    return (T) ois.readObject();</div><div class="line">    // 说明：调用 ByteArrayInputStream 或 ByteArrayOutputStream 对象的 close 方法没有任何意义</div><div class="line">    // 这两个基于内存的流只要垃圾回收器清理对象就能够释放资源，这一点不同于对外部资源（如文件流）的释放</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　clone的理解&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HashMap</title>
+    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
+    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
+    <published>2017-10-16T04:30:00.000Z</published>
+    <updated>2018-03-15T10:08:57.846Z</updated>
+    
+    <content type="html"><![CDATA[<p>hashMap的那些事<br><a id="more"></a></p>
+<h2 id="JDK7的HashMap"><a href="#JDK7的HashMap" class="headerlink" title="JDK7的HashMap"></a>JDK7的HashMap</h2><p>HashMap是非线程安全的。高并发下会发生死循环（注意：不是死锁）。  </p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>HashMap的数据结构基于数组和链表。用数组存储HashMapEntry元素。</p>
+<p>put时，调用hashcode计算出key的hash值从而得到bucket位置。如果该坐标下已经有值，发生碰撞，通过链表将产生碰撞冲突的元素组织起来。在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。</p>
+<p>get时，我们将K传给get，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。</p>
+<p>如果数组的长度很短，那么冲突就会很多。所以，插入后会计算是否&gt;=阈值threshold，是，则增大数组长度。此时所有的元素重新再存一次，这叫rehash，成本很高。(HashMap是在插入元素后判断元素是否已经到达容量的，如果到达了就进行扩容，但是很有可能扩容之后没有新元素插入，这时HashMap就进行了一次无效的扩容。)</p>
+<h3 id="源码分析问题"><a href="#源码分析问题" class="headerlink" title="源码分析问题"></a>源码分析问题</h3><p>转载：<a href="https://coolshell.cn/articles/9606.html" target="_blank" rel="external">https://coolshell.cn/articles/9606.html</a></p>
+<p>以下是put源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span></span></div><div class="line">&#123;</div><div class="line">    ......</div><div class="line">    <span class="comment">//算Hash值</span></div><div class="line">    <span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line">    <span class="keyword">int</span> i = indexFor(hash, table.length);</div><div class="line">    <span class="comment">//如果该key已被插入，则替换掉旧的value （链接操作）</span></div><div class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) &#123;</div><div class="line">        Object k;</div><div class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(<span class="keyword">this</span>);</div><div class="line">            <span class="keyword">return</span> oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    <span class="comment">//该key不存在，需要增加一个结点</span></div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>增加一个节点。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEntry</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">int</span> bucketIndex)</span></span></div><div class="line">&#123;</div><div class="line">    Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">    table[bucketIndex] = <span class="keyword">new</span> Entry&lt;K,V&gt;(hash, key, value, e);<span class="comment">// (1)</span></div><div class="line">    <span class="comment">//查看当前的size是否超过了我们设定的阈值threshold，如果超过，需要resize</span></div><div class="line">    <span class="keyword">if</span> (size++ &gt;= threshold)</div><div class="line">        resize(<span class="number">2</span> * table.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>新建一个更大尺寸的hash表，然后把数据从老的Hash表中迁移到新的Hash表中。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span></div><div class="line">&#123;</div><div class="line">    Entry[] oldTable = table;</div><div class="line">    <span class="keyword">int</span> oldCapacity = oldTable.length;</div><div class="line">    ......</div><div class="line">    <span class="comment">//创建一个新的Hash Table</span></div><div class="line">    Entry[] newTable = <span class="keyword">new</span> Entry[newCapacity];</div><div class="line">    <span class="comment">//将Old Hash Table上的数据迁移到New Hash Table上</span></div><div class="line">    transfer(newTable);</div><div class="line">    table = newTable;</div><div class="line">    threshold = (<span class="keyword">int</span>)(newCapacity * loadFactor);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>迁移。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span></span></div><div class="line">&#123;</div><div class="line">    Entry[] src = table;</div><div class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</div><div class="line">    <span class="comment">//下面这段代码的意思是：</span></div><div class="line">    <span class="comment">//  从OldTable里摘一个元素出来，然后放到NewTable中</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123;</div><div class="line">        Entry&lt;K,V&gt; e = src[j];</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            src[j] = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">do</span> &#123;</div><div class="line">                <span class="comment">// 以下是问题的关键部分。</span></div><div class="line">                <span class="comment">// 当产生带环链表后，如果调用get()方法，将会陷入死循环，CPU占用将达到100%</span></div><div class="line">                Entry&lt;K,V&gt; next = e.next; <span class="comment">// (1)</span></div><div class="line">                <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</div><div class="line">                e.next = newTable[i]; <span class="comment">// (2)</span></div><div class="line">                newTable[i] = e; <span class="comment">// (3)</span></div><div class="line">                e = next;</div><div class="line">            &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="多线程put时元素丢失"><a href="#多线程put时元素丢失" class="headerlink" title="多线程put时元素丢失"></a>多线程put时元素丢失</h3><p>addEntry方法的(1)处，table[bucketIndex] = new Entry<k,v>(hash, key, value, e); 两个线程都获得了e,他们的next都指向e，之后给相同的位置赋值，必然一个覆盖一个，最终丢失一个。</k,v></p>
+<h3 id="rehash可能导致死循环"><a href="#rehash可能导致死循环" class="headerlink" title="rehash可能导致死循环"></a>rehash可能导致死循环</h3><h4 id="正常下rehash"><a href="#正常下rehash" class="headerlink" title="正常下rehash"></a>正常下rehash</h4><p>假设hash算法就是简单的用key mod 一下表的大小（也就是数组的长度）<br><img src="https://coolshell.cn/wp-content/uploads/2013/05/HashMap01.jpg" alt=""></p>
+<h4 id="并发下rehash"><a href="#并发下rehash" class="headerlink" title="并发下rehash"></a>并发下rehash</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Entry&lt;K,V&gt; next = e.next; <span class="comment">// (1)</span></div><div class="line"><span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</div><div class="line">e.next = newTable[i]; <span class="comment">// (2)</span></div><div class="line">newTable[i] = e; <span class="comment">// (3)</span></div><div class="line">e = next;</div></pre></td></tr></table></figure>
+<p>两个线程，线程1走到(1)处暂停。线程2执行完毕了。</p>
+<p><img src="https://coolshell.cn/wp-content/uploads/2013/05/HashMap02.jpg" alt=""></p>
+<p>之后，线程1又开始执行。</p>
+<p>走到(2)处，e的next就指向了(key：7),走到(3)处，此时，数组3的位置就形成了一个带环链表。当get()的时候，就会陷入死循环，cpu会上升。  </p>
+<p>e、next虽然是线程私有，但是它们之前已经指向了共有的table中的entry。所以即使线程二将table中entry换了地方，但是entry本身并没有变，只是本身的存储位置或者其next指向发生变化，e和next还是指向原来的entry。所以当e和next继续执行时，还是指向原来的entry，但是原来的entry的位置和指向已经变了。从而导致线程一继续执行时，又将原来的entry的指向和位置再次发生变化，最终导致环。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>1、hashtable或Collections.synchronizedMap。（ synchronized 同步锁，严重牺牲了性能，而且对并发的效率就更低了）  </p>
+<p>2、ConcurrentHashMap替换HashMap（通过复杂的策略不仅保证了多线程的安全又提高的并发时的效率）</p>
+<h2 id="JDK8-HashMap"><a href="#JDK8-HashMap" class="headerlink" title="JDK8-HashMap"></a>JDK8-HashMap</h2><p>Java8的HashMap的数据结构，跟之前版本不一样的是当table达到一定的阀值时，bucket就会由链表转换为红黑树的方式进行存储。</p>
+<p><a href="http://www.cnblogs.com/huaizuo/p/5371099.html" target="_blank" rel="external">探索HashMap实现原理及其在jdk8数据结构的改进</a></p>
+<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><a href="https://my.oschina.net/zhupanxin/blog/269037" target="_blank" rel="external">https://my.oschina.net/zhupanxin/blog/269037</a><br><a href="http://www.infoq.com/cn/articles/ConcurrentHashMap" target="_blank" rel="external">深入分析ConcurrentHashMap</a></p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p><a href="http://blog.csdn.net/justloveyou_/article/details/71713781" target="_blank" rel="external">http://blog.csdn.net/justloveyou_/article/details/71713781</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;hashMap的那些事&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>了解负载均衡 会话保持 session同步(转)</title>
     <link href="https://haofangyuan.github.io/2017/10/16/nginx/"/>
     <id>https://haofangyuan.github.io/2017/10/16/nginx/</id>
@@ -435,78 +586,6 @@
   </entry>
   
   <entry>
-    <title>ArrayList</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java-ArrayList/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java-ArrayList/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2018-02-28T08:34:23.388Z</updated>
-    
-    <content type="html"><![CDATA[<p>ArrayList的那些事<br><a id="more"></a></p>
-<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>ArrayList 内部是用Object[]实现的。</p>
-<p>网上很多，直接打开源码，参考大神的分析：<br>Java集合—ArrayList的实现原理 <a href="http://www.cnblogs.com/ITtangtang/p/3948555.html#ensureSize" target="_blank" rel="external">http://www.cnblogs.com/ITtangtang/p/3948555.html#ensureSize</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ArrayList的那些事&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HashMap</title>
-    <link href="https://haofangyuan.github.io/2017/10/16/java-HashMap/"/>
-    <id>https://haofangyuan.github.io/2017/10/16/java-HashMap/</id>
-    <published>2017-10-16T04:30:00.000Z</published>
-    <updated>2018-02-28T08:42:00.889Z</updated>
-    
-    <content type="html"><![CDATA[<p>hashMap的那些事<br><a id="more"></a></p>
-<h2 id="JDK7的HashMap"><a href="#JDK7的HashMap" class="headerlink" title="JDK7的HashMap"></a>JDK7的HashMap</h2><p>HashMap是非线程安全的。高并发下会发生死循环（注意：不是死锁）。  </p>
-<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>HashMap的数据结构基于数组和链表。用数组存储HashMapEntry元素。</p>
-<p>put时，调用hashcode计算出key的hash值从而得到bucket位置。如果该坐标下已经有值，发生碰撞，通过链表将产生碰撞冲突的元素组织起来。在Java 8中，如果一个bucket中碰撞冲突的元素超过某个限制(默认是8)，则使用红黑树来替换链表，从而提高速度。</p>
-<p>get时，我们将K传给get，它调用hashCode计算hash从而得到bucket位置，并进一步调用equals()方法确定键值对。</p>
-<p>如果数组的长度很短，那么冲突就会很多。所以，插入后会计算是否&gt;=阈值threshold，是，则增大数组长度。此时所有的元素重新再存一次，这叫rehash，成本很高。(HashMap是在插入元素后判断元素是否已经到达容量的，如果到达了就进行扩容，但是很有可能扩容之后没有新元素插入，这时HashMap就进行了一次无效的扩容。)</p>
-<h3 id="源码分析问题"><a href="#源码分析问题" class="headerlink" title="源码分析问题"></a>源码分析问题</h3><p>转载：<a href="https://coolshell.cn/articles/9606.html" target="_blank" rel="external">https://coolshell.cn/articles/9606.html</a></p>
-<p>以下是put源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> V <span class="title">put</span><span class="params">(K key, V value)</span></span></div><div class="line">&#123;</div><div class="line">    ......</div><div class="line">    <span class="comment">//算Hash值</span></div><div class="line">    <span class="keyword">int</span> hash = hash(key.hashCode());</div><div class="line">    <span class="keyword">int</span> i = indexFor(hash, table.length);</div><div class="line">    <span class="comment">//如果该key已被插入，则替换掉旧的value （链接操作）</span></div><div class="line">    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) &#123;</div><div class="line">        Object k;</div><div class="line">        <span class="keyword">if</span> (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;</div><div class="line">            V oldValue = e.value;</div><div class="line">            e.value = value;</div><div class="line">            e.recordAccess(<span class="keyword">this</span>);</div><div class="line">            <span class="keyword">return</span> oldValue;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    modCount++;</div><div class="line">    <span class="comment">//该key不存在，需要增加一个结点</span></div><div class="line">    addEntry(hash, key, value, i);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>增加一个节点。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">addEntry</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">int</span> bucketIndex)</span></span></div><div class="line">&#123;</div><div class="line">    Entry&lt;K,V&gt; e = table[bucketIndex];</div><div class="line">    table[bucketIndex] = <span class="keyword">new</span> Entry&lt;K,V&gt;(hash, key, value, e);<span class="comment">// (1)</span></div><div class="line">    <span class="comment">//查看当前的size是否超过了我们设定的阈值threshold，如果超过，需要resize</span></div><div class="line">    <span class="keyword">if</span> (size++ &gt;= threshold)</div><div class="line">        resize(<span class="number">2</span> * table.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>新建一个更大尺寸的hash表，然后把数据从老的Hash表中迁移到新的Hash表中。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span></div><div class="line">&#123;</div><div class="line">    Entry[] oldTable = table;</div><div class="line">    <span class="keyword">int</span> oldCapacity = oldTable.length;</div><div class="line">    ......</div><div class="line">    <span class="comment">//创建一个新的Hash Table</span></div><div class="line">    Entry[] newTable = <span class="keyword">new</span> Entry[newCapacity];</div><div class="line">    <span class="comment">//将Old Hash Table上的数据迁移到New Hash Table上</span></div><div class="line">    transfer(newTable);</div><div class="line">    table = newTable;</div><div class="line">    threshold = (<span class="keyword">int</span>)(newCapacity * loadFactor);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>迁移。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(Entry[] newTable)</span></span></div><div class="line">&#123;</div><div class="line">    Entry[] src = table;</div><div class="line">    <span class="keyword">int</span> newCapacity = newTable.length;</div><div class="line">    <span class="comment">//下面这段代码的意思是：</span></div><div class="line">    <span class="comment">//  从OldTable里摘一个元素出来，然后放到NewTable中</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; src.length; j++) &#123;</div><div class="line">        Entry&lt;K,V&gt; e = src[j];</div><div class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</div><div class="line">            src[j] = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">do</span> &#123;</div><div class="line">                <span class="comment">// 以下是问题的关键部分。</span></div><div class="line">                <span class="comment">// 当产生带环链表后，如果调用get()方法，将会陷入死循环，CPU占用将达到100%</span></div><div class="line">                Entry&lt;K,V&gt; next = e.next; <span class="comment">// (1)</span></div><div class="line">                <span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</div><div class="line">                e.next = newTable[i]; <span class="comment">// (2)</span></div><div class="line">                newTable[i] = e; <span class="comment">// (3)</span></div><div class="line">                e = next;</div><div class="line">            &#125; <span class="keyword">while</span> (e != <span class="keyword">null</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="多线程put时元素丢失"><a href="#多线程put时元素丢失" class="headerlink" title="多线程put时元素丢失"></a>多线程put时元素丢失</h3><p>addEntry方法的(1)处，table[bucketIndex] = new Entry<k,v>(hash, key, value, e); 两个线程都获得了e,他们的next都指向e，之后给相同的位置赋值，必然一个覆盖一个，最终丢失一个。</k,v></p>
-<h3 id="rehash可能导致死循环"><a href="#rehash可能导致死循环" class="headerlink" title="rehash可能导致死循环"></a>rehash可能导致死循环</h3><h4 id="正常下rehash"><a href="#正常下rehash" class="headerlink" title="正常下rehash"></a>正常下rehash</h4><p>假设hash算法就是简单的用key mod 一下表的大小（也就是数组的长度）<br><img src="https://coolshell.cn/wp-content/uploads/2013/05/HashMap01.jpg" alt=""></p>
-<h4 id="并发下rehash"><a href="#并发下rehash" class="headerlink" title="并发下rehash"></a>并发下rehash</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Entry&lt;K,V&gt; next = e.next; <span class="comment">// (1)</span></div><div class="line"><span class="keyword">int</span> i = indexFor(e.hash, newCapacity);</div><div class="line">e.next = newTable[i]; <span class="comment">// (2)</span></div><div class="line">newTable[i] = e; <span class="comment">// (3)</span></div><div class="line">e = next;</div></pre></td></tr></table></figure>
-<p>两个线程，线程1走到(1)处暂停。线程2执行完毕了。</p>
-<p><img src="https://coolshell.cn/wp-content/uploads/2013/05/HashMap02.jpg" alt=""></p>
-<p>之后，线程1又开始执行。</p>
-<p>走到(2)处，e的next就指向了(key：7),走到(3)处，此时，数组3的位置就形成了一个带环链表。当get()的时候，就会陷入死循环，cpu会上升。  </p>
-<p>e、next虽然是线程私有，但是它们之前已经指向了共有的table中的entry。所以即使线程二将table中entry换了地方，但是entry本身并没有变，只是本身的存储位置或者其next指向发生变化，e和next还是指向原来的entry。所以当e和next继续执行时，还是指向原来的entry，但是原来的entry的位置和指向已经变了。从而导致线程一继续执行时，又将原来的entry的指向和位置再次发生变化，最终导致环。</p>
-<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>1、hashtable或Collections.synchronizedMap。（ synchronized 同步锁，严重牺牲了性能，而且对并发的效率就更低了）  </p>
-<p>2、ConcurrentHashMap替换HashMap（通过复杂的策略不仅保证了多线程的安全又提高的并发时的效率）</p>
-<h2 id="JDK8-HashMap"><a href="#JDK8-HashMap" class="headerlink" title="JDK8-HashMap"></a>JDK8-HashMap</h2><p>Java8的HashMap的数据结构，跟之前版本不一样的是当table达到一定的阀值时，bucket就会由链表转换为红黑树的方式进行存储。</p>
-<p><a href="http://www.cnblogs.com/huaizuo/p/5371099.html" target="_blank" rel="external">探索HashMap实现原理及其在jdk8数据结构的改进</a></p>
-<h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><p><a href="https://my.oschina.net/zhupanxin/blog/269037" target="_blank" rel="external">https://my.oschina.net/zhupanxin/blog/269037</a><br><a href="http://www.infoq.com/cn/articles/ConcurrentHashMap" target="_blank" rel="external">深入分析ConcurrentHashMap</a></p>
-<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p><a href="http://blog.csdn.net/justloveyou_/article/details/71713781" target="_blank" rel="external">http://blog.csdn.net/justloveyou_/article/details/71713781</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;hashMap的那些事&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="java" scheme="https://haofangyuan.github.io/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
     <title>adminLTE使用中遇到的难点</title>
     <link href="https://haofangyuan.github.io/2017/09/05/adminlte/"/>
     <id>https://haofangyuan.github.io/2017/09/05/adminlte/</id>
@@ -537,15 +616,23 @@
     <link href="https://haofangyuan.github.io/2017/08/25/js/"/>
     <id>https://haofangyuan.github.io/2017/08/25/js/</id>
     <published>2017-08-25T03:56:11.000Z</published>
-    <updated>2018-02-05T01:45:28.969Z</updated>
+    <updated>2018-03-15T02:27:07.377Z</updated>
     
     <content type="html"><![CDATA[<p>　　记录网上一些好的解决办法的链接　　<br><a id="more"></a></p>
-<h2 id="扫描二维码下载app"><a href="#扫描二维码下载app" class="headerlink" title="扫描二维码下载app"></a>扫描二维码下载app</h2><p>扫描一个二维码，android和ios都可以下载app。<br>其中涉及到的点：<br>1、html中要判断是来自android还是ios<br>2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。</p>
-<h2 id="判断扫码来源"><a href="#判断扫码来源" class="headerlink" title="判断扫码来源"></a>判断扫码来源</h2><p>判断打开来源（浏览器 || IOS || Android）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">var browser = &#123;</div><div class="line">	versions: function() &#123;</div><div class="line">		var u = navigator.userAgent, app = navigator.appVersion;</div><div class="line"></div><div class="line">		var isWeixin =  !!/MicroMessenger/i.test(u);</div><div class="line">		return &#123;//移动终端浏览器版本信息</div><div class="line">			trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核</div><div class="line">			presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核</div><div class="line">			webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核</div><div class="line">			gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核</div><div class="line">			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端</div><div class="line">			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端</div><div class="line">			android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器</div><div class="line">			iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器</div><div class="line">			iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad</div><div class="line">			webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部</div><div class="line">		&#125;;</div><div class="line">	&#125;(),</div><div class="line">	language: (navigator.browserLanguage || navigator.language).toLowerCase()</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123;</div><div class="line">	 // ios</div><div class="line">   window.location = &quot;http://...&quot;;</div><div class="line">&#125;</div><div class="line">else if (browser.versions.android) &#123;</div><div class="line">	 // android</div><div class="line">   // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="扫描二维码下载app"><a href="#扫描二维码下载app" class="headerlink" title="扫描二维码下载app"></a>扫描二维码下载app</h2><p>扫描一个二维码，android和ios都可以下载app。  </p>
+<p>其中涉及到的点：</p>
+<p>1、html中要判断是来自android还是ios</p>
+<p>2、因为一般人使用微信扫一扫，所以，判断若是微信，提示在浏览器中打开。</p>
+<h2 id="判断扫码来源"><a href="#判断扫码来源" class="headerlink" title="判断扫码来源"></a>判断扫码来源</h2><p>判断打开来源（浏览器 || IOS || Android）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">var browser = &#123;</div><div class="line">	versions: function() &#123;</div><div class="line">		var u = navigator.userAgent, app = navigator.appVersion;</div><div class="line"></div><div class="line">		var isWeixin =  !!/MicroMessenger/i.test(u);</div><div class="line">		return &#123;//移动终端浏览器版本信息</div><div class="line">			trident: u.indexOf(&apos;Trident&apos;) &gt; -1, //IE内核</div><div class="line">			presto: u.indexOf(&apos;Presto&apos;) &gt; -1, //opera内核</div><div class="line">			webKit: u.indexOf(&apos;AppleWebKit&apos;) &gt; -1, //苹果、谷歌内核</div><div class="line">			gecko: u.indexOf(&apos;Gecko&apos;) &gt; -1 &amp;&amp; u.indexOf(&apos;KHTML&apos;) == -1, //火狐内核</div><div class="line">			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端</div><div class="line">			ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端</div><div class="line">			android: u.indexOf(&apos;Android&apos;) &gt; -1 || u.indexOf(&apos;Linux&apos;) &gt; -1, //android终端或者uc浏览器</div><div class="line">			iPhone: u.indexOf(&apos;iPhone&apos;) &gt; -1 || u.indexOf(&apos;Mac&apos;) &gt; -1, //是否为iPhone或者QQHD浏览器</div><div class="line">			iPad: u.indexOf(&apos;iPad&apos;) &gt; -1, //是否iPad</div><div class="line">			webApp: u.indexOf(&apos;Safari&apos;) == -1 //是否web应该程序，没有头部与底部</div><div class="line">		&#125;;</div><div class="line">	&#125;(),</div><div class="line">	language: (navigator.browserLanguage || navigator.language).toLowerCase()</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) &#123;</div><div class="line">	 // ios</div><div class="line">   window.location = &quot;http://...&quot;;</div><div class="line">&#125;</div><div class="line">else if (browser.versions.android) &#123;</div><div class="line">	 // android</div><div class="line">   // todo: Check if it opens in WeChat, if yes, remind, otherwise jump directly to the download link</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="判断打开来源-微信-支付宝"><a href="#判断打开来源-微信-支付宝" class="headerlink" title="判断打开来源(微信 || 支付宝)"></a>判断打开来源(微信 || 支付宝)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">function isWechat()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/MicroMessenger/i) == &apos;micromessenger&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">function isAli()&#123;</div><div class="line">    var ua = window.navigator.userAgent.toLowerCase();</div><div class="line">    if(ua.match(/AlipayClient/i) ==&apos;alipayclient&apos;)&#123;</div><div class="line">        return true;</div><div class="line">    &#125;else&#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="获得页面传过来的参数"><a href="#获得页面传过来的参数" class="headerlink" title="获得页面传过来的参数"></a>获得页面传过来的参数</h2><p>html跳转，get请求带参数，获取参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">function getParam() &#123;  </div><div class="line">   var urlInfo = decodeURIComponent(window.location.href); //获取当前页面的url  </div><div class="line">   var intLen = urlInfo.length; //获取url的长度  </div><div class="line">   var offset = urlInfo.indexOf(&quot;?&quot;); //设置参数字符串开始的位置  </div><div class="line">   var strKeyValue = urlInfo.substr(offset+1, intLen); //取出参数字符串 这里会获得类似“id=1”这样的字符串  </div><div class="line">   var arrParam = strKeyValue.split(&quot;&amp;&quot;); //对获得的参数字符串按照“=”进行分割  </div><div class="line">    var map = &#123;&#125;;</div><div class="line">    for(var i in arrParam)&#123;</div><div class="line">        var temp = arrParam[i];</div><div class="line">        var val = temp.split(&quot;=&quot;);</div><div class="line">        map[val[0]] = val[1];</div><div class="line"></div><div class="line">    &#125;</div><div class="line">   return map;  </div><div class="line">&#125;   </div><div class="line"></div><div class="line">var map = getParam();</div><div class="line">var startTime = map[&quot;startTime&quot;];</div></pre></td></tr></table></figure></p>
 <h2 id="json与字符串"><a href="#json与字符串" class="headerlink" title="json与字符串"></a>json与字符串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var obj = JSON.parse(str); //由JSON字符串转换为JSON对象</div><div class="line">var last=JSON.stringify(obj); //将JSON对象转化为JSON字符</div></pre></td></tr></table></figure>
-<h2 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h2><p>以下是一些好的文章<br>１、<a href="http://www.blogjava.net/Hopes/articles/388873.html" target="_blank" rel="external">JS怎么刷新当前页面</a><br>2、<a href="http://www.jb51.net/article/60538.htm" target="_blank" rel="external">jQuery中$.click()无效问题分析</a><br>3、<a href="https://www.cnblogs.com/ShimizuShiori/p/5464063.html" target="_blank" rel="external">HTML5服务器推送消息的各种解决办法</a></p>
+<h2 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h2><p>以下是一些好的文章</p>
+<p>１、<a href="http://www.blogjava.net/Hopes/articles/388873.html" target="_blank" rel="external">JS怎么刷新当前页面</a></p>
+<p>2、<a href="http://www.jb51.net/article/60538.htm" target="_blank" rel="external">jQuery中$.click()无效问题分析</a></p>
+<p>3、<a href="https://www.cnblogs.com/ShimizuShiori/p/5464063.html" target="_blank" rel="external">HTML5服务器推送消息的各种解决办法</a></p>
+<p>4、<a href="https://clarkdo.js.org/javascript/2014/09/03/21/" target="_blank" rel="external">JS中几种多行字符串的实现方法</a></p>
 ]]></content>
     
     <summary type="html">
@@ -556,66 +643,12 @@
     
       <category term="前端" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/"/>
     
+      <category term="Wechat" scheme="https://haofangyuan.github.io/categories/%E5%89%8D%E7%AB%AF/Wechat/"/>
+    
     
       <category term="js" scheme="https://haofangyuan.github.io/tags/js/"/>
     
-  </entry>
-  
-  <entry>
-    <title>objectMapper中自定义类型转换</title>
-    <link href="https://haofangyuan.github.io/2017/06/30/java-objectMapper/"/>
-    <id>https://haofangyuan.github.io/2017/06/30/java-objectMapper/</id>
-    <published>2017-06-30T14:56:11.000Z</published>
-    <updated>2017-11-15T10:04:46.755Z</updated>
-    
-    <content type="html"><![CDATA[<p>  自己一些总结<br><a id="more"></a></p>
-<h2 id="日期类型转换"><a href="#日期类型转换" class="headerlink" title="日期类型转换"></a>日期类型转换</h2><p>使用mapper.setDateFormat();来设置日期转换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@Select(&quot;select * from $&#123;tableName&#125;&quot;)</div><div class="line">List&lt;Map&lt;String, Object&gt;&gt; getTableData(@Param(&quot;tableName&quot;) String tableName);</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">List&lt;Map&lt;String, Object&gt;&gt; tableDatas = tableDataMapper.getTableData(&quot;user&quot;);</div><div class="line">for (Map&lt;String, Object&gt; tableData: tableDatas) &#123;</div><div class="line">    ObjectMapper mapper = new ObjectMapper();</div><div class="line">    String data = mapper.writeValueAsString(tableData);</div><div class="line">    System.out.println(data);</div><div class="line">    mapper.setDateFormat(new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;));</div><div class="line">    data = mapper.writeValueAsString(tableData);</div><div class="line">    System.out.println(data);</div><div class="line">    System.out.println(&quot;=============&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="对于byte的处理"><a href="#对于byte的处理" class="headerlink" title="对于byte的处理"></a>对于byte的处理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public static ObjectMapper getObjectMapperForUplink() &#123;</div><div class="line">    ObjectMapper mapper = new ObjectMapper();</div><div class="line">//  mapper.configure(SerializationFeature.INDENT_OUTPUT, true);</div><div class="line">    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);</div><div class="line">    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,</div><div class="line">            false);</div><div class="line">    // 处理字节</div><div class="line">    SimpleModule simpleModule = new SimpleModule();</div><div class="line">    simpleModule.addSerializer(byte[].class, getByteSerialize());</div><div class="line">    mapper.registerModule(simpleModule);</div><div class="line">    // 处理日期</div><div class="line">    mapper.setDateFormat(new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;));</div><div class="line">    return mapper;</div><div class="line">&#125;</div><div class="line"></div><div class="line">private static JsonSerializer&lt;byte[]&gt; getByteSerialize() &#123;</div><div class="line">    return new JsonSerializer&lt;byte[]&gt;() &#123;</div><div class="line">        @Override</div><div class="line">        public void serialize(byte[] value, JsonGenerator gen, SerializerProvider serializers) throws IOException, JsonProcessingException &#123;</div><div class="line">            gen.writeString(&quot;&quot;);  // 此处可实现字节转成字符串。如压缩等</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>jackson中自定义处理序列化和反序列化 <a href="http://jackyrong.iteye.com/blog/2005323" target="_blank" rel="external">http://jackyrong.iteye.com/blog/2005323</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;  自己一些总结&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="https://haofangyuan.github.io/categories/java/"/>
-    
-    
-      <category term="json" scheme="https://haofangyuan.github.io/tags/json/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>springboot中的过滤器</title>
-    <link href="https://haofangyuan.github.io/2017/06/02/springboot-filter/"/>
-    <id>https://haofangyuan.github.io/2017/06/02/springboot-filter/</id>
-    <published>2017-06-02T09:52:59.000Z</published>
-    <updated>2017-11-17T08:59:37.993Z</updated>
-    
-    <content type="html"><![CDATA[<p>　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。<br><a id="more"></a></p>
-<h2 id="springboot中使用filter"><a href="#springboot中使用filter" class="headerlink" title="springboot中使用filter  "></a>springboot中使用filter  </h2><p>　　在springboot项目中使用filter，需要注入bean：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">@SpringBootApplication //等同于 @Configuration @EnableAutoConfiguration @ComponentScan</div><div class="line">public class SpringbootFilterDemoApp &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        SpringApplication.run(SpringbootFilterDemoApp.class, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Bean</div><div class="line">    public FilterRegistrationBean filterRegistrationBean() &#123;</div><div class="line">        FilterRegistrationBean registrationBean = new FilterRegistrationBean();</div><div class="line">        registrationBean.setFilter(new AuthorizationFilter()); // 自己的filter</div><div class="line"></div><div class="line">        List&lt;String&gt; urlPatterns = new ArrayList&lt;&gt;();</div><div class="line">        urlPatterns.add(&quot;/openapi/*&quot;);</div><div class="line">        registrationBean.setUrlPatterns(urlPatterns);</div><div class="line">        return registrationBean;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="过滤器filter"><a href="#过滤器filter" class="headerlink" title="过滤器filter  "></a>过滤器filter  </h2><p>　　以下是自己的filter类。继承Filter接口，对于满足条件的请求，使用filterChain.doFilter(request, response);将连接转发到目的地，不满足，则直接通过response写入错误信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 过滤器：校验接口访问权限</div><div class="line"> */</div><div class="line">public class AuthorizationFilter implements Filter&#123;</div><div class="line"></div><div class="line">    private static final Logger logger = LoggerFactory.getLogger(AuthorizationFilter.class);</div><div class="line"></div><div class="line">    private CheckAuth checkAuth;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</div><div class="line">        // 将请求转换成HttpServletRequest 请求</div><div class="line">        HttpServletRequest req = (HttpServletRequest) servletRequest;</div><div class="line">        HttpServletResponse rsp = (HttpServletResponse) servletResponse;</div><div class="line">        // 取得接口URI</div><div class="line">        String currentURI = req.getRequestURI();</div><div class="line">        // 注入checkAuth对象</div><div class="line">        。。。</div><div class="line">        // 读取请求参数</div><div class="line">        。。。</div><div class="line"></div><div class="line">        if (requestWrapper == null) &#123;</div><div class="line">            strError = &quot;请求方式错误！&quot;;</div><div class="line">        &#125; else &#123;</div><div class="line">            if (&quot;&quot;.equals(accessToken)) &#123;</div><div class="line">                strError = &quot;缺少必要的参数&quot;;</div><div class="line">            &#125; else &#123;</div><div class="line">                // 校验接口权限</div><div class="line">                if (checkAuth.checkAuth(accessToken, currentURI)) &#123;</div><div class="line">                    // Filter 只是链式处理，请求依然转发到目的地址。</div><div class="line">                    filterChain.doFilter(requestWrapper, rsp);</div><div class="line">                    return;</div><div class="line">                &#125; else &#123;</div><div class="line">                    strError = &quot;权限不足&quot;;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        rsp.setCharacterEncoding(&quot;UTF-8&quot;);</div><div class="line">        rsp.setContentType(&quot;application/json; charset=utf-8&quot;);</div><div class="line">        String rspValue = &quot;&quot;;   // 返回错误json信息</div><div class="line">        logger.info(&quot;返回：&#123;&#125;&quot;, rspValue);</div><div class="line">        rsp.getWriter().write(rspValue);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void destroy() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项  "></a>注意事项  </h2><h3 id="filter中注入对象"><a href="#filter中注入对象" class="headerlink" title="filter中注入对象"></a>filter中注入对象</h3><p>　　filter的加载在servlet之前。所以在Filter中使用@Autowired注入对象CheckAuth肯定会失败。我们可以使用WebApplicationContextUtils来获取对象。(可参考：<a href="http://www.cnblogs.com/JesseV/archive/2009/11/17/1605015.html" target="_blank" rel="external">web.xml 中的listener、 filter、servlet 加载顺序及其详解</a>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 注入checkAuth对象</div><div class="line">ServletContext sc = req.getSession().getServletContext();</div><div class="line">WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(sc);</div><div class="line">if (context != null &amp;&amp; context.getBean(&quot;checkAuth&quot;) != null &amp;&amp; checkAuth == null) &#123;</div><div class="line">    checkAuth = context.getBean(CheckAuth.class);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="流的读取"><a href="#流的读取" class="headerlink" title="流的读取"></a>流的读取</h3><p>　　读取请求参数：对于post请求，我们通过stream流进行读取，但是会发现，直接读取response流中的数据后，使用filterChain.doFilter(requestWrapper, rsp);请求，会报错：没有请求内容。<br>　　因为：<br>　　stream流的意思就是说当你读取之后就无法回到上一次读取的数据。所以说流是单向的。当第一个filter中读取流之后流已经被读完。所以无法继续读取。所以第二个filter中读不到数据。<br>　　为了防止流读取一次后就没有了, 所以需要将流继续写出去。<br>　　下面是对Request的封装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.ByteArrayInputStream;  </div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line">import java.util.Enumeration;  </div><div class="line"></div><div class="line">import javax.servlet.ReadListener;</div><div class="line">import javax.servlet.ServletInputStream;</div><div class="line">import javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line">/**</div><div class="line"> * httpServletRequst封装类</div><div class="line"> */</div><div class="line">public class HttpServletRequestWrapper extends</div><div class="line">        javax.servlet.http.HttpServletRequestWrapper &#123;</div><div class="line"></div><div class="line">    private final byte[] body;  </div><div class="line"></div><div class="line">    public HttpServletRequestWrapper(HttpServletRequest request) throws IOException &#123;</div><div class="line">        super(request);</div><div class="line">        body = HttpHelper.getBodyString(request).getBytes(Charset.forName(&quot;UTF-8&quot;));  </div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public BufferedReader getReader() throws IOException &#123;</div><div class="line">        return new BufferedReader(new InputStreamReader(getInputStream()));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public ServletInputStream getInputStream() throws IOException &#123;</div><div class="line"></div><div class="line">        final ByteArrayInputStream bais = new ByteArrayInputStream(body);</div><div class="line"></div><div class="line">        return new ServletInputStream() &#123;</div><div class="line">            @Override</div><div class="line">            public boolean isFinished() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public boolean isReady() &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void setReadListener(ReadListener listener) &#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public int read() throws IOException &#123;</div><div class="line">                return bais.read();</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public String getHeader(String name) &#123;</div><div class="line">        return super.getHeader(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaderNames() &#123;</div><div class="line">        return super.getHeaderNames();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Enumeration&lt;String&gt; getHeaders(String name) &#123;</div><div class="line">        return super.getHeaders(name);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="request读取数据工具类"><a href="#request读取数据工具类" class="headerlink" title="request读取数据工具类"></a>request读取数据工具类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;  </div><div class="line">import java.io.InputStream;  </div><div class="line">import java.io.InputStreamReader;  </div><div class="line">import java.nio.charset.Charset;  </div><div class="line"></div><div class="line">import javax.servlet.ServletRequest;  </div><div class="line"></div><div class="line">public class HttpHelper &#123;  </div><div class="line">    /**</div><div class="line">     * 获取请求Body</div><div class="line">     *</div><div class="line">     * @param request</div><div class="line">     * @return</div><div class="line">     */  </div><div class="line">    public static String getBodyString(ServletRequest request) &#123;  </div><div class="line">        StringBuilder sb = new StringBuilder();  </div><div class="line">        InputStream inputStream = null;  </div><div class="line">        BufferedReader reader = null;  </div><div class="line">        try &#123;  </div><div class="line">            inputStream = request.getInputStream();  </div><div class="line">            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName(&quot;UTF-8&quot;)));  </div><div class="line">            String line;</div><div class="line">            while ((line = reader.readLine()) != null) &#123;  </div><div class="line">                sb.append(line);  </div><div class="line">            &#125;  </div><div class="line">        &#125; catch (IOException e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125; finally &#123;  </div><div class="line">            if (inputStream != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    inputStream.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">            if (reader != null) &#123;  </div><div class="line">                try &#123;  </div><div class="line">                    reader.close();  </div><div class="line">                &#125; catch (IOException e) &#123;  </div><div class="line">                    e.printStackTrace();  </div><div class="line">                &#125;  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">        return sb.toString();  </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="获取请求参数"><a href="#获取请求参数" class="headerlink" title="获取请求参数"></a>获取请求参数</h3><p>get、post获取请求参数的方式是不一样的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">if (req.getMethod().equals(&quot;POST&quot;)) &#123;</div><div class="line">    requestWrapper = new HttpServletRequestWrapper(req);</div><div class="line">    String reqParamsStr = HttpHelper.getBodyString(requestWrapper);</div><div class="line">    if(reqParamsStr.length() &gt;0) &#123;</div><div class="line">        // 从json字符串获取参数</div><div class="line">        accessToken = &quot;&quot;;</div><div class="line">    &#125;</div><div class="line">&#125; else if (req.getMethod().equals(&quot;GET&quot;)) &#123;</div><div class="line">    requestWrapper = req;</div><div class="line">    String[] tokens = req.getParameterValues(&quot;accessToken&quot;);</div><div class="line">    if (tokens != null &amp;&amp; tokens.length &gt; 0) &#123;</div><div class="line">        accessToken = tokens[0];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;　　做api项目，各个接口都有对应的权限。所以使用过滤器对各个请求进行过滤。以下是学习的简单总结。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/categories/springboot/"/>
-    
-    
-      <category term="springboot" scheme="https://haofangyuan.github.io/tags/springboot/"/>
-    
-      <category term="filter" scheme="https://haofangyuan.github.io/tags/filter/"/>
+      <category term="pay" scheme="https://haofangyuan.github.io/tags/pay/"/>
     
   </entry>
   

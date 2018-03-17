@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="hfy" />
+
+
+
+<meta name="description" content="微信开发自己的一些总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信开发">
+<meta property="og:url" content="https://haofangyuan.github.io/2018/03/01/wechat/index.html">
+<meta property="og:site_name" content="hfy Blog">
+<meta property="og:description" content="微信开发自己的一些总结">
+<meta property="og:updated_time" content="2018-03-15T03:03:02.264Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信开发">
+<meta name="twitter:description" content="微信开发自己的一些总结">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="hfy Blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>微信开发 | hfy Blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?a512ffeaad766b6a1e38e8f4fc16a733";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <!-- <div class="overlay"></div> -->
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">hfy</a></h1>
+        </hgroup>
+
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:haofy_8@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">javaweb</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">hfy</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">hfy</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:haofy_8@163.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/haofangyuan" title="GitHub"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-wechat" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/01/wechat/" class="article-date">
+      <time datetime="2018-03-01T14:56:11.000Z" itemprop="datePublished">2018-03-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信开发
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/java/">java</a><a class="article-category-link" href="/categories/java/wechat/">wechat</a><a class="article-category-link" href="/categories/java/wechat/php/">php</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/wechat/">wechat</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>  微信开发自己的一些总结<br><a id="more"></a></p>
+<h2 id="access-token"><a href="#access-token" class="headerlink" title="access_token"></a>access_token</h2><p>以下来自微信公众号开发文档：<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115" target="_blank" rel="external">https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421141115</a></p>
+<p>jsapi_ticket是公众号用于调用微信JS接口的临时票据。正常情况下，jsapi_ticket的有效期为7200秒，通过access_token来获取。由于获取jsapi_ticket的api调用次数非常有限，频繁刷新jsapi_ticket会导致api调用受限，影响自身业务，开发者必须在自己的服务全局缓存jsapi_ticket 。</p>
+<p>access_token（有效期7200秒，开发者必须在自己的服务全局缓存access_token）</p>
+<p>故而，可以将access_token和有效期存放到文件中。每次get时先从文件读取，没有或者过期，直接请求接口获取</p>
+<h2 id="拍照和图片"><a href="#拍照和图片" class="headerlink" title="拍照和图片"></a>拍照和图片</h2><p>拍照使用jssdk。demo下载：<a href="http://demo.open.weixin.qq.com/jssdk/sample.zip" target="_blank" rel="external">http://demo.open.weixin.qq.com/jssdk/sample.zip</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:;&quot; class=&quot;weui-btn weui_btn_primary&quot; href=&quot;javascript:void(0);&quot; id=&quot;img-upload&quot;&gt;上传图片&lt;/a&gt;</div><div class="line">&lt;img src=&quot;&quot; id=&quot;img-preview&quot; style=&quot;width: 100px; height: 100px;&quot;&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var uploadButton = $(&apos;#img-upload&apos;);</div><div class="line">var uploadPreview = $(&apos;#img-preview&apos;);</div><div class="line">//点击上传按钮</div><div class="line">uploadButton.on(&apos;click&apos;, function() &#123;</div><div class="line">    wx.chooseImage(&#123;</div><div class="line">            count: 1,// 默认9</div><div class="line">            sizeType: [&apos;original&apos;, &apos;compressed&apos;],// 可以指定是原图还是压缩图，默认二者都有</div><div class="line">            sourceType: [&apos;album&apos;, &apos;camera&apos;],// 可以指定来源是相册还是相机，默认二者都有</div><div class="line">            success: function(res) &#123;</div><div class="line">                var localIds = res.localIds;  // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片</div><div class="line">                uploadPreview.attr(&apos;src&apos;, localIds[0]); //微信本地图片地址,可以用来做上传前预览</div><div class="line">                // 将图片上传到微信服务器，有效期三天，通过接口下载图片到自己服务器</div><div class="line">                // 接口 http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&amp;media_id=MEDIA_ID</div><div class="line">                wx.uploadImage(&#123;</div><div class="line">                  localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得</div><div class="line">                  isShowProgressTips: 1, // 默认为1，显示进度提示</div><div class="line">                  success: function (res) &#123;</div><div class="line">                     var serverId = res.serverId; // 返回图片的服务器端ID</div><div class="line">                  &#125;</div><div class="line">                &#125;);</div><div class="line">          &#125;,</div><div class="line">          error: function(res) &#123;</div><div class="line">            $.toast(&quot;系统异常，请稍后重试！&quot;, &quot;cancel&quot;);</div><div class="line">          &#125;</div><div class="line">   &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="问题和注意事项"><a href="#问题和注意事项" class="headerlink" title="问题和注意事项"></a>问题和注意事项</h3><p>注意事项： 在微信公众号绑定域名，是“JS接口安全域名”，并不是网页域名哦！！！（不加http://）</p>
+<p>开发过程中，真遇到了invalid signature错误。</p>
+<p>invalid signature签名错误。建议按如下顺序检查：</p>
+<p>1.确认签名算法正确，可用<a href="http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign" target="_blank" rel="external">http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign</a> 页面工具进行校验。</p>
+<p>2.确认config中nonceStr（js中驼峰标准大写S）, timestamp与用以签名中的对应noncestr, timestamp一致。</p>
+<p>3.确认url是页面完整的url(请在当前页面alert(location.href.split(‘#’)[0])确认)，包括’http(s)://‘部分，以及’？’后面的GET参数部分,但不包括’#’hash后面的部分。</p>
+<p>4.确认 config 中的 appid 与用来获取 jsapi_ticket 的 appid 一致。</p>
+<p>5.确保一定缓存access_token和jsapi_ticket。</p>
+<p>6.确保你获取用来签名的url是动态获取的，动态页面可参见实例代码中php的实现方式。如果是html的静态页面在前端通过ajax将url传到后台签名，前端需要用js获取当前页面除去’#’hash部分的链接（可用location.href.split(‘#’)[0]获取,而且需要encodeURIComponent），因为页面一旦分享，微信客户端会在你的链接末尾加入其它参数，如果不是动态获取当前链接，将导致分享后的页面签名失败。</p>
+<p>本人问题出在url写死了。php动态获取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$protocol = (!empty($_SERVER[&apos;HTTPS&apos;]) &amp;&amp; $_SERVER[&apos;HTTPS&apos;] !== &apos;off&apos; || $_SERVER[&apos;SERVER_PORT&apos;] == 443) ? &quot;https://&quot; : &quot;http://&quot;;</div><div class="line">$url = &quot;$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]&quot;;</div></pre></td></tr></table></figure></p>
+<h2 id="条形码-amp-二维码"><a href="#条形码-amp-二维码" class="headerlink" title="条形码&amp;二维码"></a>条形码&amp;二维码</h2><p>使用 jquery-barcode.js 和 jquery.qrcode.min.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;bcTarget&quot; style=&quot;margin: 0 auto; margin-top: 100px; margin-bottom: 40px;&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div id=&quot;output&quot; style=&quot;text-align: center;&quot;&gt;&lt;/div&gt;  </div><div class="line"></div><div class="line">// 生成码。 showHRI是否显示码串</div><div class="line">$(&quot;#bcTarget&quot;).empty().barcode(content, &quot;ean13&quot;,&#123;barWidth:2, barHeight:30,showHRI:false&#125;);</div><div class="line">$(&apos;#output&apos;).qrcode(&#123;width:200,height:200,correctLevel:0,text:content&#125;);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/03/01/wechat/">微信开发</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">hfy</a></p>
+        <p><span>发布时间:</span>2018-03-01, 22:56:11</p>
+        <p><span>最后更新:</span>2018-03-15, 11:03:02</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/03/01/wechat/" title="微信开发">https://haofangyuan.github.io/2018/03/01/wechat/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://haofangyuan.github.io/2018/03/01/wechat/　　作者: hfy" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/01/12/web-form-repeat-submit/">
+                    重复提交
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#access-token"><span class="toc-number">1.</span> <span class="toc-text">access_token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拍照和图片"><span class="toc-number">2.</span> <span class="toc-text">拍照和图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题和注意事项"><span class="toc-number">2.1.</span> <span class="toc-text">问题和注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条形码-amp-二维码"><span class="toc-number">3.</span> <span class="toc-text">条形码&二维码</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="javascript:void(0);" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="javascript:void(0);" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="javascript:void(0);" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="javascript:void(0);" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="javascript:void(0);" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="javascript:void(0);" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="javascript:void(0);" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"微信开发　| hfy Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/01/12/web-form-repeat-submit/" title="下一篇: 重复提交">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/01/wechat/">微信开发</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/web-form-repeat-submit/">重复提交</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/12/time_wait/">TCP/IP TIME_WAIT过多</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/06/thrift/">thrift学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/26/bootstrap/">bootstrap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/20/springboot-source/">springboot源码学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/16/protobuf/">protobuf的学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/27/exception-deadlock/">死锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/websocket/">websocket相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot-shiro/">springboot shiro权限控制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/springboot/">springboot学习收获</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/23/springboot-logback/">springboot整合logback</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/18/exception-findbugs/">FindBugs常见错误描述和解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-clone/">clone</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-ArrayList/">ArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/nginx/">了解负载均衡 会话保持 session同步(转)</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-Arrays.sort/">Arrays.sort实现原理和Collection实现原理 </a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/16/java-HashMap/">HashMap</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/05/adminlte/">adminLTE使用中遇到的难点</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/25/js/">js一些其他问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/30/java-objectMapper/">objectMapper中自定义类型转换</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/springboot-filter/">springboot中的过滤器</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java/">java一些基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-util/">工具类</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/thread-arraylist/">ArrayList的线程安全问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/02/java-html-img/">网页转图片</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/ajax/">ajax常见问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/24/git/">git常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/21/idea-tomcat/">idea中配置tomcat</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/18/springboot-activemq/">springboot与activemq</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/springboot-aop/">springboot的切面aop</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/16/springboot-config/">springboot读取配置文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/springboot-file-upload/">springboot的文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/14/springboot-https/">springboot的https配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/13/springboot-redis/">springboot与redis</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-page/">JQuery WEUI的分页加载</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/js-date/">js中日期相关问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-cache/">mybatis的缓存</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mysql/">mysql相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/jquery-weui-datetimepicker/">JQuery WEUI的datetimePicker使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/mybatis-sql/">mybatis中的mapper</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/java-https-cert/">jdk生成https证书</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-command/">linux相关知识</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-swagger/">springboot与swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/restful/">restful</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/php/">php</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/linux-expect/">linux命令expect</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/springboot-test/">springboot的测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/windows/">windows常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/11/pay/">支付</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/25/hexo-github/">hexo+github搭建自己的网站</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/11/lombok/">lombok学习</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+
+
+
+
+<section id="comments"  class="comment">
+  <div id="commentContainer" style="margin: 30px; background-color: rgba(255,255,255,0.75)"></div>
+</section>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2017-2018 hfy
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+        
+<!-- 引入gitment样式 -->
+<link rel="stylesheet" href="/css/gitment-theme-default.css">
+<script src="/js/gitment.browser.js"></script>
+
+
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 1;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+            
+            
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+<!-- Gitment Start -->
+
+<script>
+$(document).ready(function(){
+var gitment = new Gitment({
+  owner: 'haofangyuan',
+  repo: 'haofangyuan.github.io',
+  oauth: {
+    client_id: 'fe86290697a17f8b5a8d',
+    client_secret: '71455c23e54a534dfe12764de237c9b01d01b8db',
+  },
+});
+if($('#commentContainer')) gitment.render('commentContainer');
+});
+</script>
+
+<!-- Gitment End -->
+  </div>
+</body>
+</html>
